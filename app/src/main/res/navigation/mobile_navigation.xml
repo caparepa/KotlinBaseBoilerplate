@@ -5,6 +5,9 @@
     android:id="@+id/mobile_navigation"
     app:startDestination="@id/currentWeatherFragment">
 
+    <!-- TODO: READ! -->
+    <!-- The id for each fragment element in the navigation controller graph must be the same -->
+    <!-- as their corresponding element in the navigation menu -->
     <fragment
         android:id="@+id/currentWeatherFragment"
         android:name="com.example.kotlinbaseboilerplate.ui.weather.current.CurrentWeatherFragment"
