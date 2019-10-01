@@ -1,4 +1,4 @@
-package com.example.kotlinbaseboilerplate.data.response
+package com.example.kotlinbaseboilerplate.data.network.response
 
 import com.google.gson.annotations.SerializedName
 
