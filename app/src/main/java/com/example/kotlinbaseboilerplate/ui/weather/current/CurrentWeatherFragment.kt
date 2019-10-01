@@ -6,9 +6,12 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.Observer
 
 import com.example.kotlinbaseboilerplate.R
 import com.example.kotlinbaseboilerplate.data.WeatherStackApiService
+import com.example.kotlinbaseboilerplate.data.network.ConnectivityInterceptorImpl
+import com.example.kotlinbaseboilerplate.data.network.WeatherNetworkDataSourceImpl
 import kotlinx.android.synthetic.main.current_weather_fragment.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -36,13 +39,23 @@ class CurrentWeatherFragment : Fragment() {
 
         // TODO: Use the ViewModel
 
-        //FIXME: Testing the coroutines with retrofit! DO NOT DO THIS!!!
-        val apiService = WeatherStackApiService()
+        val apiService = WeatherStackApiService(ConnectivityInterceptorImpl(this.context!!))
 
+        //TODO: Testint the network abstraction! DON'T DO THIS! ONLY A DEMO!
+        //We implement the network data source
+        val weatherNetworkDataSource = WeatherNetworkDataSourceImpl(apiService)
+
+        //We observer the changes and update the corresponding fields
+        weatherNetworkDataSource.downloadedCurrentWeather.observe(this, Observer {
+            //We set the text_view value with it, but since it is of type CurrentWeatherResponse,
+            //which is the object returned by the Observer, we use toString()
+            text_view.text = it.toString()
+        })
+
+        //FIXME: Testing the coroutines with retrofit! DO NOT DO THIS!!!
+        //Instead of calling the weather api service directly, we call the network impl.
         GlobalScope.launch(Dispatchers.Main) {
-            val currentWeatherResponse = apiService.getCurrentWeather("London", "m").await()
-            if(currentWeatherResponse.currentWeatherEntry != null)
-                text_view.text = currentWeatherResponse.currentWeatherEntry.toString()
+            weatherNetworkDataSource.fetchCurrentWeather("London", "m")
         }
 
     }

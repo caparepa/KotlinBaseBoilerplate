@@ -4,8 +4,10 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
 import com.example.kotlinbaseboilerplate.data.db.entity.CurrentWeatherEntry
 import com.example.kotlinbaseboilerplate.data.db.entity.CurrentWeatherLocation
+import com.example.kotlinbaseboilerplate.utils.StringListConverter
 
 @Database(
     entities = [
@@ -14,10 +16,11 @@ import com.example.kotlinbaseboilerplate.data.db.entity.CurrentWeatherLocation
     ],
     version = 1
 )
+@TypeConverters(StringListConverter::class)
 abstract class ForecastDatabase : RoomDatabase() {
 
     //We create abstract functions for each DAO created
-    abstract fun currentWeatherDao(): CurrentWeatherDao
+    abstract fun currentWeatherDao(): CurrentWeatherEntryDao
 
     abstract fun currentWeatherLocationDao(): CurrentWeatherLocationDao
 

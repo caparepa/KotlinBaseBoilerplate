@@ -1,5 +1,6 @@
 package com.example.kotlinbaseboilerplate.data
 
+import com.example.kotlinbaseboilerplate.data.network.ConnectivityInterceptor
 import com.example.kotlinbaseboilerplate.data.network.response.CurrentWeatherResponse
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import kotlinx.coroutines.Deferred
@@ -31,7 +32,9 @@ interface WeatherStackApiService {
 
     companion object {
         //It's not necessary an operator function, but since it's a syntactic nicety, let's leave it
-        operator fun invoke(): WeatherStackApiService {
+        operator fun invoke(
+            connectivityInterceptor: ConnectivityInterceptor
+        ): WeatherStackApiService {
             //TODO: since every single request needs to send the "access_value" key for auth,
             //TODO: we create an Interceptor for injecting said value to the request
             val requestInterceptor = Interceptor { chain ->
@@ -55,8 +58,10 @@ interface WeatherStackApiService {
 
             //Since we need to intercept every single request made from this api service, we add
             //the interceptor to the HTTP client
+            //TODO: We also add an interceptor to check the current network state using DI (WIP)
             val okHttpClient = OkHttpClient.Builder()
                 .addInterceptor(requestInterceptor)
+                .addInterceptor(connectivityInterceptor)
                 .build()
 
             //Finally, we create the retrofit client with the previous interceptor,
