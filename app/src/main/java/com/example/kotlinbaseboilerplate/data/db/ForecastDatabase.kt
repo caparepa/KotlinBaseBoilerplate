@@ -10,10 +10,7 @@ import com.example.kotlinbaseboilerplate.data.db.entity.CurrentWeatherLocation
 import com.example.kotlinbaseboilerplate.utils.StringListConverter
 
 @Database(
-    entities = [
-        CurrentWeatherEntry::class,
-        CurrentWeatherLocation::class
-    ],
+    entities = [CurrentWeatherEntry::class, CurrentWeatherLocation::class],
     version = 1
 )
 @TypeConverters(StringListConverter::class)
@@ -21,7 +18,6 @@ abstract class ForecastDatabase : RoomDatabase() {
 
     //We create abstract functions for each DAO created
     abstract fun currentWeatherDao(): CurrentWeatherEntryDao
-
     abstract fun currentWeatherLocationDao(): CurrentWeatherLocationDao
 
     //We create a companion object that will act as singleton in order to create a single instance
