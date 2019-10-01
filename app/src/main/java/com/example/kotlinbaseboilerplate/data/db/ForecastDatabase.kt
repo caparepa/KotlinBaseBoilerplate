@@ -43,6 +43,8 @@ abstract class ForecastDatabase : RoomDatabase() {
             }
         }
 
+        //We create a function to build the database, which will receive the application context
+        ///This builder will initialize the database java class for the app (ForecastDatabase)
         private fun buildDatabase(context: Context) =
             Room.databaseBuilder(
                 context.applicationContext,
