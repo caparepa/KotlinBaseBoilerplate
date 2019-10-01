@@ -1,6 +1,5 @@
 package com.example.kotlinbaseboilerplate.data.response
 
-
 import com.google.gson.annotations.SerializedName
 
 data class Location(

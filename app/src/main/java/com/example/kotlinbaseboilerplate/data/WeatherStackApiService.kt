@@ -25,7 +25,7 @@ interface WeatherStackApiService {
     //Since we're using coroutines, the return will be a Deferred of the response object
     @GET("current")
     fun getCurrentWeather(
-        @Query("q") location: String,
+        @Query("query") location: String,
         @Query("units") units: String = "m"
     ): Deferred<CurrentWeatherResponse>
 
