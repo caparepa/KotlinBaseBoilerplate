@@ -36,7 +36,7 @@ class CurrentWeatherFragment : Fragment() {
 
         // TODO: Use the ViewModel
 
-        //TODO: Testing the coroutines with retrofit! DO NOT DO THIS!!!
+        //FIXME: Testing the coroutines with retrofit! DO NOT DO THIS!!!
         val apiService = WeatherStackApiService()
 
         GlobalScope.launch(Dispatchers.Main) {

@@ -53,7 +53,7 @@ interface WeatherStackApiService {
                 return@Interceptor chain.proceed(request)
             }
 
-            //Since we need to intercep every single request made from this api service, we add
+            //Since we need to intercept every single request made from this api service, we add
             //the interceptor to the HTTP client
             val okHttpClient = OkHttpClient.Builder()
                 .addInterceptor(requestInterceptor)
