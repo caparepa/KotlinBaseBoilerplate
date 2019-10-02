@@ -9,6 +9,7 @@ import com.example.kotlinbaseboilerplate.data.network.WeatherNetworkDataSource
 import com.example.kotlinbaseboilerplate.data.network.WeatherNetworkDataSourceImpl
 import com.example.kotlinbaseboilerplate.data.repository.ForecastRepository
 import com.example.kotlinbaseboilerplate.data.repository.ForecastRepositoryImpl
+import com.jakewharton.threetenabp.AndroidThreeTen
 import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.x.androidXModule
@@ -50,5 +51,12 @@ class ForecastApplication : Application(), KodeinAware {
         bind<ForecastRepository>() with singleton { ForecastRepositoryImpl(instance(), instance()) }
 
         //TODO: IMPORTANT! the instance() passed in each binding must be previously bound!
+    }
+
+    override fun onCreate() {
+        super.onCreate()
+
+        //We initialize the timezone library used for this project in the application onCreate
+        AndroidThreeTen.init(this)
     }
 }
