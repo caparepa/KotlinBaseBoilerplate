@@ -63,8 +63,18 @@ class CurrentWeatherFragment : ScopedFragment(), KodeinAware {
             //update toolbar
             updateLocation("Los Angeles")
             updateDateToToday()
+            updateTemperature(it.temperature, it.feelslike)
+            updatePrecipitation(it.precip)
+            updateWind(it.windDir, it.windSpeed)
+            updateVisibility(it.visibility)
         })
     }
+
+    //TODO: STUB!
+    private fun chooseLocalizedUnitAbbreviation(metric: String, imperial: String): String {
+        return "m"
+    }
+
 
     private fun updateLocation(location: String) {
         (activity as? AppCompatActivity)?.supportActionBar?.title = location
@@ -74,8 +84,21 @@ class CurrentWeatherFragment : ScopedFragment(), KodeinAware {
         (activity as? AppCompatActivity)?.supportActionBar?.subtitle = "Today"
     }
 
+    //TODO: check later how to implement all the structures for the weather request for the units (metric or imperial)
     private fun updateTemperature(temperature: Double, feelsLike: Double) {
-
+        textView_temperature.text = "$temperature"
+        textView_feels_like_temperature.text = "Feels like $feelsLike"
     }
 
+    private fun updatePrecipitation(volume: Double) {
+        textView_precipitation.text = "Precipitation: $volume"
+    }
+
+    private fun updateWind(windDirection: String, windSpeed: Double) {
+        textView_wind.text = "Wind: $windDirection, $windSpeed"
+    }
+
+    private fun updateVisibility(visibilityDistance: Double) {
+        textView_visibility.text = "Visibility: $visibilityDistance"
+    }
 }
