@@ -37,6 +37,7 @@ class ForecastRepositoryImpl(
         //with specific objects of the same type (e.g. ImperialUnitWeather vs MetricUnitWeather)
         return withContext(Dispatchers.IO) {
             //since we only have one method for getting the weather, let's use it
+            initWeatherData() //TODO: DON'T FORGET THIS!!! D'UH!
             return@withContext currentWeatherDao.getCurrentWeather()
         }
     }
