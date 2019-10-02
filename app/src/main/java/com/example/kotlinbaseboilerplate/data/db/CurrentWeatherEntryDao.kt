@@ -9,7 +9,7 @@ import com.example.kotlinbaseboilerplate.data.db.entity.CURRENT_WEATHER_ID
 import com.example.kotlinbaseboilerplate.data.db.entity.CurrentWeatherEntry
 
 @Dao
-interface CurrentWeatherDao {
+interface CurrentWeatherEntryDao {
 
     //We create an "upsert" function (update or insert) for the current weather
     //The onConflict strategy is used for the upsert (if there is a record, replace it)
