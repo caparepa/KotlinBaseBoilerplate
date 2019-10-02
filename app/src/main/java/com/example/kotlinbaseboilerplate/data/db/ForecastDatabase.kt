@@ -34,9 +34,10 @@ abstract class ForecastDatabase : RoomDatabase() {
         //We create an operator function to initialize the database
         //If there is an instance, return it (instance ?:)
         //else, syncronize a block with a lock, check again if there is an instance,
-        //if not, build a database (buildDatabase(context))
-        //and also, whatever is returned from the database builder, set the instance equal to "it"
+
         operator fun invoke(context: Context) = instance ?: synchronized(LOCK) {
+            //if there is no instance, build a database (buildDatabase(context))
+            //and also, whatever is returned from the builder, set the instance equal to "it"
             instance ?: buildDatabase(context).also {
                 instance = it
             }
