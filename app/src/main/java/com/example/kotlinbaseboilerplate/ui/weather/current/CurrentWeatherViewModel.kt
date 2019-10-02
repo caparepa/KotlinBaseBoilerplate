@@ -24,4 +24,7 @@ class CurrentWeatherViewModel(
         forecastRepository.getCurrentWeather()
     }
 
+    //Preservation of ViewModels if a job for a ViewModelProvider. We pass the ViewModel factory
+    //into the provider.
+
 }

@@ -16,13 +16,17 @@ import kotlinx.android.synthetic.main.current_weather_fragment.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import org.kodein.di.KodeinAware
+import org.kodein.di.android.x.closestKodein
+import org.kodein.di.generic.instance
 
-class CurrentWeatherFragment : Fragment() {
+class CurrentWeatherFragment : Fragment(), KodeinAware {
 
-    companion object {
-        fun newInstance() =
-            CurrentWeatherFragment()
-    }
+    //We need to make the fragment aware to KodeinAware in order to use DI
+    //we instantiate kodein by using the closestKodein(), in this case, the one in ForecastApplication
+    //You could use local kodein in fragments, etc, if you want to override specifics
+    override val kodein by closestKodein()
+    private val viewModelFactory: CurrentWeatherViewModelFactory by instance()
 
     private lateinit var viewModel: CurrentWeatherViewModel
 
