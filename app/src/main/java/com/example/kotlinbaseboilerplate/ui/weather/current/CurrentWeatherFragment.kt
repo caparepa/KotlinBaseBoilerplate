@@ -59,7 +59,7 @@ class CurrentWeatherFragment : ScopedFragment(), KodeinAware {
         //ui interaction
         currentWeather.observe(this@CurrentWeatherFragment, Observer{
             if(it == null) return@Observer //if there is no data, return the observer until there is data!
-            text_view.text = it.toString()
+            //text_view.text = it.toString()
         })
     }
 
