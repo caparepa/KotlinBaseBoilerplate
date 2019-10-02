@@ -18,7 +18,7 @@ abstract class ForecastDatabase : RoomDatabase() {
 
     //We create abstract functions for each DAO created
     abstract fun currentWeatherDao(): CurrentWeatherEntryDao
-    abstract fun currentWeatherLocationDao(): CurrentWeatherLocationDao
+    abstract fun currentLocationDao(): CurrentWeatherLocationDao
 
     //We create a companion object that will act as singleton in order to create a single instance
     //of the database
