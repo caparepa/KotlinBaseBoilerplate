@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 
 import com.example.kotlinbaseboilerplate.R
@@ -58,7 +59,23 @@ class CurrentWeatherFragment : ScopedFragment(), KodeinAware {
 
             //Hide the loading group
             group_loading.makeGone()
+
+            //update toolbar
+            updateLocation("Los Angeles")
+            updateDateToToday()
         })
+    }
+
+    private fun updateLocation(location: String) {
+        (activity as? AppCompatActivity)?.supportActionBar?.title = location
+    }
+
+    private fun updateDateToToday() {
+        (activity as? AppCompatActivity)?.supportActionBar?.subtitle = "Today"
+    }
+
+    private fun updateTemperature(temperature: Double, feelsLike: Double) {
+
     }
 
 }
