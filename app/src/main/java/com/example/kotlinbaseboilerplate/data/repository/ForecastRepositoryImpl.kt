@@ -1,0 +1,82 @@
+package com.example.kotlinbaseboilerplate.data.repository
+
+import androidx.lifecycle.LiveData
+import com.example.kotlinbaseboilerplate.data.db.CurrentWeatherEntryDao
+import com.example.kotlinbaseboilerplate.data.db.entity.CurrentWeatherEntry
+import com.example.kotlinbaseboilerplate.data.network.WeatherNetworkDataSource
+import com.example.kotlinbaseboilerplate.data.network.response.CurrentWeatherResponse
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import org.threeten.bp.ZonedDateTime
+
+/**
+ * We set constructor parameters in the interface implementation related to the current weather DAO
+ * and the data source. Other parameters will follow suit later.
+ */
+class ForecastRepositoryImpl(
+    private val currentWeatherDao: CurrentWeatherEntryDao,
+    private val weatherNetworkDataSource: WeatherNetworkDataSource
+) : ForecastRepository {
+
+    /**
+     * We'll implement the synchrony between the dao and the livedata, so we'll initialize the
+     * network data source
+     */
+    init {
+        //We get the current weather to be observed forever because repositories DON'T have lifecycles
+        weatherNetworkDataSource.downloadedCurrentWeather.observeForever { newCurrentWeather ->
+            persistFetchedCurrentWeather(newCurrentWeather)
+        }
+    }
+
+    override suspend fun getCurrentWeather(): LiveData<CurrentWeatherEntry> {
+        //Here we call the Coroutine with context because here we return a value, unlike the persist
+        //method below, where there is no return value. Also, we prevent the use of generics present
+        //with specific objects of the same type (e.g. ImperialUnitWeather vs MetricUnitWeather)
+        return withContext(Dispatchers.IO) {
+            //since we only have one method for getting the weather, let's use it
+            return@withContext currentWeatherDao.getCurrentWeather()
+        }
+    }
+
+    /**
+     * Method for persisting the response in the livedata using Coroutines
+     */
+    private fun persistFetchedCurrentWeather(fetchedWeather: CurrentWeatherResponse) {
+
+        //We use the GlobalScope to launch the coroutine, which can be used here because there is no
+        //lifecycles, like activities or fragments
+        //The Dispatchers.IO ensures that we can use N amount of threads
+        GlobalScope.launch(Dispatchers.IO) {
+            currentWeatherDao.upsert(fetchedWeather.currentWeatherEntry)
+        }
+    }
+
+    /**
+     * Here we initialize the weather data by checking whether it needs to be updated or not
+     */
+    private suspend fun initWeatherData() {
+        //We pass a dummy value, in this case 1 hour, so it will always need to be updated
+        if(isFetchCurrentNeeded(ZonedDateTime.now().minusHours(1)))
+            fetchCurrentWeather()
+    }
+
+    /**
+     * This will update the livedata with a new current weather query due the observer in the
+     * init block of this class, and pass dummy location and units
+     */
+    private suspend fun fetchCurrentWeather() {
+        weatherNetworkDataSource.fetchCurrentWeather("Los Angeles", "m")
+    }
+
+    /**
+     * Here we check is a new current weather is needed (30 minutes updates)
+     */
+    private fun isFetchCurrentNeeded(lastFetchTime: ZonedDateTime): Boolean {
+        val thirtyMinutesAgo = ZonedDateTime.now().minusMinutes(30)
+        return lastFetchTime.isBefore(thirtyMinutesAgo)
+    }
+
+}
