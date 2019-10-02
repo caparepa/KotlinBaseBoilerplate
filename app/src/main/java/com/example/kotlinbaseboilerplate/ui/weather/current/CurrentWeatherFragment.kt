@@ -67,6 +67,7 @@ class CurrentWeatherFragment : ScopedFragment(), KodeinAware {
             updatePrecipitation(it.precip)
             updateWind(it.windDir, it.windSpeed)
             updateVisibility(it.visibility)
+            //TODO: finish this module! https://www.youtube.com/watch?v=anUCo3IILCc&list=PLB6lc7nQ1n4jTLDyU2muTBo8xk0dg0D_w&index=7
         })
     }
 
