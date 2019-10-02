@@ -9,11 +9,14 @@ import com.example.kotlinbaseboilerplate.data.network.WeatherNetworkDataSource
 import com.example.kotlinbaseboilerplate.data.network.WeatherNetworkDataSourceImpl
 import com.example.kotlinbaseboilerplate.data.repository.ForecastRepository
 import com.example.kotlinbaseboilerplate.data.repository.ForecastRepositoryImpl
+import com.example.kotlinbaseboilerplate.ui.weather.current.CurrentWeatherViewModelFactory
+import com.jakewharton.threetenabp.AndroidThreeTen
 import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.x.androidXModule
 import org.kodein.di.generic.bind
 import org.kodein.di.generic.instance
+import org.kodein.di.generic.provider
 import org.kodein.di.generic.singleton
 
 /**
@@ -23,6 +26,9 @@ import org.kodein.di.generic.singleton
 class ForecastApplication : Application(), KodeinAware {
     //If something is KodeinAware, this val needs to be overridden
     override val kodein = Kodein.lazy {
+
+        //TODO: IMPORTANT! the instance() passed in each binding must be previously bound!
+
         //We import androidXModule for this specific subclass
         //This provides instances of context and services and anything related to Android
         import(androidXModule((this@ForecastApplication)))
@@ -49,6 +55,14 @@ class ForecastApplication : Application(), KodeinAware {
         //We bind the repository, and the instances are from a DAO and the datasource
         bind<ForecastRepository>() with singleton { ForecastRepositoryImpl(instance(), instance()) }
 
-        //TODO: IMPORTANT! the instance() passed in each binding must be previously bound!
+        //We bind the viewmodel factory, and the instance is the ForecastRepository
+        bind() from provider { CurrentWeatherViewModelFactory(instance()) }
+    }
+
+    override fun onCreate() {
+        super.onCreate()
+
+        //We initialize the timezone library used for this project in the application onCreate
+        AndroidThreeTen.init(this)
     }
 }
