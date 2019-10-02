@@ -2,24 +2,21 @@ package com.example.kotlinbaseboilerplate.ui.weather.current
 
 import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 
 import com.example.kotlinbaseboilerplate.R
-import com.example.kotlinbaseboilerplate.data.WeatherStackApiService
-import com.example.kotlinbaseboilerplate.data.network.ConnectivityInterceptorImpl
-import com.example.kotlinbaseboilerplate.data.network.WeatherNetworkDataSourceImpl
 import com.example.kotlinbaseboilerplate.ui.base.ScopedFragment
+import com.example.kotlinbaseboilerplate.utils.makeGone
 import kotlinx.android.synthetic.main.current_weather_fragment.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.x.closestKodein
 import org.kodein.di.generic.instance
+
 
 /**
  * We make the fragment a subclass of scoped fragment so we can use the coroutine scope safely
@@ -59,8 +56,50 @@ class CurrentWeatherFragment : ScopedFragment(), KodeinAware {
         //ui interaction
         currentWeather.observe(this@CurrentWeatherFragment, Observer{
             if(it == null) return@Observer //if there is no data, return the observer until there is data!
-            text_view.text = it.toString()
+
+            //Hide the loading group
+            group_loading.makeGone()
+
+            //update toolbar
+            updateLocation("Los Angeles")
+            updateDateToToday()
+            updateTemperature(it.temperature, it.feelslike)
+            updatePrecipitation(it.precip)
+            updateWind(it.windDir, it.windSpeed)
+            updateVisibility(it.visibility)
+            //TODO: finish this module! https://www.youtube.com/watch?v=anUCo3IILCc&list=PLB6lc7nQ1n4jTLDyU2muTBo8xk0dg0D_w&index=7
         })
     }
 
+    //TODO: STUB!
+    private fun chooseLocalizedUnitAbbreviation(metric: String, imperial: String): String {
+        return "m"
+    }
+
+
+    private fun updateLocation(location: String) {
+        (activity as? AppCompatActivity)?.supportActionBar?.title = location
+    }
+
+    private fun updateDateToToday() {
+        (activity as? AppCompatActivity)?.supportActionBar?.subtitle = "Today"
+    }
+
+    //TODO: check later how to implement all the structures for the weather request for the units (metric or imperial)
+    private fun updateTemperature(temperature: Double, feelsLike: Double) {
+        textView_temperature.text = "$temperature"
+        textView_feels_like_temperature.text = "Feels like $feelsLike"
+    }
+
+    private fun updatePrecipitation(volume: Double) {
+        textView_precipitation.text = "Precipitation: $volume"
+    }
+
+    private fun updateWind(windDirection: String, windSpeed: Double) {
+        textView_wind.text = "Wind: $windDirection, $windSpeed"
+    }
+
+    private fun updateVisibility(visibilityDistance: Double) {
+        textView_visibility.text = "Visibility: $visibilityDistance"
+    }
 }

@@ -9,11 +9,11 @@ const val CURRENT_WEATHER_ID = 0
 @Entity(tableName = "current_weather")
 data class CurrentWeatherEntry(
     @SerializedName("cloudcover")
-    val cloudcover: Int,
+    val cloudcover: Double,
     @SerializedName("feelslike")
-    val feelslike: Int,
+    val feelslike: Double,
     @SerializedName("humidity")
-    val humidity: Int,
+    val humidity: Double,
     @SerializedName("is_day")
     val isDay: String,
     @SerializedName("observation_time")
@@ -21,11 +21,11 @@ data class CurrentWeatherEntry(
     @SerializedName("precip")
     val precip: Double,
     @SerializedName("temperature")
-    val temperature: Int,
+    val temperature: Double,
     @SerializedName("uv_index")
-    val uvIndex: Int,
+    val uvIndex: Double,
     @SerializedName("visibility")
-    val visibility: Int,
+    val visibility: Double,
     @SerializedName("weather_code")
     val weatherCode: Int,
     @SerializedName("weather_descriptions")
@@ -35,7 +35,7 @@ data class CurrentWeatherEntry(
     @SerializedName("wind_dir")
     val windDir: String,
     @SerializedName("wind_speed")
-    val windSpeed: Int
+    val windSpeed: Double
 ) {
     //NOTE: since there can't be "multiple" current weather, we'll set the primary key to false
     @PrimaryKey(autoGenerate = false)
