@@ -2,7 +2,9 @@ package com.example.kotlinbaseboilerplate.data.repository
 
 import androidx.lifecycle.LiveData
 import com.example.kotlinbaseboilerplate.data.db.CurrentWeatherEntryDao
+import com.example.kotlinbaseboilerplate.data.db.WeatherLocationDao
 import com.example.kotlinbaseboilerplate.data.db.entity.CurrentWeatherEntry
+import com.example.kotlinbaseboilerplate.data.db.entity.WeatherLocation
 import com.example.kotlinbaseboilerplate.data.network.WeatherNetworkDataSource
 import com.example.kotlinbaseboilerplate.data.network.response.CurrentWeatherResponse
 import kotlinx.coroutines.Dispatchers
@@ -14,9 +16,12 @@ import org.threeten.bp.ZonedDateTime
 /**
  * We set constructor parameters in the interface implementation related to the current weather DAO
  * and the data source. Other parameters will follow suit later.
+ * EDIT: Now we add to the constructor the WeatherLocationDao in order to get the location for this
+ * repository
  */
 class ForecastRepositoryImpl(
     private val currentWeatherDao: CurrentWeatherEntryDao,
+    private val weatherLocationDao: WeatherLocationDao,
     private val weatherNetworkDataSource: WeatherNetworkDataSource
 ) : ForecastRepository {
 
@@ -39,6 +44,13 @@ class ForecastRepositoryImpl(
             //since we only have one method for getting the weather, let's use it
             initWeatherData() //TODO: DON'T FORGET THIS!!! D'UH!
             return@withContext currentWeatherDao.getCurrentWeather()
+        }
+    }
+
+    //Same as getCurrentWeather(), we implement the function for getting the weather location
+    override suspend fun getWeatherLocation(): LiveData<WeatherLocation> {
+        return withContext(Dispatchers.IO) {
+            return@withContext weatherLocationDao.getLocation()
         }
     }
 
