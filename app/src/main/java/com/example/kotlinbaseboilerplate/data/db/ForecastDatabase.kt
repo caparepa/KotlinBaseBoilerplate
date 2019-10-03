@@ -6,11 +6,11 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.example.kotlinbaseboilerplate.data.db.entity.CurrentWeatherEntry
-import com.example.kotlinbaseboilerplate.data.db.entity.CurrentWeatherLocation
+import com.example.kotlinbaseboilerplate.data.db.entity.WeatherLocation
 import com.example.kotlinbaseboilerplate.utils.StringListConverter
 
 @Database(
-    entities = [CurrentWeatherEntry::class, CurrentWeatherLocation::class],
+    entities = [CurrentWeatherEntry::class, WeatherLocation::class],
     version = 1
 )
 @TypeConverters(StringListConverter::class)

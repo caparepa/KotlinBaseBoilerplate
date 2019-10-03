@@ -7,7 +7,7 @@ import com.google.gson.annotations.SerializedName
 const val CURRENT_LOCATION_ID = 0
 
 @Entity(tableName = "current_location")
-data class CurrentWeatherLocation(
+data class WeatherLocation(
     @SerializedName("country")
     val country: String,
     @SerializedName("lat")

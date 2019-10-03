@@ -6,15 +6,15 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.example.kotlinbaseboilerplate.data.db.entity.CURRENT_LOCATION_ID
-import com.example.kotlinbaseboilerplate.data.db.entity.CurrentWeatherLocation
+import com.example.kotlinbaseboilerplate.data.db.entity.WeatherLocation
 
 @Dao
 interface CurrentWeatherLocationDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun upsert(currentWeatherLocation: CurrentWeatherLocation)
+    fun upsert(weatherLocation: WeatherLocation)
 
     @Query("select * from current_location where id = $CURRENT_LOCATION_ID")
-    fun getCurrentLocation() : LiveData<CurrentWeatherLocation>
+    fun getCurrentLocation() : LiveData<WeatherLocation>
 
 }
