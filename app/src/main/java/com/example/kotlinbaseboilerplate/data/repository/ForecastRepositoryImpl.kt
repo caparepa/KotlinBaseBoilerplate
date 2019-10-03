@@ -82,6 +82,9 @@ class ForecastRepositoryImpl(
             return
         }
 
+        //If we want to get the weather in a new location if the user moves or changes,
+        //a location provider is made (since repositories don't know nor care about business logic)
+
         //In case there is already a fetched weather, get the current one (updated)
         if(isFetchCurrentNeeded(lastWeatherLocation.zonedDateTime))
             fetchCurrentWeather()
