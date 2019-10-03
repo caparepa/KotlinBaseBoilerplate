@@ -4,9 +4,9 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 
-const val CURRENT_LOCATION_ID = 0
+const val WEATHER_LOCATION_ID = 0
 
-@Entity(tableName = "current_location")
+@Entity(tableName = "weather_location")
 data class WeatherLocation(
     @SerializedName("country")
     val country: String,
@@ -30,5 +30,5 @@ data class WeatherLocation(
     //NOTE: since there can't be "multiple" current weather locations,
     // we'll set the primary key to false
     @PrimaryKey(autoGenerate = false)
-    var id: Int = CURRENT_LOCATION_ID
+    var id: Int = WEATHER_LOCATION_ID
 }
