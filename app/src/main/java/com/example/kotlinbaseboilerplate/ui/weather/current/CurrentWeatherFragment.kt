@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 
 import com.example.kotlinbaseboilerplate.R
+import com.example.kotlinbaseboilerplate.internal.glide.GlideApp
 import com.example.kotlinbaseboilerplate.ui.base.ScopedFragment
 import com.example.kotlinbaseboilerplate.utils.makeGone
 import kotlinx.android.synthetic.main.current_weather_fragment.*
@@ -67,7 +68,13 @@ class CurrentWeatherFragment : ScopedFragment(), KodeinAware {
             updatePrecipitation(it.precip)
             updateWind(it.windDir, it.windSpeed)
             updateVisibility(it.visibility)
-            //TODO: finish this module! https://www.youtube.com/watch?v=anUCo3IILCc&list=PLB6lc7nQ1n4jTLDyU2muTBo8xk0dg0D_w&index=7
+
+            //Set up Glide module inside the observer, so it can load the weather image
+            //into the imageView
+            GlideApp.with(this@CurrentWeatherFragment)
+                .load(it.weatherIcons[0])
+                .into(imageView_condition_icon)
+
         })
     }
 
