@@ -25,6 +25,11 @@ class CurrentWeatherViewModel(
         forecastRepository.getCurrentWeather()
     }
 
+    //We also get the weather location via lazyDeferred in the viewmodel
+    val weatherLocation by lazyDeferred{
+        forecastRepository.getWeatherLocation()
+    }
+
     //Preservation of ViewModels if a job for a ViewModelProvider. We pass the ViewModel factory
     //into the provider.
 
