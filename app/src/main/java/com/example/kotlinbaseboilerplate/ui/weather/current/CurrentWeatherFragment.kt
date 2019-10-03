@@ -75,6 +75,8 @@ class CurrentWeatherFragment : ScopedFragment(), KodeinAware {
                 .load(it.weatherIcons[0])
                 .into(imageView_condition_icon)
 
+            //TODO: modify code to get unit from request!
+
         })
     }
 

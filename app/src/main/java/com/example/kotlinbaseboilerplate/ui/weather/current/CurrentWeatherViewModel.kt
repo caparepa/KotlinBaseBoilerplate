@@ -1,20 +1,21 @@
 package com.example.kotlinbaseboilerplate.ui.weather.current
 
 import androidx.lifecycle.ViewModel
+import com.example.kotlinbaseboilerplate.data.provider.UnitProvider
 import com.example.kotlinbaseboilerplate.data.repository.ForecastRepository
 import com.example.kotlinbaseboilerplate.internal.UnitSystem
 import com.example.kotlinbaseboilerplate.internal.lazyDeferred
 
 class CurrentWeatherViewModel(
-    private val forecastRepository: ForecastRepository
+    private val forecastRepository: ForecastRepository,
+    unitProvider: UnitProvider
 ) : ViewModel() {
 
     //We need a way for the view to fetch the weather (a middleman)
     //The viewmodel will fetch the data from the repository and expose it to the view
     //so the view can fetch it (loose coupling)
 
-    //TODO: Boilerplate code not needed, just for reference
-    private val unitSystem = UnitSystem.METRIC
+    private val unitSystem = unitProvider.getUnitSystem()
     val isMetric: Boolean
         get() = unitSystem == UnitSystem.METRIC
 
