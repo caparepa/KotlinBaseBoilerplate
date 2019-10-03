@@ -7,6 +7,7 @@ import com.example.kotlinbaseboilerplate.data.db.entity.CurrentWeatherEntry
 import com.example.kotlinbaseboilerplate.data.db.entity.WeatherLocation
 import com.example.kotlinbaseboilerplate.data.network.WeatherNetworkDataSource
 import com.example.kotlinbaseboilerplate.data.network.response.CurrentWeatherResponse
+import com.example.kotlinbaseboilerplate.data.provider.LocationProvider
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -22,7 +23,8 @@ import org.threeten.bp.ZonedDateTime
 class ForecastRepositoryImpl(
     private val currentWeatherDao: CurrentWeatherEntryDao,
     private val weatherLocationDao: WeatherLocationDao,
-    private val weatherNetworkDataSource: WeatherNetworkDataSource
+    private val weatherNetworkDataSource: WeatherNetworkDataSource,
+    private val locationProvider: LocationProvider
 ) : ForecastRepository {
 
     /**
@@ -77,7 +79,7 @@ class ForecastRepositoryImpl(
         val lastWeatherLocation = weatherLocationDao.getLocation().value //We get the LiveData value
 
         //In case the app is opened for the first time, fetch the current weather and return
-        if(lastWeatherLocation == null) {
+        if (lastWeatherLocation == null || locationProvider.hasLocationChanged(lastWeatherLocation)) {
             fetchCurrentWeather()
             return
         }
@@ -86,7 +88,7 @@ class ForecastRepositoryImpl(
         //a location provider is made (since repositories don't know nor care about business logic)
 
         //In case there is already a fetched weather, get the current one (updated)
-        if(isFetchCurrentNeeded(lastWeatherLocation.zonedDateTime))
+        if (isFetchCurrentNeeded(lastWeatherLocation.zonedDateTime))
             fetchCurrentWeather()
     }
 
@@ -95,7 +97,9 @@ class ForecastRepositoryImpl(
      * init block of this class, and pass dummy location and units
      */
     private suspend fun fetchCurrentWeather() {
-        weatherNetworkDataSource.fetchCurrentWeather("Los Angeles", "m")
+        weatherNetworkDataSource.fetchCurrentWeather(
+            locationProvider.getPreferredLocationString(), "m"
+        )
     }
 
     /**
