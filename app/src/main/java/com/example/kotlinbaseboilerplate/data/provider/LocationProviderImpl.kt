@@ -84,10 +84,14 @@ class LocationProviderImpl(
 
     @SuppressWarnings("MissingPermission")
     private fun getlastDeviceLocation(): Deferred<Location?> {
-        return if (hasLocationPermission())
-            fusedLocationProviderClient.lastLocation.asDeferred() //This provider returns a Task, but we need a Deferred, so we convert it
-        else
+        //TODO: we need to observer the fused location provider to make sure it has a location to return
+        //TODO: so we go to MainActivity
+        return if (hasLocationPermission()) {
+            //This provider returns a Task, but we need a Deferred, so we convert it
+            fusedLocationProviderClient.lastLocation.asDeferred()
+        } else {
             throw LocationPermissionNotGrantedException()
+        }
     }
 
     /**

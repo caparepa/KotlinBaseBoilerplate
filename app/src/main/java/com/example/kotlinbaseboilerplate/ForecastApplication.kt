@@ -1,6 +1,7 @@
 package com.example.kotlinbaseboilerplate
 
 import android.app.Application
+import android.content.Context
 import androidx.preference.PreferenceManager
 import com.example.kotlinbaseboilerplate.data.WeatherStackApiService
 import com.example.kotlinbaseboilerplate.data.db.ForecastDatabase
@@ -15,6 +16,7 @@ import com.example.kotlinbaseboilerplate.data.provider.UnitProviderImpl
 import com.example.kotlinbaseboilerplate.data.repository.ForecastRepository
 import com.example.kotlinbaseboilerplate.data.repository.ForecastRepositoryImpl
 import com.example.kotlinbaseboilerplate.ui.weather.current.CurrentWeatherViewModelFactory
+import com.google.android.gms.location.LocationServices
 import com.jakewharton.threetenabp.AndroidThreeTen
 import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
@@ -57,8 +59,11 @@ class ForecastApplication : Application(), KodeinAware {
         //We bind the network data source, and the instance passed is from the previous binding
         bind<WeatherNetworkDataSource>() with singleton { WeatherNetworkDataSourceImpl(instance()) }
 
-        //We bind the location provider to pass it to th repository
-        bind<LocationProvider>() with singleton { LocationProviderImpl()}
+        //We bind the fused location provider
+        bind() from provider { LocationServices.getFusedLocationProviderClient(instance<Context>())}
+
+        //We bind the location provider to pass it to the repository, and we pass instance of the fused location provider and the context
+        bind<LocationProvider>() with singleton { LocationProviderImpl(instance(), instance())}
 
         //We bind the repository, and the instances are from a DAO, provider and the datasource
         bind<ForecastRepository>() with singleton { ForecastRepositoryImpl(instance(), instance(), instance(), instance()) }
