@@ -9,7 +9,7 @@ import com.example.kotlinbaseboilerplate.data.db.entity.WEATHER_LOCATION_ID
 import com.example.kotlinbaseboilerplate.data.db.entity.WeatherLocation
 
 @Dao
-interface CurrentWeatherLocationDao {
+interface WeatherLocationDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun upsert(weatherLocation: WeatherLocation)
