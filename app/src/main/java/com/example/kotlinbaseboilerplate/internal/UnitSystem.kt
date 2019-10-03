@@ -1,5 +1,5 @@
 package com.example.kotlinbaseboilerplate.internal
 
 enum class UnitSystem {
-    METRIC, FARENHEIT, SCIENTIFIC
+    METRIC, IMPERIAL, SCIENTIFIC
 }

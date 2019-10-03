@@ -1,12 +1,15 @@
 package com.example.kotlinbaseboilerplate
 
 import android.app.Application
+import androidx.preference.PreferenceManager
 import com.example.kotlinbaseboilerplate.data.WeatherStackApiService
 import com.example.kotlinbaseboilerplate.data.db.ForecastDatabase
 import com.example.kotlinbaseboilerplate.data.network.ConnectivityInterceptor
 import com.example.kotlinbaseboilerplate.data.network.ConnectivityInterceptorImpl
 import com.example.kotlinbaseboilerplate.data.network.WeatherNetworkDataSource
 import com.example.kotlinbaseboilerplate.data.network.WeatherNetworkDataSourceImpl
+import com.example.kotlinbaseboilerplate.data.provider.UnitProvider
+import com.example.kotlinbaseboilerplate.data.provider.UnitProviderImpl
 import com.example.kotlinbaseboilerplate.data.repository.ForecastRepository
 import com.example.kotlinbaseboilerplate.data.repository.ForecastRepositoryImpl
 import com.example.kotlinbaseboilerplate.ui.weather.current.CurrentWeatherViewModelFactory
@@ -54,9 +57,10 @@ class ForecastApplication : Application(), KodeinAware {
 
         //We bind the repository, and the instances are from a DAO and the datasource
         bind<ForecastRepository>() with singleton { ForecastRepositoryImpl(instance(), instance()) }
-
-        //We bind the viewmodel factory, and the instance is the ForecastRepository
-        bind() from provider { CurrentWeatherViewModelFactory(instance()) }
+        //bind unit system provider
+        bind<UnitProvider>() with singleton { UnitProviderImpl(instance()) }
+        //We bind the viewmodel factory, and the instance is the ForecastRepository and UnitProvider
+        bind() from provider { CurrentWeatherViewModelFactory(instance(), instance()) }
     }
 
     override fun onCreate() {
@@ -64,5 +68,6 @@ class ForecastApplication : Application(), KodeinAware {
 
         //We initialize the timezone library used for this project in the application onCreate
         AndroidThreeTen.init(this)
+        PreferenceManager.setDefaultValues(this, R.xml.preferences, false)
     }
 }
