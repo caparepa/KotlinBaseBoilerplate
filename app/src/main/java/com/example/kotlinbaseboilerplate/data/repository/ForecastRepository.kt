@@ -2,6 +2,7 @@ package com.example.kotlinbaseboilerplate.data.repository
 
 import androidx.lifecycle.LiveData
 import com.example.kotlinbaseboilerplate.data.db.entity.CurrentWeatherEntry
+import com.example.kotlinbaseboilerplate.data.db.entity.WeatherLocation
 
 interface ForecastRepository {
 
@@ -11,5 +12,6 @@ interface ForecastRepository {
      * This function returns a LiveData of CurrentWeatherEntry
      */
     suspend fun getCurrentWeather(): LiveData<CurrentWeatherEntry>
+    suspend fun getWeatherLocation(): LiveData<WeatherLocation>
 
 }

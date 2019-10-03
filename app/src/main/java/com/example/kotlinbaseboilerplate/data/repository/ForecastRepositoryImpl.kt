@@ -2,9 +2,12 @@ package com.example.kotlinbaseboilerplate.data.repository
 
 import androidx.lifecycle.LiveData
 import com.example.kotlinbaseboilerplate.data.db.CurrentWeatherEntryDao
+import com.example.kotlinbaseboilerplate.data.db.WeatherLocationDao
 import com.example.kotlinbaseboilerplate.data.db.entity.CurrentWeatherEntry
+import com.example.kotlinbaseboilerplate.data.db.entity.WeatherLocation
 import com.example.kotlinbaseboilerplate.data.network.WeatherNetworkDataSource
 import com.example.kotlinbaseboilerplate.data.network.response.CurrentWeatherResponse
+import com.example.kotlinbaseboilerplate.data.provider.LocationProvider
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -14,10 +17,14 @@ import org.threeten.bp.ZonedDateTime
 /**
  * We set constructor parameters in the interface implementation related to the current weather DAO
  * and the data source. Other parameters will follow suit later.
+ * EDIT: Now we add to the constructor the WeatherLocationDao in order to get the location for this
+ * repository
  */
 class ForecastRepositoryImpl(
     private val currentWeatherDao: CurrentWeatherEntryDao,
-    private val weatherNetworkDataSource: WeatherNetworkDataSource
+    private val weatherLocationDao: WeatherLocationDao,
+    private val weatherNetworkDataSource: WeatherNetworkDataSource,
+    private val locationProvider: LocationProvider
 ) : ForecastRepository {
 
     /**
@@ -42,6 +49,13 @@ class ForecastRepositoryImpl(
         }
     }
 
+    //Same as getCurrentWeather(), we implement the function for getting the weather location
+    override suspend fun getWeatherLocation(): LiveData<WeatherLocation> {
+        return withContext(Dispatchers.IO) {
+            return@withContext weatherLocationDao.getLocation()
+        }
+    }
+
     /**
      * Method for persisting the response in the livedata using Coroutines
      */
@@ -50,8 +64,10 @@ class ForecastRepositoryImpl(
         //We use the GlobalScope to launch the coroutine, which can be used here because there is no
         //lifecycles, like activities or fragments
         //The Dispatchers.IO ensures that we can use N amount of threads
+        //EDIT: now we can persist the weather location object from the response
         GlobalScope.launch(Dispatchers.IO) {
             currentWeatherDao.upsert(fetchedWeather.currentWeatherEntry)
+            weatherLocationDao.upsert(fetchedWeather.weatherLocation)
         }
     }
 
@@ -59,8 +75,20 @@ class ForecastRepositoryImpl(
      * Here we initialize the weather data by checking whether it needs to be updated or not
      */
     private suspend fun initWeatherData() {
-        //We pass a dummy value, in this case 1 hour, so it will always need to be updated
-        if(isFetchCurrentNeeded(ZonedDateTime.now().minusHours(1)))
+
+        val lastWeatherLocation = weatherLocationDao.getLocation().value //We get the LiveData value
+
+        //In case the app is opened for the first time, fetch the current weather and return
+        if (lastWeatherLocation == null || locationProvider.hasLocationChanged(lastWeatherLocation)) {
+            fetchCurrentWeather()
+            return
+        }
+
+        //If we want to get the weather in a new location if the user moves or changes,
+        //a location provider is made (since repositories don't know nor care about business logic)
+
+        //In case there is already a fetched weather, get the current one (updated)
+        if (isFetchCurrentNeeded(lastWeatherLocation.zonedDateTime))
             fetchCurrentWeather()
     }
 
@@ -69,7 +97,9 @@ class ForecastRepositoryImpl(
      * init block of this class, and pass dummy location and units
      */
     private suspend fun fetchCurrentWeather() {
-        weatherNetworkDataSource.fetchCurrentWeather("Los Angeles", "m")
+        weatherNetworkDataSource.fetchCurrentWeather(
+            locationProvider.getPreferredLocationString(), "m"
+        )
     }
 
     /**

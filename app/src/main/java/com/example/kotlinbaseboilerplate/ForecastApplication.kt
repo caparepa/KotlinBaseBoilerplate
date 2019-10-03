@@ -8,6 +8,8 @@ import com.example.kotlinbaseboilerplate.data.network.ConnectivityInterceptor
 import com.example.kotlinbaseboilerplate.data.network.ConnectivityInterceptorImpl
 import com.example.kotlinbaseboilerplate.data.network.WeatherNetworkDataSource
 import com.example.kotlinbaseboilerplate.data.network.WeatherNetworkDataSourceImpl
+import com.example.kotlinbaseboilerplate.data.provider.LocationProvider
+import com.example.kotlinbaseboilerplate.data.provider.LocationProviderImpl
 import com.example.kotlinbaseboilerplate.data.provider.UnitProvider
 import com.example.kotlinbaseboilerplate.data.provider.UnitProviderImpl
 import com.example.kotlinbaseboilerplate.data.repository.ForecastRepository
@@ -55,8 +57,11 @@ class ForecastApplication : Application(), KodeinAware {
         //We bind the network data source, and the instance passed is from the previous binding
         bind<WeatherNetworkDataSource>() with singleton { WeatherNetworkDataSourceImpl(instance()) }
 
-        //We bind the repository, and the instances are from a DAO and the datasource
-        bind<ForecastRepository>() with singleton { ForecastRepositoryImpl(instance(), instance()) }
+        //We bind the location provider to pass it to th repository
+        bind<LocationProvider>() with singleton { LocationProviderImpl()}
+
+        //We bind the repository, and the instances are from a DAO, provider and the datasource
+        bind<ForecastRepository>() with singleton { ForecastRepositoryImpl(instance(), instance(), instance(), instance()) }
         //bind unit system provider
         bind<UnitProvider>() with singleton { UnitProviderImpl(instance()) }
         //We bind the viewmodel factory, and the instance is the ForecastRepository and UnitProvider
