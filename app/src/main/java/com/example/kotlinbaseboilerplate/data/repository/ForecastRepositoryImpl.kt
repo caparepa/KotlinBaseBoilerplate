@@ -62,8 +62,10 @@ class ForecastRepositoryImpl(
         //We use the GlobalScope to launch the coroutine, which can be used here because there is no
         //lifecycles, like activities or fragments
         //The Dispatchers.IO ensures that we can use N amount of threads
+        //EDIT: now we can persist the weather location object from the response
         GlobalScope.launch(Dispatchers.IO) {
             currentWeatherDao.upsert(fetchedWeather.currentWeatherEntry)
+            weatherLocationDao.upsert(fetchedWeather.weatherLocation)
         }
     }
 
@@ -71,8 +73,17 @@ class ForecastRepositoryImpl(
      * Here we initialize the weather data by checking whether it needs to be updated or not
      */
     private suspend fun initWeatherData() {
-        //We pass a dummy value, in this case 1 hour, so it will always need to be updated
-        if(isFetchCurrentNeeded(ZonedDateTime.now().minusHours(1)))
+
+        val lastWeatherLocation = weatherLocationDao.getLocation().value //We get the LiveData value
+
+        //In case the app is opened for the first time, fetch the current weather and return
+        if(lastWeatherLocation == null) {
+            fetchCurrentWeather()
+            return
+        }
+
+        //In case there is already a fetched weather, get the current one (updated)
+        if(isFetchCurrentNeeded(lastWeatherLocation.zonedDateTime))
             fetchCurrentWeather()
     }
 
