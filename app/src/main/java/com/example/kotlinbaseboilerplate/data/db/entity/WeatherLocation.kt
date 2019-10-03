@@ -15,7 +15,7 @@ data class WeatherLocation(
     @SerializedName("localtime")
     val localtime: String,
     @SerializedName("localtime_epoch")
-    val localtimeEpoch: Int,
+    val localtimeEpoch: Long,
     @SerializedName("lon")
     val lon: String,
     @SerializedName("name")
