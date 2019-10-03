@@ -1,12 +1,9 @@
 package com.example.kotlinbaseboilerplate.data.provider
 
+import android.content.Context
 import com.example.kotlinbaseboilerplate.data.db.entity.WeatherLocation
 
-class LocationProviderImpl : LocationProvider {
-
-    /**
-     * Meanwhile, we'll return dummy values
-     */
+class LocationProviderImpl(context: Context) : PreferenceProvider(context), LocationProvider {
 
     override suspend fun hasLocationChanged(lastWeatherLocation: WeatherLocation): Boolean {
         return true
