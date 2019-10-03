@@ -50,19 +50,21 @@ class CurrentWeatherFragment : ScopedFragment(), KodeinAware {
     //Since we need to get the data from the viewModel, we have to do it from a coroutine scope...
     //But we can't use coroutine scope in classes with lifecycles, so we use a local scope
     //by creating a base fragment and extending from it
-    private fun bindUI() = launch{
+    private fun bindUI() = launch {
         //we fetch the data from the viewmodel
         val currentWeather = viewModel.weather.await()
+        val weatherLocation = viewModel.weatherLocation.await()
+
         //we observe the livedata within the fragment lifecycle, and in the observer we set the
         //ui interaction
-        currentWeather.observe(this@CurrentWeatherFragment, Observer{
-            if(it == null) return@Observer //if there is no data, return the observer until there is data!
+        currentWeather.observe(this@CurrentWeatherFragment, Observer {
+            if (it == null) return@Observer //if there is no data, return the observer until there is data!
 
             //Hide the loading group
             group_loading.makeGone()
 
             //update toolbar
-            updateLocation("Los Angeles")
+
             updateDateToToday()
             updateTemperature(it.temperature, it.feelslike)
             updatePrecipitation(it.precip)
@@ -77,6 +79,13 @@ class CurrentWeatherFragment : ScopedFragment(), KodeinAware {
 
             //TODO: modify code to get unit from request!
 
+        })
+
+        //Just as we have an observer for the weather data, we make an observer for the weather
+        //location, and we pass its name in order to fetch it from the ViewModel
+        weatherLocation.observe(this@CurrentWeatherFragment, Observer { location ->
+            if (location == null) return@Observer
+            updateLocation(location.name)
         })
     }
 
