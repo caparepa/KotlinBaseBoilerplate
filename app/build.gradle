@@ -36,6 +36,21 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 
+    signingConfigs {
+        debug {
+            /*storeFile file("../current-app-debug.keystore")
+            storePassword 'android'
+            keyAlias 'myParish-debug'
+            keyPassword 'android'*/
+        }
+        release {
+            /*storeFile file("../current-app.keystore")
+            storePassword System.getenv('ANDROID_STORE_PASS')
+            keyAlias System.getenv('ANDROID_KEY_ALIAS')
+            keyPassword System.getenv('ANDROID_KEY_PASS')*/
+        }
+    }
+
     lintOptions {
         abortOnError true
     }
@@ -128,4 +143,15 @@ dependencies {
     // Groupie RecyclerView
     implementation 'com.xwray:groupie:2.3.0'
     implementation 'com.xwray:groupie-kotlin-android-extensions:2.3.0'
+}
+
+/**
+ * Gets current git branch name
+ */
+static String getCurrentGitBranchName() {
+    return 'git symbolic-ref --short HEAD'.execute().text.trim()
+}
+
+static String getGitSHA() {
+    return 'git rev-parse HEAD'.execute().text.trim()
 }
