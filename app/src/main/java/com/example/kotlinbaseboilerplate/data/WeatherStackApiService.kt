@@ -1,5 +1,6 @@
 package com.example.kotlinbaseboilerplate.data
 
+import com.example.kotlinbaseboilerplate.BuildConfig
 import com.example.kotlinbaseboilerplate.data.network.ConnectivityInterceptor
 import com.example.kotlinbaseboilerplate.data.network.response.CurrentWeatherResponse
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
@@ -43,7 +44,7 @@ interface WeatherStackApiService {
                 val url = chain.request()
                     .url()
                     .newBuilder()
-                    .addQueryParameter("access_key", API_KEY)
+                    .addQueryParameter("access_key", BuildConfig.WEATHER_STACK_KEY)
                     .build()
 
                 //Build the new url with the previous vlue injection
@@ -68,7 +69,7 @@ interface WeatherStackApiService {
             //a adapter factory and a converter factory, associated to the current interface
             return Retrofit.Builder()
                 .client(okHttpClient)
-                .baseUrl(BASE_URL)
+                .baseUrl(BuildConfig.BASE_URL)
                 .addCallAdapterFactory(CoroutineCallAdapterFactory())
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()

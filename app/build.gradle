@@ -76,7 +76,7 @@ android {
             signingConfig signingConfigs.debug
 
             buildConfigField "String", "BASE_URL", "\"http://api.weatherstack.com/\""
-            buildConfigField "String", "WEATHER_STACK_KEY", "\"HERE GOES YOUR WEATHERSTACK KEY\""
+            buildConfigField "String", "WEATHER_STACK_KEY", "\"4f2b6c8c8fc9285a5cc0f3ed86a9097c\""
             buildConfigField "String", "GIT_SHA", "\"${getGitSHA()}\""
 
             resValue "string", "application_id", android.defaultConfig.applicationId + applicationIdSuffix
@@ -97,7 +97,7 @@ android {
             proguardFiles proguardFileCollection.getFiles().toArray()
 
             buildConfigField "String", "BASE_URL", "\"http://api.weatherstack.com/\""
-            buildConfigField "String", "WEATHER_STACK_KEY", "\"HERE GOES YOUR WEATHERSTACK KEY\""
+            buildConfigField "String", "WEATHER_STACK_KEY", "\"4f2b6c8c8fc9285a5cc0f3ed86a9097c\""
             buildConfigField "String", "GIT_SHA", "\"${getGitSHA()}\""
 
             resValue "string", "application_id", android.defaultConfig.applicationId + applicationIdSuffix
@@ -111,7 +111,7 @@ android {
             zipAlignEnabled true // this is default for release
 
             buildConfigField "String", "BASE_URL", "\"http://api.weatherstack.com/\""
-            buildConfigField "String", "WEATHER_STACK_KEY", "\"HERE GOES YOUR WEATHERSTACK KEY\""
+            buildConfigField "String", "WEATHER_STACK_KEY", "\"4f2b6c8c8fc9285a5cc0f3ed86a9097c\""
             buildConfigField "String", "GIT_SHA", "\"${getGitSHA()}\""
 
             resValue "string", "application_id", android.defaultConfig.applicationId + applicationIdSuffix
