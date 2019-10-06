@@ -25,6 +25,27 @@ android {
         }
 
     }
+
+    dexOptions {
+        preDexLibraries true
+        javaMaxHeapSize "2g"
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    lintOptions {
+        abortOnError true
+    }
+
+    FileCollection proguardFileCollection = files(
+            file('../proguard.cfg'),
+            getDefaultProguardFile('proguard-android.txt')
+    )
+
+
     buildTypes {
         release {
             minifyEnabled false
