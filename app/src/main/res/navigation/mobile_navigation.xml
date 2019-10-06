@@ -13,7 +13,9 @@
         android:name="com.example.kotlinbaseboilerplate.ui.weather.current.CurrentWeatherFragment"
         android:label="current_weather_fragment"
         tools:layout="@layout/current_weather_fragment" />
-    <fragment
+
+    <!-- Commenting until API migration-->
+    <!--<fragment
         android:id="@+id/futureListWeatherFragment"
         android:name="com.example.kotlinbaseboilerplate.ui.weather.future.list.FutureListWeatherFragment"
         android:label="future_list_weather_fragment"
@@ -22,7 +24,9 @@
         android:id="@+id/futureDetailWeatherFragment"
         android:name="com.example.kotlinbaseboilerplate.ui.weather.future.detail.FutureDetailWeatherFragment"
         android:label="future_detail_weather_fragment"
-        tools:layout="@layout/future_detail_weather_fragment" />
+        tools:layout="@layout/future_detail_weather_fragment" />-->
+    <!-- Commenting until API migration -->
+
     <fragment
         android:id="@+id/settingsFragment"
         android:name="com.example.kotlinbaseboilerplate.ui.settings.SettingsFragment"

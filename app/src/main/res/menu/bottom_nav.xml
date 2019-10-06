@@ -8,10 +8,13 @@
         android:id="@+id/currentWeatherFragment"
         android:icon="@drawable/ic_today"
         android:title="Today"/>
-    <item
+
+    <!-- Commenting until API migration-->
+    <!--<item
         android:id="@+id/futureListWeatherFragment"
         android:icon="@drawable/ic_calendar_week"
-        android:title="7 Days"/>
+        android:title="7 Days"/>-->
+
     <item
         android:id="@+id/settingsFragment"
         android:icon="@drawable/ic_settings"
