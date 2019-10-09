@@ -1,7 +1,7 @@
-package com.example.kotlinbaseboilerplate.data.network
+package com.example.kotlinbaseboilerplate.data.network.weatherstack
 
 import androidx.lifecycle.LiveData
-import com.example.kotlinbaseboilerplate.data.network.response.CurrentWeatherResponse
+import com.example.kotlinbaseboilerplate.data.network.weatherstack.response.CurrentWeatherResponse
 
 interface WeatherNetworkDataSource {
 

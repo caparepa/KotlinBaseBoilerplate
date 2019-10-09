@@ -1,12 +1,12 @@
-package com.example.kotlinbaseboilerplate.data.repository
+package com.example.kotlinbaseboilerplate.data.repository.weatherstack
 
 import androidx.lifecycle.LiveData
-import com.example.kotlinbaseboilerplate.data.db.CurrentWeatherEntryDao
-import com.example.kotlinbaseboilerplate.data.db.WeatherLocationDao
-import com.example.kotlinbaseboilerplate.data.db.entity.CurrentWeatherEntry
-import com.example.kotlinbaseboilerplate.data.db.entity.WeatherLocation
-import com.example.kotlinbaseboilerplate.data.network.WeatherNetworkDataSource
-import com.example.kotlinbaseboilerplate.data.network.response.CurrentWeatherResponse
+import com.example.kotlinbaseboilerplate.data.db.weatherstack.CurrentWeatherEntryDao
+import com.example.kotlinbaseboilerplate.data.db.weatherstack.WeatherLocationDao
+import com.example.kotlinbaseboilerplate.data.db.weatherstack.entity.CurrentWeatherEntry
+import com.example.kotlinbaseboilerplate.data.db.weatherstack.entity.WeatherLocation
+import com.example.kotlinbaseboilerplate.data.network.weatherstack.WeatherNetworkDataSource
+import com.example.kotlinbaseboilerplate.data.network.weatherstack.response.CurrentWeatherResponse
 import com.example.kotlinbaseboilerplate.data.provider.LocationProvider
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope

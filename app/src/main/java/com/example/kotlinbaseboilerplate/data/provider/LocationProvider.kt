@@ -1,6 +1,6 @@
 package com.example.kotlinbaseboilerplate.data.provider
 
-import com.example.kotlinbaseboilerplate.data.db.entity.WeatherLocation
+import com.example.kotlinbaseboilerplate.data.db.weatherstack.entity.WeatherLocation
 
 interface LocationProvider {
 

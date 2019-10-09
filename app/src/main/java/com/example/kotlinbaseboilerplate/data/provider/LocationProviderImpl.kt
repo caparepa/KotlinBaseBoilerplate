@@ -5,7 +5,7 @@ import android.content.Context
 import android.content.pm.PackageManager
 import android.location.Location
 import androidx.core.content.ContextCompat
-import com.example.kotlinbaseboilerplate.data.db.entity.WeatherLocation
+import com.example.kotlinbaseboilerplate.data.db.weatherstack.entity.WeatherLocation
 import com.example.kotlinbaseboilerplate.internal.LocationPermissionNotGrantedException
 import com.example.kotlinbaseboilerplate.internal.asDeferred
 import com.google.android.gms.location.FusedLocationProviderClient

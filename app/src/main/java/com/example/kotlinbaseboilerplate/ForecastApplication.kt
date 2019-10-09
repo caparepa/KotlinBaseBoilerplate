@@ -4,17 +4,17 @@ import android.app.Application
 import android.content.Context
 import androidx.preference.PreferenceManager
 import com.example.kotlinbaseboilerplate.data.WeatherStackApiService
-import com.example.kotlinbaseboilerplate.data.db.ForecastDatabase
+import com.example.kotlinbaseboilerplate.data.db.weatherstack.ForecastDatabase
 import com.example.kotlinbaseboilerplate.data.network.ConnectivityInterceptor
 import com.example.kotlinbaseboilerplate.data.network.ConnectivityInterceptorImpl
-import com.example.kotlinbaseboilerplate.data.network.WeatherNetworkDataSource
-import com.example.kotlinbaseboilerplate.data.network.WeatherNetworkDataSourceImpl
+import com.example.kotlinbaseboilerplate.data.network.weatherstack.WeatherNetworkDataSource
+import com.example.kotlinbaseboilerplate.data.network.weatherstack.WeatherNetworkDataSourceImpl
 import com.example.kotlinbaseboilerplate.data.provider.LocationProvider
 import com.example.kotlinbaseboilerplate.data.provider.LocationProviderImpl
 import com.example.kotlinbaseboilerplate.data.provider.UnitProvider
 import com.example.kotlinbaseboilerplate.data.provider.UnitProviderImpl
-import com.example.kotlinbaseboilerplate.data.repository.ForecastRepository
-import com.example.kotlinbaseboilerplate.data.repository.ForecastRepositoryImpl
+import com.example.kotlinbaseboilerplate.data.repository.weatherstack.ForecastRepository
+import com.example.kotlinbaseboilerplate.data.repository.weatherstack.ForecastRepositoryImpl
 import com.example.kotlinbaseboilerplate.ui.weather.current.CurrentWeatherViewModelFactory
 import com.google.android.gms.location.LocationServices
 import com.jakewharton.threetenabp.AndroidThreeTen
@@ -43,7 +43,11 @@ class ForecastApplication : Application(), KodeinAware {
         //We use bind() for the database from a singleton
         //since we don't need two instances of the database, well pass it an instance fetched
         //from the androidXModule, in this case instance() is the applicationContext
-        bind() from singleton { ForecastDatabase(instance()) }
+        bind() from singleton {
+            ForecastDatabase(
+                instance()
+            )
+        }
 
         //Now we bind the DAOs using the instance of the previous database binding
         bind() from singleton { instance<ForecastDatabase>().currentWeatherDao() }
@@ -57,7 +61,11 @@ class ForecastApplication : Application(), KodeinAware {
         bind() from singleton { WeatherStackApiService(instance()) }
 
         //We bind the network data source, and the instance passed is from the previous binding
-        bind<WeatherNetworkDataSource>() with singleton { WeatherNetworkDataSourceImpl(instance()) }
+        bind<WeatherNetworkDataSource>() with singleton {
+            WeatherNetworkDataSourceImpl(
+                instance()
+            )
+        }
 
         //We bind the fused location provider
         bind() from provider { LocationServices.getFusedLocationProviderClient(instance<Context>())}
@@ -66,7 +74,14 @@ class ForecastApplication : Application(), KodeinAware {
         bind<LocationProvider>() with singleton { LocationProviderImpl(instance(), instance())}
 
         //We bind the repository, and the instances are from a DAO, provider and the datasource
-        bind<ForecastRepository>() with singleton { ForecastRepositoryImpl(instance(), instance(), instance(), instance()) }
+        bind<ForecastRepository>() with singleton {
+            ForecastRepositoryImpl(
+                instance(),
+                instance(),
+                instance(),
+                instance()
+            )
+        }
         //bind unit system provider
         bind<UnitProvider>() with singleton { UnitProviderImpl(instance()) }
         //We bind the viewmodel factory, and the instance is the ForecastRepository and UnitProvider

@@ -1,12 +1,12 @@
-package com.example.kotlinbaseboilerplate.data.db
+package com.example.kotlinbaseboilerplate.data.db.weatherstack
 
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import com.example.kotlinbaseboilerplate.data.db.entity.CurrentWeatherEntry
-import com.example.kotlinbaseboilerplate.data.db.entity.WeatherLocation
+import com.example.kotlinbaseboilerplate.data.db.weatherstack.entity.CurrentWeatherEntry
+import com.example.kotlinbaseboilerplate.data.db.weatherstack.entity.WeatherLocation
 import com.example.kotlinbaseboilerplate.utils.StringListConverter
 
 @Database(
@@ -35,10 +35,14 @@ abstract class ForecastDatabase : RoomDatabase() {
         //If there is an instance, return it (instance ?:)
         //else, syncronize a block with a lock, check again if there is an instance,
 
-        operator fun invoke(context: Context) = instance ?: synchronized(LOCK) {
+        operator fun invoke(context: Context) = instance
+            ?: synchronized(LOCK) {
             //if there is no instance, build a database (buildDatabase(context))
             //and also, whatever is returned from the builder, set the instance equal to "it"
-            instance ?: buildDatabase(context).also {
+            instance
+                ?: buildDatabase(
+                    context
+                ).also {
                 instance = it
             }
         }

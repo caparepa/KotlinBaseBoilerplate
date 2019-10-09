@@ -2,7 +2,7 @@ package com.example.kotlinbaseboilerplate.data
 
 import com.example.kotlinbaseboilerplate.BuildConfig
 import com.example.kotlinbaseboilerplate.data.network.ConnectivityInterceptor
-import com.example.kotlinbaseboilerplate.data.network.response.CurrentWeatherResponse
+import com.example.kotlinbaseboilerplate.data.network.weatherstack.response.CurrentWeatherResponse
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import kotlinx.coroutines.Deferred
 import okhttp3.Interceptor

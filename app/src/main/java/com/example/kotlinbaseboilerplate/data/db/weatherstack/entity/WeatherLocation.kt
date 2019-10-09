@@ -1,4 +1,4 @@
-package com.example.kotlinbaseboilerplate.data.db.entity
+package com.example.kotlinbaseboilerplate.data.db.weatherstack.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

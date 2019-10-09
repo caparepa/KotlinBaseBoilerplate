@@ -1,10 +1,10 @@
-package com.example.kotlinbaseboilerplate.data.network
+package com.example.kotlinbaseboilerplate.data.network.weatherstack
 
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.kotlinbaseboilerplate.data.WeatherStackApiService
-import com.example.kotlinbaseboilerplate.data.network.response.CurrentWeatherResponse
+import com.example.kotlinbaseboilerplate.data.network.weatherstack.response.CurrentWeatherResponse
 import com.example.kotlinbaseboilerplate.internal.NoConnectivityException
 
 class WeatherNetworkDataSourceImpl(

@@ -1,8 +1,8 @@
-package com.example.kotlinbaseboilerplate.data.repository
+package com.example.kotlinbaseboilerplate.data.repository.weatherstack
 
 import androidx.lifecycle.LiveData
-import com.example.kotlinbaseboilerplate.data.db.entity.CurrentWeatherEntry
-import com.example.kotlinbaseboilerplate.data.db.entity.WeatherLocation
+import com.example.kotlinbaseboilerplate.data.db.weatherstack.entity.CurrentWeatherEntry
+import com.example.kotlinbaseboilerplate.data.db.weatherstack.entity.WeatherLocation
 
 interface ForecastRepository {
 

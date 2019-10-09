@@ -1,12 +1,12 @@
-package com.example.kotlinbaseboilerplate.data.db
+package com.example.kotlinbaseboilerplate.data.db.weatherstack
 
 import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.example.kotlinbaseboilerplate.data.db.entity.CURRENT_WEATHER_ID
-import com.example.kotlinbaseboilerplate.data.db.entity.CurrentWeatherEntry
+import com.example.kotlinbaseboilerplate.data.db.weatherstack.entity.CURRENT_WEATHER_ID
+import com.example.kotlinbaseboilerplate.data.db.weatherstack.entity.CurrentWeatherEntry
 
 @Dao
 interface CurrentWeatherEntryDao {

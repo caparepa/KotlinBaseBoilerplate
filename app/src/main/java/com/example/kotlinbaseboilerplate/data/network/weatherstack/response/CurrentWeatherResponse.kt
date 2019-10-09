@@ -1,7 +1,7 @@
-package com.example.kotlinbaseboilerplate.data.network.response
+package com.example.kotlinbaseboilerplate.data.network.weatherstack.response
 
-import com.example.kotlinbaseboilerplate.data.db.entity.CurrentWeatherEntry
-import com.example.kotlinbaseboilerplate.data.db.entity.WeatherLocation
+import com.example.kotlinbaseboilerplate.data.db.weatherstack.entity.CurrentWeatherEntry
+import com.example.kotlinbaseboilerplate.data.db.weatherstack.entity.WeatherLocation
 import com.google.gson.annotations.SerializedName
 
 data class CurrentWeatherResponse(

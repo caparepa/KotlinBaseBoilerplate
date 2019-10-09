@@ -2,7 +2,7 @@ package com.example.kotlinbaseboilerplate.ui.weather.current
 
 import androidx.lifecycle.ViewModel
 import com.example.kotlinbaseboilerplate.data.provider.UnitProvider
-import com.example.kotlinbaseboilerplate.data.repository.ForecastRepository
+import com.example.kotlinbaseboilerplate.data.repository.weatherstack.ForecastRepository
 import com.example.kotlinbaseboilerplate.internal.UnitSystem
 import com.example.kotlinbaseboilerplate.internal.lazyDeferred
 
