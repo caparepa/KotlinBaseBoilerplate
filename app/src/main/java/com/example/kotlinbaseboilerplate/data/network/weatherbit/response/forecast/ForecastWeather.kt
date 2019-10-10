@@ -1,11 +1,11 @@
-package com.example.kotlinbaseboilerplate.data.network.weatherbit.response.current
+package com.example.kotlinbaseboilerplate.data.network.weatherbit.response.forecast
 
 
 import com.google.gson.annotations.SerializedName
 
-data class Weather(
+data class ForecastWeather(
     @SerializedName("code")
-    val bitCode: String,
+    val bitCode: Int,
     @SerializedName("description")
     val bitDescription: String,
     @SerializedName("icon")

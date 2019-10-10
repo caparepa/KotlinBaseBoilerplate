@@ -69,7 +69,7 @@ data class CurrentDataItem(
     @SerializedName("vis")
     val bitVis: Double,
     @SerializedName("weather")
-    val bitWeather: Weather,
+    val bitWeather: CurrentWeather,
     @SerializedName("wind_cdir")
     val bitWindCdir: String,
     @SerializedName("wind_cdir_full")

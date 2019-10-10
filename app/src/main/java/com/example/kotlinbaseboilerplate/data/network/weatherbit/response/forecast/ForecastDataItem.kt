@@ -67,7 +67,7 @@ data class ForecastDataItem(
     @SerializedName("vis")
     val bitVis: Double,
     @SerializedName("weather")
-    val bitWeather: Weather,
+    val bitWeather: ForecastWeather,
     @SerializedName("wind_cdir")
     val bitWindCdir: String,
     @SerializedName("wind_cdir_full")
