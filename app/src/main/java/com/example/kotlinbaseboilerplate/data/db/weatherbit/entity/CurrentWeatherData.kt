@@ -8,7 +8,7 @@ import com.google.gson.annotations.SerializedName
 const val BIT_CURRENT_DATA_ID = 0
 
 @Entity(tableName = "current_weather_data")
-data class CurrentDataItem(
+data class CurrentWeatherData(
     @SerializedName("app_temp")
     val bitAppTemp: Double,
     @SerializedName("aqi")
@@ -74,7 +74,7 @@ data class CurrentDataItem(
     @SerializedName("vis")
     val bitVis: Double,
     @SerializedName("weather")
-    val bitWeather: CurrentWeather,
+    val bitWeather: CurrentWeatherDescription,
     @SerializedName("wind_cdir")
     val bitWindCdir: String,
     @SerializedName("wind_cdir_full")
