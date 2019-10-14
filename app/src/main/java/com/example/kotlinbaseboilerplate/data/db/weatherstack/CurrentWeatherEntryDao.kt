@@ -19,7 +19,7 @@ interface CurrentWeatherEntryDao {
     //In the tutorial, there are 2 interfaces that wrap the CurrentWeatherEntity
     //in order to get the units (imperial or metric). Since the API changed, we'll use
     //the original Entity
-    @Query("select * from current_weather_data where id = $CURRENT_WEATHER_ID")
+    @Query("select * from current_weather where id = $CURRENT_WEATHER_ID")
     fun getCurrentWeather() : LiveData<CurrentWeatherEntry>
 
 }
