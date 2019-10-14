@@ -1,6 +1,7 @@
 package com.example.kotlinbaseboilerplate.data.db.weatherbit.entity
 
 
+import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
@@ -74,6 +75,7 @@ data class CurrentWeatherData(
     @SerializedName("vis")
     val bitVis: Double,
     @SerializedName("weather")
+    @Embedded(prefix = "description_")
     val bitWeather: WeatherDescription,
     @SerializedName("wind_cdir")
     val bitWindCdir: String,
