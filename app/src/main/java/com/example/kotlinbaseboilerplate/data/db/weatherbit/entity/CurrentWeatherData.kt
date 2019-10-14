@@ -74,7 +74,7 @@ data class CurrentWeatherData(
     @SerializedName("vis")
     val bitVis: Double,
     @SerializedName("weather")
-    val bitWeather: CurrentWeatherDescription,
+    val bitWeather: WeatherDescription,
     @SerializedName("wind_cdir")
     val bitWindCdir: String,
     @SerializedName("wind_cdir_full")
