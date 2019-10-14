@@ -1,8 +1,13 @@
-package com.example.kotlinbaseboilerplate.data.network.weatherbit.response.current
+package com.example.kotlinbaseboilerplate.data.db.weatherbit.entity
 
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 
+const val BIT_CURRENT_DATA_ID = 0
+
+@Entity(tableName = "current_weather_data")
 data class CurrentDataItem(
     @SerializedName("app_temp")
     val bitAppTemp: Double,
@@ -78,4 +83,8 @@ data class CurrentDataItem(
     val bitWindDir: Int,
     @SerializedName("wind_spd")
     val bitWindSpd: Double
-)
+){
+    //NOTE: since there can't be "multiple" current weather, we'll set the primary key to false
+    @PrimaryKey(autoGenerate = false)
+    var id: Int = BIT_CURRENT_DATA_ID
+}

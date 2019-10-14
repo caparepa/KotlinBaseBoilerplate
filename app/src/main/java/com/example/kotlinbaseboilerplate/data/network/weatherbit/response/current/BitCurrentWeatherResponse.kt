@@ -1,6 +1,7 @@
 package com.example.kotlinbaseboilerplate.data.network.weatherbit.response.current
 
 
+import com.example.kotlinbaseboilerplate.data.db.weatherbit.entity.CurrentDataItem
 import com.google.gson.annotations.SerializedName
 
 data class BitCurrentWeatherResponse(
