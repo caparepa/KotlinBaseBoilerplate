@@ -5,7 +5,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 
-const val BIT_CURRENT_DATA_ID = 0
+const val BIT_WEATHER_DATA_ID = 0
 
 @Entity(tableName = "current_weather_data")
 data class CurrentWeatherData(
@@ -86,5 +86,5 @@ data class CurrentWeatherData(
 ){
     //NOTE: since there can't be "multiple" current weather, we'll set the primary key to false
     @PrimaryKey(autoGenerate = false)
-    var id: Int = BIT_CURRENT_DATA_ID
+    var id: Int = BIT_WEATHER_DATA_ID
 }

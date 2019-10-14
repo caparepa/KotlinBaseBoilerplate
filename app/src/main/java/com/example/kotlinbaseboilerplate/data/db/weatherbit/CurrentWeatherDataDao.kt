@@ -5,7 +5,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.example.kotlinbaseboilerplate.data.db.weatherbit.entity.BIT_CURRENT_DATA_ID
+import com.example.kotlinbaseboilerplate.data.db.weatherbit.entity.BIT_WEATHER_DATA_ID
 import com.example.kotlinbaseboilerplate.data.db.weatherbit.entity.CurrentWeatherData
 
 @Dao
@@ -18,6 +18,6 @@ interface CurrentWeatherDataDao {
     //In the tutorial, there are 2 interfaces that wrap the CurrentWeatherEntity
     //in order to get the units (imperial or metric). Since the API changed, we'll use
     //the original Entity
-    @Query("select * from current_weather_data where id = $BIT_CURRENT_DATA_ID")
-    fun getCurrentWeather() : LiveData<CurrentWeatherData>
+    @Query("select * from current_weather_data where id = $BIT_WEATHER_DATA_ID")
+    fun getCurrentWeatherData() : LiveData<CurrentWeatherData>
 }
