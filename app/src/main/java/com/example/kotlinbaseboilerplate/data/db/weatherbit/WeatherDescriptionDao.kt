@@ -14,6 +14,6 @@ interface WeatherDescriptionDao {
     fun upsert(weatherLocation: WeatherDescription)
 
     @Query("select * from weather_description where id = $BIT_WEATHER_DESCRIPTION_ID")
-    fun getDescription() : LiveData<WeatherDescription>
+    fun getWeatherDescription() : LiveData<WeatherDescription>
 
 }
