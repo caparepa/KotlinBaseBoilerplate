@@ -48,7 +48,7 @@ abstract class BitWeatherDatabase : RoomDatabase() {
         private fun buildDatabase(context: Context) =
             Room.databaseBuilder(
                 context.applicationContext,
-                BitWeatherDatabase::class.java, "forecast.db"
+                BitWeatherDatabase::class.java, "bitweather.db"
             ).build()
 
     }
