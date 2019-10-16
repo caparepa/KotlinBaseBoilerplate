@@ -8,7 +8,7 @@ import com.google.gson.annotations.SerializedName
 const val BIT_WEATHER_DESCRIPTION_ID = 0
 
 @Entity(tableName = "weather_description")
-data class WeatherDescription(
+data class BitWeatherDescription(
     @SerializedName("code")
     val bitCode: String,
     @SerializedName("description")

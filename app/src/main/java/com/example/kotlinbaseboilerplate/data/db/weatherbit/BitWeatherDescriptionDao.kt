@@ -6,14 +6,14 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.example.kotlinbaseboilerplate.data.db.weatherbit.entity.BIT_WEATHER_DESCRIPTION_ID
-import com.example.kotlinbaseboilerplate.data.db.weatherbit.entity.WeatherDescription
+import com.example.kotlinbaseboilerplate.data.db.weatherbit.entity.BitWeatherDescription
 
 @Dao
-interface WeatherDescriptionDao {
+interface BitWeatherDescriptionDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun upsert(weatherLocation: WeatherDescription)
+    fun upsert(weatherLocation: BitWeatherDescription)
 
     @Query("select * from weather_description where id = $BIT_WEATHER_DESCRIPTION_ID")
-    fun getWeatherDescription() : LiveData<WeatherDescription>
+    fun getWeatherDescription() : LiveData<BitWeatherDescription>
 
 }

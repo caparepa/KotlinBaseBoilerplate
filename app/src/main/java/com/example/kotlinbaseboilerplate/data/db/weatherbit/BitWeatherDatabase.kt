@@ -4,17 +4,17 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.example.kotlinbaseboilerplate.data.db.weatherbit.entity.CurrentWeatherData
-import com.example.kotlinbaseboilerplate.data.db.weatherbit.entity.WeatherDescription
+import com.example.kotlinbaseboilerplate.data.db.weatherbit.entity.BitCurrentWeatherData
+import com.example.kotlinbaseboilerplate.data.db.weatherbit.entity.BitWeatherDescription
 
 @Database(
-    entities = [CurrentWeatherData::class, WeatherDescription::class],
+    entities = [BitCurrentWeatherData::class, BitWeatherDescription::class],
     version = 1
 )
 abstract class BitWeatherDatabase : RoomDatabase() {
 
-    abstract fun getCurrentWeatherDataDao() : CurrentWeatherDataDao
-    abstract fun getWeatherDescriptionDao() : WeatherDescriptionDao
+    abstract fun getCurrentWeatherDataDao() : BitCurrentWeatherDataDao
+    abstract fun getWeatherDescriptionDao() : BitWeatherDescriptionDao
 
     //We create a companion object that will act as singleton in order to create a single instance
     //of the database
