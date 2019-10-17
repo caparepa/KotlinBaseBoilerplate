@@ -6,7 +6,7 @@ import com.example.kotlinbaseboilerplate.data.db.weatherbit.BitWeatherDescriptio
 import com.example.kotlinbaseboilerplate.data.db.weatherbit.entity.current.BitCurrentWeatherData
 import com.example.kotlinbaseboilerplate.data.db.weatherbit.entity.current.BitWeatherDescription
 import com.example.kotlinbaseboilerplate.data.network.weatherbit.BitWeatherNetworkDataSource
-import com.example.kotlinbaseboilerplate.data.provider.LocationProvider
+import com.example.kotlinbaseboilerplate.data.provider.weatherstack.LocationProvider
 import org.threeten.bp.ZonedDateTime
 
 class BitForecastRepositoryImpl(

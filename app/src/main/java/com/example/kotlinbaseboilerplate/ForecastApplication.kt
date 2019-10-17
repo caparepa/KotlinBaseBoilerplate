@@ -9,10 +9,10 @@ import com.example.kotlinbaseboilerplate.data.network.ConnectivityInterceptor
 import com.example.kotlinbaseboilerplate.data.network.ConnectivityInterceptorImpl
 import com.example.kotlinbaseboilerplate.data.network.weatherstack.WeatherNetworkDataSource
 import com.example.kotlinbaseboilerplate.data.network.weatherstack.WeatherNetworkDataSourceImpl
-import com.example.kotlinbaseboilerplate.data.provider.LocationProvider
-import com.example.kotlinbaseboilerplate.data.provider.LocationProviderImpl
-import com.example.kotlinbaseboilerplate.data.provider.UnitProvider
-import com.example.kotlinbaseboilerplate.data.provider.UnitProviderImpl
+import com.example.kotlinbaseboilerplate.data.provider.weatherstack.LocationProvider
+import com.example.kotlinbaseboilerplate.data.provider.weatherstack.LocationProviderImpl
+import com.example.kotlinbaseboilerplate.data.provider.weatherstack.UnitProvider
+import com.example.kotlinbaseboilerplate.data.provider.weatherstack.UnitProviderImpl
 import com.example.kotlinbaseboilerplate.data.repository.weatherstack.ForecastRepository
 import com.example.kotlinbaseboilerplate.data.repository.weatherstack.ForecastRepositoryImpl
 import com.example.kotlinbaseboilerplate.ui.weather.current.CurrentWeatherViewModelFactory
@@ -71,7 +71,12 @@ class ForecastApplication : Application(), KodeinAware {
         bind() from provider { LocationServices.getFusedLocationProviderClient(instance<Context>())}
 
         //We bind the location provider to pass it to the repository, and we pass instance of the fused location provider and the context
-        bind<LocationProvider>() with singleton { LocationProviderImpl(instance(), instance())}
+        bind<LocationProvider>() with singleton {
+            LocationProviderImpl(
+                instance(),
+                instance()
+            )
+        }
 
         //We bind the repository, and the instances are from a DAO, provider and the datasource
         bind<ForecastRepository>() with singleton {
@@ -83,7 +88,11 @@ class ForecastApplication : Application(), KodeinAware {
             )
         }
         //bind unit system provider
-        bind<UnitProvider>() with singleton { UnitProviderImpl(instance()) }
+        bind<UnitProvider>() with singleton {
+            UnitProviderImpl(
+                instance()
+            )
+        }
         //We bind the viewmodel factory, and the instance is the ForecastRepository and UnitProvider
         bind() from provider { CurrentWeatherViewModelFactory(instance(), instance()) }
     }

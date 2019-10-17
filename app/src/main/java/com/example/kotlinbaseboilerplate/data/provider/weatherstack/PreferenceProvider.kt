@@ -1,4 +1,4 @@
-package com.example.kotlinbaseboilerplate.data.provider
+package com.example.kotlinbaseboilerplate.data.provider.weatherstack
 
 import android.content.Context
 import android.content.SharedPreferences

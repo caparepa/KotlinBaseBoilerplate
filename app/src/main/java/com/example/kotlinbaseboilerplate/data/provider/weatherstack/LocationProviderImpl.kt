@@ -1,4 +1,4 @@
-package com.example.kotlinbaseboilerplate.data.provider
+package com.example.kotlinbaseboilerplate.data.provider.weatherstack
 
 import android.Manifest
 import android.content.Context
@@ -17,7 +17,8 @@ const val CUSTOM_LOCATION = "CUSTOM_LOCATION"
 class LocationProviderImpl(
     private val fusedLocationProviderClient: FusedLocationProviderClient,
     context: Context
-) : PreferenceProvider(context), LocationProvider {
+) : PreferenceProvider(context),
+    LocationProvider {
 
     private val appContext = context.applicationContext
 

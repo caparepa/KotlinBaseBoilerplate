@@ -1,4 +1,4 @@
-package com.example.kotlinbaseboilerplate.data.provider
+package com.example.kotlinbaseboilerplate.data.provider.weatherstack
 
 import com.example.kotlinbaseboilerplate.data.db.weatherstack.entity.WeatherLocation
 
