@@ -82,7 +82,7 @@ class CurrentWeatherFragment : ScopedFragment(), KodeinAware {
 
         //Just as we have an observer for the weather data, we make an observer for the weather
         //description, blah blah blah, update the icon. Plop.
-        /*weatherDescription.observe(this@CurrentWeatherFragment, Observer { description ->
+        weatherDescription.observe(this@CurrentWeatherFragment, Observer { description ->
             if (description == null) return@Observer
             //Set up Glide module inside the observer, so it can load the weather image
             //into the imageView
@@ -91,7 +91,7 @@ class CurrentWeatherFragment : ScopedFragment(), KodeinAware {
             GlideApp.with(this@CurrentWeatherFragment)
                 .load(weatherIconUrl)
                 .into(imageView_condition_icon)
-        })*/
+        })
     }
 
     //TODO: STUB!
