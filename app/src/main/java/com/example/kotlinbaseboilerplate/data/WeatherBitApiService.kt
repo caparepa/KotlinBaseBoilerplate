@@ -30,7 +30,7 @@ interface WeatherBitApiService {
         //It's not necessary an operator function, but since it's a syntactic nicety, let's leave it
         operator fun invoke(
             connectivityInterceptor: ConnectivityInterceptor
-        ): WeatherStackApiService {
+        ): WeatherBitApiService {
             //TODO: since every single request needs to send the "key" key for auth,
             //TODO: we create an Interceptor for injecting said value to the request
             val requestInterceptor = Interceptor { chain ->
@@ -68,7 +68,7 @@ interface WeatherBitApiService {
                 .addCallAdapterFactory(CoroutineCallAdapterFactory())
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
-                .create(WeatherStackApiService::class.java)
+                .create(WeatherBitApiService::class.java)
         }
     }
 

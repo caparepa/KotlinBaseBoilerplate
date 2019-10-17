@@ -15,6 +15,7 @@ import com.example.kotlinbaseboilerplate.data.provider.weatherbit.BitLocationPro
 import com.example.kotlinbaseboilerplate.data.provider.weatherbit.BitLocationProviderImpl
 import com.example.kotlinbaseboilerplate.data.repository.weatherbit.BitForecastRepository
 import com.example.kotlinbaseboilerplate.data.repository.weatherbit.BitForecastRepositoryImpl
+import com.example.kotlinbaseboilerplate.ui.weather.current.CurrentWeatherViewModelFactory
 import com.google.android.gms.location.LocationServices
 import com.jakewharton.threetenabp.AndroidThreeTen
 import org.kodein.di.Kodein
@@ -80,7 +81,7 @@ class BitForecastApplication : Application(), KodeinAware {
         }
 
         //We bind the viewmodel factory, and the instance is the ForecastRepository and UnitProvider
-        //bind() from provider { CurrentWeatherViewModelFactory(instance(), instance()) }
+        bind() from provider { CurrentWeatherViewModelFactory(instance(), instance()) }
     }
 
     override fun onCreate() {
