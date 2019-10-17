@@ -1,4 +1,4 @@
-package com.example.kotlinbaseboilerplate.data.provider.weatherstack
+package com.example.kotlinbaseboilerplate.data.provider
 
 import com.example.kotlinbaseboilerplate.internal.UnitSystem
 

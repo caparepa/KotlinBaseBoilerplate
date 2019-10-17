@@ -11,8 +11,8 @@ import com.example.kotlinbaseboilerplate.data.network.weatherstack.WeatherNetwor
 import com.example.kotlinbaseboilerplate.data.network.weatherstack.WeatherNetworkDataSourceImpl
 import com.example.kotlinbaseboilerplate.data.provider.weatherstack.LocationProvider
 import com.example.kotlinbaseboilerplate.data.provider.weatherstack.LocationProviderImpl
-import com.example.kotlinbaseboilerplate.data.provider.weatherstack.UnitProvider
-import com.example.kotlinbaseboilerplate.data.provider.weatherstack.UnitProviderImpl
+import com.example.kotlinbaseboilerplate.data.provider.UnitProvider
+import com.example.kotlinbaseboilerplate.data.provider.UnitProviderImpl
 import com.example.kotlinbaseboilerplate.data.repository.weatherstack.ForecastRepository
 import com.example.kotlinbaseboilerplate.data.repository.weatherstack.ForecastRepositoryImpl
 import com.example.kotlinbaseboilerplate.ui.weather.current.CurrentWeatherViewModelFactory
