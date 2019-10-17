@@ -53,7 +53,7 @@ class CurrentWeatherFragment : ScopedFragment(), KodeinAware {
     private fun bindUI() = launch {
         //we fetch the data from the viewmodel
         val currentWeather = viewModel.weather.await()
-        val weatherLocation = viewModel.weatherLocation.await()
+        val weatherDescription = viewModel.weatherDescription.await()
 
         //we observe the livedata within the fragment lifecycle, and in the observer we set the
         //ui interaction
@@ -64,18 +64,17 @@ class CurrentWeatherFragment : ScopedFragment(), KodeinAware {
             group_loading.makeGone()
 
             //update toolbar
-
             updateDateToToday()
-            updateTemperature(it.temperature, it.feelslike)
-            updatePrecipitation(it.precip)
-            updateWind(it.windDir, it.windSpeed)
-            updateVisibility(it.visibility)
+            updateTemperature(it.bitTemp, it.bitAppTemp)
+            updatePrecipitation(it.bitPrecip.toDouble()) //FIXME: change this! don't use toDouble()!!
+            updateWind(it.bitWindDir.toString(), it.bitWindSpd) //FIXME: change this!
+            updateVisibility(it.bitVis)
 
             //Set up Glide module inside the observer, so it can load the weather image
             //into the imageView
-            GlideApp.with(this@CurrentWeatherFragment)
+            /*GlideApp.with(this@CurrentWeatherFragment)
                 .load(it.weatherIcons[0])
-                .into(imageView_condition_icon)
+                .into(imageView_condition_icon)*/
 
             //TODO: modify code to get unit from request!
 
@@ -83,10 +82,10 @@ class CurrentWeatherFragment : ScopedFragment(), KodeinAware {
 
         //Just as we have an observer for the weather data, we make an observer for the weather
         //location, and we pass its name in order to fetch it from the ViewModel
-        weatherLocation.observe(this@CurrentWeatherFragment, Observer { location ->
+        /*weatherDescription.observe(this@CurrentWeatherFragment, Observer { location ->
             if (location == null) return@Observer
-            updateLocation(location.name)
-        })
+            updateLocation(location.bit)
+        })*/
     }
 
     //TODO: STUB!
