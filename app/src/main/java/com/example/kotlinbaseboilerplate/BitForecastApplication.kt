@@ -2,6 +2,7 @@ package com.example.kotlinbaseboilerplate
 
 import android.app.Application
 import android.content.Context
+import androidx.preference.PreferenceManager
 import com.example.kotlinbaseboilerplate.data.WeatherBitApiService
 import com.example.kotlinbaseboilerplate.data.db.weatherbit.BitWeatherDatabase
 import com.example.kotlinbaseboilerplate.data.network.ConnectivityInterceptor
@@ -15,6 +16,7 @@ import com.example.kotlinbaseboilerplate.data.provider.weatherbit.BitLocationPro
 import com.example.kotlinbaseboilerplate.data.repository.weatherbit.BitForecastRepository
 import com.example.kotlinbaseboilerplate.data.repository.weatherbit.BitForecastRepositoryImpl
 import com.google.android.gms.location.LocationServices
+import com.jakewharton.threetenabp.AndroidThreeTen
 import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.x.androidXModule
@@ -79,5 +81,12 @@ class BitForecastApplication : Application(), KodeinAware {
 
         //We bind the viewmodel factory, and the instance is the ForecastRepository and UnitProvider
         //bind() from provider { CurrentWeatherViewModelFactory(instance(), instance()) }
+    }
+
+    override fun onCreate() {
+        super.onCreate()
+        //We initialize the timezone library used for this project in the application onCreate
+        AndroidThreeTen.init(this)
+        PreferenceManager.setDefaultValues(this, R.xml.preferences, false)
     }
 }
