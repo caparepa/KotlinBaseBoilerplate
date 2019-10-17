@@ -5,6 +5,9 @@ import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
+import org.threeten.bp.Instant
+import org.threeten.bp.ZoneId
+import org.threeten.bp.ZonedDateTime
 
 const val BIT_WEATHER_DATA_ID = 0
 
@@ -90,4 +93,12 @@ data class BitCurrentWeatherData(
     @PrimaryKey(autoGenerate = false)
     var id: Int =
         BIT_WEATHER_DATA_ID
+
+    //Helper property for date time
+    val zonedDateTime: ZonedDateTime
+        get() {
+            val instant = Instant.ofEpochSecond(bitTs.toLong())
+            val zoneId = ZoneId.of(bitTimezone)
+            return ZonedDateTime.ofInstant(instant, zoneId)
+        }
 }
