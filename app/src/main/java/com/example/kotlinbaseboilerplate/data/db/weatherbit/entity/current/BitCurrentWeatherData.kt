@@ -1,4 +1,4 @@
-package com.example.kotlinbaseboilerplate.data.db.weatherbit.entity
+package com.example.kotlinbaseboilerplate.data.db.weatherbit.entity.current
 
 
 import androidx.room.Embedded
@@ -88,5 +88,6 @@ data class BitCurrentWeatherData(
 ){
     //NOTE: since there can't be "multiple" current weather, we'll set the primary key to false
     @PrimaryKey(autoGenerate = false)
-    var id: Int = BIT_WEATHER_DATA_ID
+    var id: Int =
+        BIT_WEATHER_DATA_ID
 }

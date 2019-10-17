@@ -5,8 +5,8 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.example.kotlinbaseboilerplate.data.db.weatherbit.entity.BIT_WEATHER_DESCRIPTION_ID
-import com.example.kotlinbaseboilerplate.data.db.weatherbit.entity.BitWeatherDescription
+import com.example.kotlinbaseboilerplate.data.db.weatherbit.entity.current.BIT_WEATHER_DESCRIPTION_ID
+import com.example.kotlinbaseboilerplate.data.db.weatherbit.entity.current.BitWeatherDescription
 
 @Dao
 interface BitWeatherDescriptionDao {
