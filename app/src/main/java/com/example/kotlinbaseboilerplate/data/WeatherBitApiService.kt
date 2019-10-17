@@ -11,7 +11,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Query
 
-const val BIT_API_KEY = ""
+const val BIT_API_KEY = "66475ab7cf984828ad4f46d178d30e89"
 const val BIT_BASE_URL = "http://api.weatherbit.io/v2.0/"
 
 //SAMPLE QUERY FOR CURRENT
