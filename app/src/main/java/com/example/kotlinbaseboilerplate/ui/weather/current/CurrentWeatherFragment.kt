@@ -69,7 +69,7 @@ class CurrentWeatherFragment : ScopedFragment(), KodeinAware {
             updatePrecipitation(it.bitPrecip.toDouble()) //FIXME: change this! don't use toDouble()!!
             updateWind(it.bitWindDir.toString(), it.bitWindSpd) //FIXME: change this!
             updateVisibility(it.bitVis)
-
+            updateLocation(it.bitCityName)
             //Set up Glide module inside the observer, so it can load the weather image
             //into the imageView
             /*GlideApp.with(this@CurrentWeatherFragment)
@@ -81,10 +81,16 @@ class CurrentWeatherFragment : ScopedFragment(), KodeinAware {
         })
 
         //Just as we have an observer for the weather data, we make an observer for the weather
-        //location, and we pass its name in order to fetch it from the ViewModel
-        /*weatherDescription.observe(this@CurrentWeatherFragment, Observer { location ->
-            if (location == null) return@Observer
-            updateLocation(location.bit)
+        //description, blah blah blah, update the icon. Plop.
+        /*weatherDescription.observe(this@CurrentWeatherFragment, Observer { description ->
+            if (description == null) return@Observer
+            //Set up Glide module inside the observer, so it can load the weather image
+            //into the imageView
+            val weatherIcon = description.bitIcon+".png"
+            val weatherIconUrl = "https://www.weatherbit.io/static/img/icons/$weatherIcon"
+            GlideApp.with(this@CurrentWeatherFragment)
+                .load(weatherIconUrl)
+                .into(imageView_condition_icon)
         })*/
     }
 
