@@ -18,6 +18,6 @@ interface BitCurrentWeatherDataDao {
     //In the tutorial, there are 2 interfaces that wrap the CurrentWeatherEntity
     //in order to get the units (imperial or metric). Since the API changed, we'll use
     //the original Entity
-    @Query("select * from current_weather_data where id = $BIT_WEATHER_DATA_ID")
+    @Query("select * from bit_weather_data where id = $BIT_WEATHER_DATA_ID")
     fun getCurrentWeatherData() : LiveData<BitCurrentWeatherData>
 }

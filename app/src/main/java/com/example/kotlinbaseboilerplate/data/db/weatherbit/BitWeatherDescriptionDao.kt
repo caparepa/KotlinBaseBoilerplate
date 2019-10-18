@@ -13,7 +13,7 @@ interface BitWeatherDescriptionDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun upsert(weatherLocation: BitWeatherDescription)
 
-    @Query("select * from weather_description where id = $BIT_WEATHER_DESCRIPTION_ID")
+    @Query("select * from bit_weather_description where id = $BIT_WEATHER_DESCRIPTION_ID")
     fun getWeatherDescription() : LiveData<BitWeatherDescription>
 
 }

@@ -11,7 +11,7 @@ import org.threeten.bp.ZonedDateTime
 
 const val BIT_WEATHER_DATA_ID = 0
 
-@Entity(tableName = "current_weather_data")
+@Entity(tableName = "bit_weather_data")
 data class BitCurrentWeatherData(
     @SerializedName("app_temp")
     val bitAppTemp: Double,
