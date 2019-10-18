@@ -1,10 +1,9 @@
-package com.example.kotlinbaseboilerplate.data.network
+package com.example.kotlinbaseboilerplate.data.network.weatherbit
 
 import androidx.lifecycle.LiveData
-import com.example.kotlinbaseboilerplate.data.network.response.CurrentWeatherResponse
+import com.example.kotlinbaseboilerplate.data.network.weatherbit.response.current.CurrentWeatherResponse
 
 interface WeatherNetworkDataSource {
-
     //Current downloaded weather data
     val downloadedCurrentWeather : LiveData<CurrentWeatherResponse>
 
@@ -13,7 +12,7 @@ interface WeatherNetworkDataSource {
     //in a synchronous manner
     suspend fun fetchCurrentWeather(
         location: String,
+        language: String,
         units: String
     )
-
 }

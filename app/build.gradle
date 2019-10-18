@@ -75,8 +75,8 @@ android {
             zipAlignEnabled false // this is default for debug
             signingConfig signingConfigs.debug
 
-            buildConfigField "String", "BASE_URL", "\"http://api.weatherstack.com/\""
-            buildConfigField "String", "WEATHER_STACK_KEY", "\"4f2b6c8c8fc9285a5cc0f3ed86a9097c\""
+            buildConfigField "String", "WEATHERBIT_BASE_URL", "\"http://api.weatherbit.io/v2.0/\""
+            buildConfigField "String", "WEATHERBIT_API_KEY", WEATHERBIT_API_KEY
             buildConfigField "String", "GIT_SHA", "\"${getGitSHA()}\""
 
             resValue "string", "application_id", android.defaultConfig.applicationId + applicationIdSuffix
@@ -96,8 +96,8 @@ android {
             minifyEnabled true
             proguardFiles proguardFileCollection.getFiles().toArray()
 
-            buildConfigField "String", "BASE_URL", "\"http://api.weatherstack.com/\""
-            buildConfigField "String", "WEATHER_STACK_KEY", "\"4f2b6c8c8fc9285a5cc0f3ed86a9097c\""
+            buildConfigField "String", "WEATHERBIT_BASE_URL", "\"http://api.weatherbit.io/v2.0/\""
+            buildConfigField "String", "WEATHERBIT_API_KEY", WEATHERBIT_API_KEY
             buildConfigField "String", "GIT_SHA", "\"${getGitSHA()}\""
 
             resValue "string", "application_id", android.defaultConfig.applicationId + applicationIdSuffix
@@ -110,8 +110,8 @@ android {
             signingConfig signingConfigs.release
             zipAlignEnabled true // this is default for release
 
-            buildConfigField "String", "BASE_URL", "\"http://api.weatherstack.com/\""
-            buildConfigField "String", "WEATHER_STACK_KEY", "\"4f2b6c8c8fc9285a5cc0f3ed86a9097c\""
+            buildConfigField "String", "WEATHERBIT_BASE_URL", "\"http://api.weatherbit.io/v2.0/\""
+            buildConfigField "String", "WEATHERBIT_API_KEY", WEATHERBIT_API_KEY
             buildConfigField "String", "GIT_SHA", "\"${getGitSHA()}\""
 
             resValue "string", "application_id", android.defaultConfig.applicationId + applicationIdSuffix
