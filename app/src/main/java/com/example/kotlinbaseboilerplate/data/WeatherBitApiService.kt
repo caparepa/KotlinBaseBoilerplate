@@ -26,6 +26,14 @@ interface WeatherBitApiService {
         @Query("units") units: String = "M"
     ): Deferred<BitCurrentWeatherResponse>
 
+    @GET("current")
+    fun getBitCurrentWeatherByLatLon(
+        @Query("lat") latitude: String,
+        @Query("lon") longitude: String,
+        @Query("lang") language: String = "en",
+        @Query("units") units: String = "M"
+    ): Deferred<BitCurrentWeatherResponse>
+
     companion object {
         //It's not necessary an operator function, but since it's a syntactic nicety, let's leave it
         operator fun invoke(

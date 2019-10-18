@@ -2,6 +2,7 @@ package com.example.kotlinbaseboilerplate.ui.weather.current
 
 import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -43,7 +44,7 @@ class CurrentWeatherFragment : ScopedFragment(), KodeinAware {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProviders.of(this, viewModelFactory)
             .get(CurrentWeatherViewModel::class.java)
-
+        Log.d("BIT_FRAGMENT", "BEFORE BIND!")
         bindUI()
     }
 
@@ -59,7 +60,7 @@ class CurrentWeatherFragment : ScopedFragment(), KodeinAware {
         //ui interaction
         currentWeather.observe(this@CurrentWeatherFragment, Observer {
             if (it == null) return@Observer //if there is no data, return the observer until there is data!
-
+            Log.d("BIT_FRAGMENT", "currentWeather.observe ${it.bitCityName}")
             //Hide the loading group
             group_loading.makeGone()
 
@@ -84,6 +85,8 @@ class CurrentWeatherFragment : ScopedFragment(), KodeinAware {
         //description, blah blah blah, update the icon. Plop.
         weatherDescription.observe(this@CurrentWeatherFragment, Observer { description ->
             if (description == null) return@Observer
+            Log.d("BIT_FRAGMENT", "currentWeather.observe ${description.bitCode}")
+
             //Set up Glide module inside the observer, so it can load the weather image
             //into the imageView
             val weatherIcon = description.bitIcon+".png"
