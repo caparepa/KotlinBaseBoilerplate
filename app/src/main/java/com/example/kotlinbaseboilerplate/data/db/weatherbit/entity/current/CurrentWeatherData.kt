@@ -9,7 +9,7 @@ import org.threeten.bp.Instant
 import org.threeten.bp.ZoneId
 import org.threeten.bp.ZonedDateTime
 
-const val BIT_WEATHER_DATA_ID = 0
+const val WEATHER_DATA_ID = 0
 
 @Entity(tableName = "bit_weather_data")
 data class CurrentWeatherData(
@@ -92,7 +92,7 @@ data class CurrentWeatherData(
     //NOTE: since there can't be "multiple" current weather, we'll set the primary key to false
     @PrimaryKey(autoGenerate = false)
     var id: Int =
-        BIT_WEATHER_DATA_ID
+        WEATHER_DATA_ID
 
     //Helper property for date time
     val zonedDateTime: ZonedDateTime
