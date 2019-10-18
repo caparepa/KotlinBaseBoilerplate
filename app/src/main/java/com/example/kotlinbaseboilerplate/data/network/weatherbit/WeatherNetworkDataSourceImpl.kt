@@ -4,31 +4,30 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.kotlinbaseboilerplate.data.WeatherBitApiService
-import com.example.kotlinbaseboilerplate.data.network.weatherbit.response.current.BitCurrentWeatherResponse
+import com.example.kotlinbaseboilerplate.data.network.weatherbit.response.current.CurrentWeatherResponse
 import com.example.kotlinbaseboilerplate.internal.NoConnectivityException
 import java.lang.Exception
-import java.lang.NumberFormatException
 
-class BitWeatherNetworkDataSourceImpl(
-    private val weatherBitApiService: WeatherBitApiService
-) : BitWeatherNetworkDataSource {
+class WeatherNetworkDataSourceImpl(
+    private val weatherApiService: WeatherBitApiService
+) : WeatherNetworkDataSource {
 
-    private val _downloadedBitCurrentWeather = MutableLiveData<BitCurrentWeatherResponse>()
+    private val _downloadedBitCurrentWeather = MutableLiveData<CurrentWeatherResponse>()
 
-    override val downloadedBitCurrentWeather: LiveData<BitCurrentWeatherResponse>
+    override val downloadedCurrentWeather: LiveData<CurrentWeatherResponse>
         get() = _downloadedBitCurrentWeather
 
-    override suspend fun fetchBitCurrentWeather(location: String, language: String, units: String) {
+    override suspend fun fetchCurrentWeather(location: String, language: String, units: String) {
         try {
 
             val str = convertToLatLngString(location)
 
             val fetchBitCurrentWeather = if (str != null) {
-                weatherBitApiService
+                weatherApiService
                     .getBitCurrentWeatherByLatLon(str[0], str[1], language, units)
                     .await()
             } else {
-                weatherBitApiService
+                weatherApiService
                     .getBitCurrentWeather(location, language, units)
                     .await()
             }

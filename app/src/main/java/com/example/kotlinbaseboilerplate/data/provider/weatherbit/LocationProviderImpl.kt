@@ -5,7 +5,7 @@ import android.content.Context
 import android.content.pm.PackageManager
 import android.location.Location
 import androidx.core.content.ContextCompat
-import com.example.kotlinbaseboilerplate.data.db.weatherbit.entity.current.BitCurrentWeatherData
+import com.example.kotlinbaseboilerplate.data.db.weatherbit.entity.current.CurrentWeatherData
 import com.example.kotlinbaseboilerplate.data.provider.PreferenceProvider
 import com.example.kotlinbaseboilerplate.internal.LocationPermissionNotGrantedException
 import com.example.kotlinbaseboilerplate.internal.asDeferred
@@ -15,11 +15,11 @@ import kotlinx.coroutines.Deferred
 const val USE_DEVICE_LOCATION = "USE_DEVICE_LOCATION"
 const val CUSTOM_LOCATION = "CUSTOM_LOCATION"
 
-class BitLocationProviderImpl(
+class LocationProviderImpl(
     private val fusedLocationProviderClient: FusedLocationProviderClient,
     context: Context
 ) : PreferenceProvider(context),
-    BitLocationProvider {
+    LocationProvider {
 
     private val appContext = context.applicationContext
 
@@ -27,7 +27,7 @@ class BitLocationProviderImpl(
      * In this fun, hasDeviceLocationChanged() is awaiting on getLastDeviceLocation(), which can
      * throw an exception, so we encapsulate in a try-catch
      */
-    override suspend fun hasLocationChanged(lastWeatherData: BitCurrentWeatherData): Boolean {
+    override suspend fun hasLocationChanged(lastWeatherData: CurrentWeatherData): Boolean {
         val deviceLocationChanged = try {
             hasDeviceLocationChanged(lastWeatherData)
         } catch (e: LocationPermissionNotGrantedException) {
@@ -55,7 +55,7 @@ class BitLocationProviderImpl(
         }
     }
 
-    private suspend fun hasDeviceLocationChanged(lastWeatherData: BitCurrentWeatherData): Boolean {
+    private suspend fun hasDeviceLocationChanged(lastWeatherData: CurrentWeatherData): Boolean {
 
         //If not using device location (i.e. no permissions granted)
         if (!isUsingDeviceLocation())
@@ -71,7 +71,7 @@ class BitLocationProviderImpl(
                 Math.abs(deviceLocation.longitude - lastWeatherData.bitLon) > comparisonThreshold
     }
 
-    private fun hasCustomLocationChanged(lastWeatherLocationData: BitCurrentWeatherData): Boolean {
+    private fun hasCustomLocationChanged(lastWeatherLocationData: CurrentWeatherData): Boolean {
         val customLocationName = getCustomLocationName()
         return customLocationName != lastWeatherLocationData.bitCityName
     }

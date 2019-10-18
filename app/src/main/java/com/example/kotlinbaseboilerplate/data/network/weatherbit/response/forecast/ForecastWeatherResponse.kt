@@ -3,7 +3,7 @@ package com.example.kotlinbaseboilerplate.data.network.weatherbit.response.forec
 
 import com.google.gson.annotations.SerializedName
 
-data class BitForecastWeatherResponse(
+data class ForecastWeatherResponse(
     @SerializedName("city_name")
     val bitCityName: String,
     @SerializedName("country_code")

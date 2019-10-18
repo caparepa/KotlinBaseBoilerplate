@@ -12,7 +12,7 @@ import org.threeten.bp.ZonedDateTime
 const val BIT_WEATHER_DATA_ID = 0
 
 @Entity(tableName = "bit_weather_data")
-data class BitCurrentWeatherData(
+data class CurrentWeatherData(
     @SerializedName("app_temp")
     val bitAppTemp: Double,
     @SerializedName("aqi")
@@ -79,7 +79,7 @@ data class BitCurrentWeatherData(
     val bitVis: Double,
     @SerializedName("weather")
     @Embedded(prefix = "description_")
-    val bitWeather: BitWeatherDescription,
+    val bitWeather: WeatherDescription,
     @SerializedName("wind_cdir")
     val bitWindCdir: String,
     @SerializedName("wind_cdir_full")

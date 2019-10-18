@@ -4,15 +4,15 @@ import android.app.Application
 import android.content.Context
 import androidx.preference.PreferenceManager
 import com.example.kotlinbaseboilerplate.data.WeatherBitApiService
-import com.example.kotlinbaseboilerplate.data.db.weatherbit.BitWeatherDatabase
+import com.example.kotlinbaseboilerplate.data.db.weatherbit.WeatherDatabase
 import com.example.kotlinbaseboilerplate.data.network.ConnectivityInterceptor
 import com.example.kotlinbaseboilerplate.data.network.ConnectivityInterceptorImpl
-import com.example.kotlinbaseboilerplate.data.network.weatherbit.BitWeatherNetworkDataSource
-import com.example.kotlinbaseboilerplate.data.network.weatherbit.BitWeatherNetworkDataSourceImpl
+import com.example.kotlinbaseboilerplate.data.network.weatherbit.WeatherNetworkDataSource
+import com.example.kotlinbaseboilerplate.data.network.weatherbit.WeatherNetworkDataSourceImpl
 import com.example.kotlinbaseboilerplate.data.provider.UnitProvider
 import com.example.kotlinbaseboilerplate.data.provider.UnitProviderImpl
-import com.example.kotlinbaseboilerplate.data.provider.weatherbit.BitLocationProvider
-import com.example.kotlinbaseboilerplate.data.provider.weatherbit.BitLocationProviderImpl
+import com.example.kotlinbaseboilerplate.data.provider.weatherbit.LocationProvider
+import com.example.kotlinbaseboilerplate.data.provider.weatherbit.LocationProviderImpl
 import com.example.kotlinbaseboilerplate.data.repository.weatherbit.BitForecastRepository
 import com.example.kotlinbaseboilerplate.data.repository.weatherbit.BitForecastRepositoryImpl
 import com.example.kotlinbaseboilerplate.ui.weather.current.CurrentWeatherViewModelFactory
@@ -37,11 +37,11 @@ class BitForecastApplication : Application(), KodeinAware {
         //We use bind() for the database from a singleton
         //since we don't need two instances of the database, well pass it an instance fetched
         //from the androidXModule, in this case instance() is the applicationContext
-        bind() from singleton { BitWeatherDatabase(instance()) }
+        bind() from singleton { WeatherDatabase(instance()) }
 
         //Now we bind the DAOs using the instance of the previous database binding
-        bind() from singleton { instance<BitWeatherDatabase>().getCurrentWeatherDataDao() }
-        bind() from singleton { instance<BitWeatherDatabase>().getWeatherDescriptionDao() }
+        bind() from singleton { instance<WeatherDatabase>().getCurrentWeatherDataDao() }
+        bind() from singleton { instance<WeatherDatabase>().getWeatherDescriptionDao() }
 
         //We now bind the interceptor interfaces with a singleton that returns its implementation
         //and the instance passed is the applicationContext
@@ -51,8 +51,8 @@ class BitForecastApplication : Application(), KodeinAware {
         bind() from singleton { WeatherBitApiService(instance()) }
 
         //We bind the network data source, and the instance passed is from the previous binding
-        bind<BitWeatherNetworkDataSource>() with singleton {
-            BitWeatherNetworkDataSourceImpl(
+        bind<WeatherNetworkDataSource>() with singleton {
+            WeatherNetworkDataSourceImpl(
                 instance()
             )
         }
@@ -61,8 +61,8 @@ class BitForecastApplication : Application(), KodeinAware {
         bind() from provider { LocationServices.getFusedLocationProviderClient(instance<Context>()) }
 
         //We bind the location provider to pass it to the repository, and we pass instance of the fused location provider and the context
-        bind<BitLocationProvider>() with singleton {
-            BitLocationProviderImpl(
+        bind<LocationProvider>() with singleton {
+            LocationProviderImpl(
                 instance(),
                 instance()
             )

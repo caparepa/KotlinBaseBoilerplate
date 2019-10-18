@@ -2,13 +2,13 @@ package com.example.kotlinbaseboilerplate.data.repository.weatherbit
 
 import android.util.Log
 import androidx.lifecycle.LiveData
-import com.example.kotlinbaseboilerplate.data.db.weatherbit.BitCurrentWeatherDataDao
-import com.example.kotlinbaseboilerplate.data.db.weatherbit.BitWeatherDescriptionDao
-import com.example.kotlinbaseboilerplate.data.db.weatherbit.entity.current.BitCurrentWeatherData
-import com.example.kotlinbaseboilerplate.data.db.weatherbit.entity.current.BitWeatherDescription
-import com.example.kotlinbaseboilerplate.data.network.weatherbit.BitWeatherNetworkDataSource
-import com.example.kotlinbaseboilerplate.data.network.weatherbit.response.current.BitCurrentWeatherResponse
-import com.example.kotlinbaseboilerplate.data.provider.weatherbit.BitLocationProvider
+import com.example.kotlinbaseboilerplate.data.db.weatherbit.CurrentWeatherDataDao
+import com.example.kotlinbaseboilerplate.data.db.weatherbit.WeatherDescriptionDao
+import com.example.kotlinbaseboilerplate.data.db.weatherbit.entity.current.CurrentWeatherData
+import com.example.kotlinbaseboilerplate.data.db.weatherbit.entity.current.WeatherDescription
+import com.example.kotlinbaseboilerplate.data.network.weatherbit.WeatherNetworkDataSource
+import com.example.kotlinbaseboilerplate.data.network.weatherbit.response.current.CurrentWeatherResponse
+import com.example.kotlinbaseboilerplate.data.provider.weatherbit.LocationProvider
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -16,10 +16,10 @@ import kotlinx.coroutines.withContext
 import org.threeten.bp.ZonedDateTime
 
 class BitForecastRepositoryImpl(
-    private val currentBitCurrentWeatherDataDao: BitCurrentWeatherDataDao,
-    private val weatherDescriptionDao: BitWeatherDescriptionDao,
-    private val weatherBitWeatherNetworkDataSource: BitWeatherNetworkDataSource,
-    private val bitLocationProvider: BitLocationProvider
+    private val currentBitCurrentWeatherDataDao: CurrentWeatherDataDao,
+    private val weatherDescriptionDao: WeatherDescriptionDao,
+    private val weatherBitWeatherNetworkDataSource: WeatherNetworkDataSource,
+    private val bitLocationProvider: LocationProvider
 ) : BitForecastRepository {
 
     /**
@@ -28,12 +28,12 @@ class BitForecastRepositoryImpl(
      */
     init {
         //We get the current weather to be observed forever because repositories DON'T have lifecycles}
-        weatherBitWeatherNetworkDataSource.downloadedBitCurrentWeather.observeForever { newCurrentWeather ->
+        weatherBitWeatherNetworkDataSource.downloadedCurrentWeather.observeForever { newCurrentWeather ->
             persistFetchedCurrentWeather(newCurrentWeather)
         }
     }
 
-    override suspend fun getBitCurrentWeatherData(): LiveData<BitCurrentWeatherData> {
+    override suspend fun getBitCurrentWeatherData(): LiveData<CurrentWeatherData> {
         //Here we call the Coroutine with context because here we return a value, unlike the persist
         //method below, where there is no return value. Also, we prevent the use of generics present
         //with specific objects of the same type (e.g. ImperialUnitWeather vs MetricUnitWeather)
@@ -44,7 +44,7 @@ class BitForecastRepositoryImpl(
         }
     }
 
-    override suspend fun getBitWeatherDescription(): LiveData<BitWeatherDescription> {
+    override suspend fun getBitWeatherDescription(): LiveData<WeatherDescription> {
         return withContext(Dispatchers.IO) {
             return@withContext weatherDescriptionDao.getWeatherDescription()
         }
@@ -53,7 +53,7 @@ class BitForecastRepositoryImpl(
     /**
      * Method for persisting the response in the livedata using Coroutines
      */
-    private fun persistFetchedCurrentWeather(fetchedWeather: BitCurrentWeatherResponse) {
+    private fun persistFetchedCurrentWeather(fetchedWeather: CurrentWeatherResponse) {
 
         //We use the GlobalScope to launch the coroutine, which can be used here because there is no
         //lifecycles, like activities or fragments
@@ -105,7 +105,7 @@ class BitForecastRepositoryImpl(
     private suspend fun fetchCurrentWeather() {
         val y = bitLocationProvider.getPreferredLocationString()
         Log.d("BIT_REPO","fetchCurrentWeather $y")
-        weatherBitWeatherNetworkDataSource.fetchBitCurrentWeather(
+        weatherBitWeatherNetworkDataSource.fetchCurrentWeather(
             bitLocationProvider.getPreferredLocationString(), "en", "M"
         )
     }

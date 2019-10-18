@@ -1,7 +1,7 @@
 package com.example.kotlinbaseboilerplate.data
 
 import com.example.kotlinbaseboilerplate.data.network.ConnectivityInterceptor
-import com.example.kotlinbaseboilerplate.data.network.weatherbit.response.current.BitCurrentWeatherResponse
+import com.example.kotlinbaseboilerplate.data.network.weatherbit.response.current.CurrentWeatherResponse
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import kotlinx.coroutines.Deferred
 import okhttp3.Interceptor
@@ -11,8 +11,8 @@ import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Query
 
-const val BIT_API_KEY = "66475ab7cf984828ad4f46d178d30e89"
-const val BIT_BASE_URL = "http://api.weatherbit.io/v2.0/"
+const val API_KEY = "66475ab7cf984828ad4f46d178d30e89"
+const val BASE_URL = "http://api.weatherbit.io/v2.0/"
 
 //SAMPLE QUERY FOR CURRENT
 //http://api.weatherbit.io/v2.0/current?city=caracas&key=API_KEY_HERE&lang=es&units=M
@@ -24,7 +24,7 @@ interface WeatherBitApiService {
         @Query("city") city: String,
         @Query("lang") language: String = "en",
         @Query("units") units: String = "M"
-    ): Deferred<BitCurrentWeatherResponse>
+    ): Deferred<CurrentWeatherResponse>
 
     @GET("current")
     fun getBitCurrentWeatherByLatLon(
@@ -32,7 +32,7 @@ interface WeatherBitApiService {
         @Query("lon") longitude: String,
         @Query("lang") language: String = "en",
         @Query("units") units: String = "M"
-    ): Deferred<BitCurrentWeatherResponse>
+    ): Deferred<CurrentWeatherResponse>
 
     companion object {
         //It's not necessary an operator function, but since it's a syntactic nicety, let's leave it
@@ -47,7 +47,7 @@ interface WeatherBitApiService {
                 val url = chain.request()
                     .url()
                     .newBuilder()
-                    .addQueryParameter("key", BIT_API_KEY)
+                    .addQueryParameter("key", API_KEY)
                     .build()
 
                 //Build the new url with the previous vlue injection
@@ -72,7 +72,7 @@ interface WeatherBitApiService {
             //a adapter factory and a converter factory, associated to the current interface
             return Retrofit.Builder()
                 .client(okHttpClient)
-                .baseUrl(BIT_BASE_URL)
+                .baseUrl(BASE_URL)
                 .addCallAdapterFactory(CoroutineCallAdapterFactory())
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()

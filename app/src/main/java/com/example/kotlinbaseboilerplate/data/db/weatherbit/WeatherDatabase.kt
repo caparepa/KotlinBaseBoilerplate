@@ -4,17 +4,17 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.example.kotlinbaseboilerplate.data.db.weatherbit.entity.current.BitCurrentWeatherData
-import com.example.kotlinbaseboilerplate.data.db.weatherbit.entity.current.BitWeatherDescription
+import com.example.kotlinbaseboilerplate.data.db.weatherbit.entity.current.CurrentWeatherData
+import com.example.kotlinbaseboilerplate.data.db.weatherbit.entity.current.WeatherDescription
 
 @Database(
-    entities = [BitCurrentWeatherData::class, BitWeatherDescription::class],
+    entities = [CurrentWeatherData::class, WeatherDescription::class],
     version = 1
 )
-abstract class BitWeatherDatabase : RoomDatabase() {
+abstract class WeatherDatabase : RoomDatabase() {
 
-    abstract fun getCurrentWeatherDataDao() : BitCurrentWeatherDataDao
-    abstract fun getWeatherDescriptionDao() : BitWeatherDescriptionDao
+    abstract fun getCurrentWeatherDataDao() : CurrentWeatherDataDao
+    abstract fun getWeatherDescriptionDao() : WeatherDescriptionDao
 
     //We create a companion object that will act as singleton in order to create a single instance
     //of the database
@@ -22,7 +22,7 @@ abstract class BitWeatherDatabase : RoomDatabase() {
 
         //@Volatile annotation allows all of the threads to have access to the property (instance)
         @Volatile
-        private var instance: BitWeatherDatabase? = null
+        private var instance: WeatherDatabase? = null
 
         //Lock object for the threads
         private val LOCK = Any()
@@ -48,7 +48,7 @@ abstract class BitWeatherDatabase : RoomDatabase() {
         private fun buildDatabase(context: Context) =
             Room.databaseBuilder(
                 context.applicationContext,
-                BitWeatherDatabase::class.java, "bitweather.db"
+                WeatherDatabase::class.java, "bitweather.db"
             ).build()
 
     }
