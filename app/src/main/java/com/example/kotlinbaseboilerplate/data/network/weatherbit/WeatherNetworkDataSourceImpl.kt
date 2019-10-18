@@ -24,11 +24,11 @@ class WeatherNetworkDataSourceImpl(
 
             val fetchBitCurrentWeather = if (str != null) {
                 weatherApiService
-                    .getBitCurrentWeatherByLatLon(str[0], str[1], language, units)
+                    .getCurrentWeatherByLatLon(str[0], str[1], language, units)
                     .await()
             } else {
                 weatherApiService
-                    .getBitCurrentWeather(location, language, units)
+                    .getCurrentWeather(location, language, units)
                     .await()
             }
             _downloadedBitCurrentWeather.postValue(fetchBitCurrentWeather)

@@ -26,13 +26,13 @@ import org.kodein.di.generic.instance
 import org.kodein.di.generic.provider
 import org.kodein.di.generic.singleton
 
-class BitForecastApplication : Application(), KodeinAware {
+class ForecastApplication : Application(), KodeinAware {
     override val kodein: Kodein = Kodein.lazy {
         //TODO: IMPORTANT! the instance() passed in each binding must be previously bound!
 
         //We import androidXModule for this specific subclass
         //This provides instances of context and services and anything related to Android
-        import(androidXModule((this@BitForecastApplication)))
+        import(androidXModule((this@ForecastApplication)))
 
         //We use bind() for the database from a singleton
         //since we don't need two instances of the database, well pass it an instance fetched

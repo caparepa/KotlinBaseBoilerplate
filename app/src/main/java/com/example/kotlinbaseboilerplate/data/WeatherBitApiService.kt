@@ -20,14 +20,14 @@ const val BASE_URL = "http://api.weatherbit.io/v2.0/"
 interface WeatherBitApiService {
 
     @GET("current")
-    fun getBitCurrentWeather(
+    fun getCurrentWeather(
         @Query("city") city: String,
         @Query("lang") language: String = "en",
         @Query("units") units: String = "M"
     ): Deferred<CurrentWeatherResponse>
 
     @GET("current")
-    fun getBitCurrentWeatherByLatLon(
+    fun getCurrentWeatherByLatLon(
         @Query("lat") latitude: String,
         @Query("lon") longitude: String,
         @Query("lang") language: String = "en",
