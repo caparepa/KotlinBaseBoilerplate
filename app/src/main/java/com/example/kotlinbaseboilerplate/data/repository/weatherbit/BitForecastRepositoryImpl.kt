@@ -62,9 +62,7 @@ class BitForecastRepositoryImpl(
         GlobalScope.launch(Dispatchers.IO) {
             val data = fetchedWeather.bitData[0]
             currentBitCurrentWeatherDataDao.upsert(data)
-            Log.d("BIT_REPO","upsert data")
             weatherDescriptionDao.upsert(data.bitWeather)
-            Log.d("BIT_REPO","upsert description")
         }
     }
 
@@ -77,13 +75,11 @@ class BitForecastRepositoryImpl(
             .value //We get the LiveData value
 
         val xx = lastWeatherLocation.toString()
-        Log.d("BIT_REPO","lastWEatherLocation $xx")
 
         //In case the app is opened for the first time, fetch the current weather and return
         if (lastWeatherLocation == null || bitLocationProvider.hasLocationChanged(lastWeatherLocation)
         ) {
             fetchCurrentWeather()
-            Log.d("BIT_REPO","fetch current weather call")
             return
         }
 
@@ -92,7 +88,6 @@ class BitForecastRepositoryImpl(
 
         //In case there is already a fetched weather, get the current one (updated)
         val x = lastWeatherLocation.zonedDateTime
-        Log.d("BIT_REPO","lastWeatherLocation.zonedDateTime $x")
         if (isFetchCurrentNeeded(lastWeatherLocation.zonedDateTime))
             fetchCurrentWeather()
     }
@@ -104,7 +99,6 @@ class BitForecastRepositoryImpl(
      */
     private suspend fun fetchCurrentWeather() {
         val y = bitLocationProvider.getPreferredLocationString()
-        Log.d("BIT_REPO","fetchCurrentWeather $y")
         weatherBitWeatherNetworkDataSource.fetchCurrentWeather(
             bitLocationProvider.getPreferredLocationString(), "en", "M"
         )
