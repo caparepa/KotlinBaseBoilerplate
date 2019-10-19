@@ -3,10 +3,10 @@ package com.example.kotlinbaseboilerplate.ui.weather.current
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.kotlinbaseboilerplate.data.provider.UnitProvider
-import com.example.kotlinbaseboilerplate.data.repository.ForecastRepository
+import com.example.kotlinbaseboilerplate.data.repository.weatherbit.BitForecastRepository
 
 class CurrentWeatherViewModelFactory(
-    private val forecastRepository: ForecastRepository,
+    private val forecastRepository: BitForecastRepository,
     private val unitProvider: UnitProvider
 ): ViewModelProvider.NewInstanceFactory() {
 

@@ -2,6 +2,7 @@ package com.example.kotlinbaseboilerplate.ui.weather.current
 
 import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -43,7 +44,6 @@ class CurrentWeatherFragment : ScopedFragment(), KodeinAware {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProviders.of(this, viewModelFactory)
             .get(CurrentWeatherViewModel::class.java)
-
         bindUI()
     }
 
@@ -53,39 +53,44 @@ class CurrentWeatherFragment : ScopedFragment(), KodeinAware {
     private fun bindUI() = launch {
         //we fetch the data from the viewmodel
         val currentWeather = viewModel.weather.await()
-        val weatherLocation = viewModel.weatherLocation.await()
+        val weatherDescription = viewModel.weatherDescription.await()
 
         //we observe the livedata within the fragment lifecycle, and in the observer we set the
         //ui interaction
         currentWeather.observe(this@CurrentWeatherFragment, Observer {
             if (it == null) return@Observer //if there is no data, return the observer until there is data!
-
             //Hide the loading group
             group_loading.makeGone()
 
             //update toolbar
-
             updateDateToToday()
-            updateTemperature(it.temperature, it.feelslike)
-            updatePrecipitation(it.precip)
-            updateWind(it.windDir, it.windSpeed)
-            updateVisibility(it.visibility)
-
+            updateTemperature(it.bitTemp, it.bitAppTemp)
+            updatePrecipitation(it.bitPrecip.toDouble()) //FIXME: change this! don't use toDouble()!!
+            updateWind(it.bitWindDir.toString(), it.bitWindSpd) //FIXME: change this!
+            updateVisibility(it.bitVis)
+            updateLocation(it.bitCityName)
             //Set up Glide module inside the observer, so it can load the weather image
             //into the imageView
-            GlideApp.with(this@CurrentWeatherFragment)
+            /*GlideApp.with(this@CurrentWeatherFragment)
                 .load(it.weatherIcons[0])
-                .into(imageView_condition_icon)
+                .into(imageView_condition_icon)*/
 
             //TODO: modify code to get unit from request!
 
         })
 
         //Just as we have an observer for the weather data, we make an observer for the weather
-        //location, and we pass its name in order to fetch it from the ViewModel
-        weatherLocation.observe(this@CurrentWeatherFragment, Observer { location ->
-            if (location == null) return@Observer
-            updateLocation(location.name)
+        //description, blah blah blah, update the icon. Plop.
+        weatherDescription.observe(this@CurrentWeatherFragment, Observer { description ->
+            if (description == null) return@Observer
+
+            //Set up Glide module inside the observer, so it can load the weather image
+            //into the imageView
+            val weatherIcon = description.bitIcon+".png"
+            val weatherIconUrl = "https://www.weatherbit.io/static/img/icons/$weatherIcon"
+            GlideApp.with(this@CurrentWeatherFragment)
+                .load(weatherIconUrl)
+                .into(imageView_condition_icon)
         })
     }
 

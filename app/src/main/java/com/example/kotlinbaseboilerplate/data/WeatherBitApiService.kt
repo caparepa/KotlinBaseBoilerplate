@@ -2,7 +2,7 @@ package com.example.kotlinbaseboilerplate.data
 
 import com.example.kotlinbaseboilerplate.BuildConfig
 import com.example.kotlinbaseboilerplate.data.network.ConnectivityInterceptor
-import com.example.kotlinbaseboilerplate.data.network.response.CurrentWeatherResponse
+import com.example.kotlinbaseboilerplate.data.network.weatherbit.response.current.CurrentWeatherResponse
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import kotlinx.coroutines.Deferred
 import okhttp3.Interceptor
@@ -12,31 +12,32 @@ import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Query
 
-const val API_KEY = "4f2b6c8c8fc9285a5cc0f3ed86a9097c"
-const val BASE_URL = "http://api.weatherstack.com/"
+//SAMPLE QUERY FOR CURRENT
+//http://api.weatherbit.io/v2.0/current?city=caracas&key=API_KEY_HERE&lang=es&units=M
 
-//Query URL
-//http://api.weatherstack.com/current?access_key=4f2b6c8c8fc9285a5cc0f3ed86a9097c&query=London
+interface WeatherBitApiService {
 
-/**
- * TODO: IMPORTANT! This code varies from the original tutorial since the weather service used
- * TODO: is no longer available!!!
- */
-interface WeatherStackApiService {
-
-    //Since we're using coroutines, the return will be a Deferred of the response object
     @GET("current")
     fun getCurrentWeather(
-        @Query("query") location: String,
-        @Query("units") units: String = "m"
+        @Query("city") city: String,
+        @Query("lang") language: String = "en",
+        @Query("units") units: String = "M"
+    ): Deferred<CurrentWeatherResponse>
+
+    @GET("current")
+    fun getCurrentWeatherByLatLon(
+        @Query("lat") latitude: String,
+        @Query("lon") longitude: String,
+        @Query("lang") language: String = "en",
+        @Query("units") units: String = "M"
     ): Deferred<CurrentWeatherResponse>
 
     companion object {
         //It's not necessary an operator function, but since it's a syntactic nicety, let's leave it
         operator fun invoke(
             connectivityInterceptor: ConnectivityInterceptor
-        ): WeatherStackApiService {
-            //TODO: since every single request needs to send the "access_value" key for auth,
+        ): WeatherBitApiService {
+            //TODO: since every single request needs to send the "key" key for auth,
             //TODO: we create an Interceptor for injecting said value to the request
             val requestInterceptor = Interceptor { chain ->
 
@@ -44,7 +45,7 @@ interface WeatherStackApiService {
                 val url = chain.request()
                     .url()
                     .newBuilder()
-                    .addQueryParameter("access_key", BuildConfig.WEATHER_STACK_KEY)
+                    .addQueryParameter("key", BuildConfig.WEATHERBIT_API_KEY)
                     .build()
 
                 //Build the new url with the previous vlue injection
@@ -69,11 +70,12 @@ interface WeatherStackApiService {
             //a adapter factory and a converter factory, associated to the current interface
             return Retrofit.Builder()
                 .client(okHttpClient)
-                .baseUrl(BuildConfig.BASE_URL)
+                .baseUrl(BuildConfig.WEATHERBIT_BASE_URL)
                 .addCallAdapterFactory(CoroutineCallAdapterFactory())
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
-                .create(WeatherStackApiService::class.java)
+                .create(WeatherBitApiService::class.java)
         }
     }
+
 }
