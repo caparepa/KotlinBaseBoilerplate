@@ -50,10 +50,6 @@ android {
             keyPassword 'android'*/
         }
         release {
-            storeFile file('C:\\Users\\Christopher\\Documents\\Projects\\Android\\weatherapp-boilerplate-keystore\\caparepa-dev-keystore.jks')
-            storePassword 'sumiregawanenene'
-            keyPassword 'sumiregawanenene'
-            keyAlias = 'caparepa-key'
             /*storeFile file("../current-app.keystore")
             storePassword System.getenv('ANDROID_STORE_PASS')
             keyAlias System.getenv('ANDROID_KEY_ALIAS')
