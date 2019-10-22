@@ -43,6 +43,10 @@ class WeatherNetworkDataSourceImpl(
         }
     }
 
+    /**
+     * TODO: Since this method queries an endpoint which doesn't require a set number of days
+     * TODO: there's no need to create a variable
+     */
     override suspend fun fetchFutureWeather(location: String, language: String, units: String) {
         try {
 
