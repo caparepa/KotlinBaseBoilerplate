@@ -1,9 +1,17 @@
-package com.example.kotlinbaseboilerplate.data.network.weatherbit.response.forecast
+package com.example.kotlinbaseboilerplate.data.db.weatherbit.entity.forecast
 
 
+import androidx.room.Embedded
+import androidx.room.Entity
+import androidx.room.Index
+import androidx.room.PrimaryKey
+import com.example.kotlinbaseboilerplate.data.db.weatherbit.entity.current.WeatherDescription
 import com.google.gson.annotations.SerializedName
 
-data class ForecastDataItem(
+@Entity(tableName = "future_weather", indices = [Index(value = ["datetime"], unique = true)])
+data class ForecastWeatherData(
+    @PrimaryKey(autoGenerate = true)
+    val id: Int? = null,
     @SerializedName("app_max_temp")
     val bitAppMaxTemp: Double,
     @SerializedName("app_min_temp")
@@ -67,7 +75,8 @@ data class ForecastDataItem(
     @SerializedName("vis")
     val bitVis: Double,
     @SerializedName("weather")
-    val bitWeather: ForecastWeather,
+    @Embedded(prefix = "description_")
+    val bitWeather: WeatherDescription,
     @SerializedName("wind_cdir")
     val bitWindCdir: String,
     @SerializedName("wind_cdir_full")

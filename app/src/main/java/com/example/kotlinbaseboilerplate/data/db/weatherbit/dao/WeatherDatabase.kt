@@ -1,4 +1,4 @@
-package com.example.kotlinbaseboilerplate.data.db.weatherbit
+package com.example.kotlinbaseboilerplate.data.db.weatherbit.dao
 
 import android.content.Context
 import androidx.room.Database
@@ -15,6 +15,7 @@ abstract class WeatherDatabase : RoomDatabase() {
 
     abstract fun getCurrentWeatherDataDao() : CurrentWeatherDataDao
     abstract fun getWeatherDescriptionDao() : WeatherDescriptionDao
+    abstract fun getFutureWeatherDao() : FutureWeatherDao
 
     //We create a companion object that will act as singleton in order to create a single instance
     //of the database
