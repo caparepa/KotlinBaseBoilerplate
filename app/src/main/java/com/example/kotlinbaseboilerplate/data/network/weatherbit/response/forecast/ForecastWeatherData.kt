@@ -1,9 +1,10 @@
 package com.example.kotlinbaseboilerplate.data.network.weatherbit.response.forecast
 
 
+import com.example.kotlinbaseboilerplate.data.db.weatherbit.entity.current.WeatherDescription
 import com.google.gson.annotations.SerializedName
 
-data class ForecastDataItem(
+data class ForecastWeatherData(
     @SerializedName("app_max_temp")
     val bitAppMaxTemp: Double,
     @SerializedName("app_min_temp")

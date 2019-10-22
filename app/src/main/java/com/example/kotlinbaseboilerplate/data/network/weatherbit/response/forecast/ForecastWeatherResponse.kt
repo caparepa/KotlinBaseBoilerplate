@@ -9,7 +9,7 @@ data class ForecastWeatherResponse(
     @SerializedName("country_code")
     val bitCountryCode: String,
     @SerializedName("data")
-    val bitData: List<ForecastDataItem>,
+    val bitData: List<ForecastWeatherData>,
     @SerializedName("lat")
     val bitLat: String,
     @SerializedName("lon")
