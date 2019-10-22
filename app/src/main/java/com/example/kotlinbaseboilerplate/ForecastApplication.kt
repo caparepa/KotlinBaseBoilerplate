@@ -4,7 +4,7 @@ import android.app.Application
 import android.content.Context
 import androidx.preference.PreferenceManager
 import com.example.kotlinbaseboilerplate.data.WeatherBitApiService
-import com.example.kotlinbaseboilerplate.data.db.weatherbit.WeatherDatabase
+import com.example.kotlinbaseboilerplate.data.db.weatherbit.dao.WeatherDatabase
 import com.example.kotlinbaseboilerplate.data.network.ConnectivityInterceptor
 import com.example.kotlinbaseboilerplate.data.network.ConnectivityInterceptorImpl
 import com.example.kotlinbaseboilerplate.data.network.weatherbit.WeatherNetworkDataSource
@@ -37,7 +37,11 @@ class ForecastApplication : Application(), KodeinAware {
         //We use bind() for the database from a singleton
         //since we don't need two instances of the database, well pass it an instance fetched
         //from the androidXModule, in this case instance() is the applicationContext
-        bind() from singleton { WeatherDatabase(instance()) }
+        bind() from singleton {
+            WeatherDatabase(
+                instance()
+            )
+        }
 
         //Now we bind the DAOs using the instance of the previous database binding
         bind() from singleton { instance<WeatherDatabase>().getCurrentWeatherDataDao() }

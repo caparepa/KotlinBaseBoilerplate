@@ -1,4 +1,4 @@
-package com.example.kotlinbaseboilerplate.data.db.weatherbit
+package com.example.kotlinbaseboilerplate.data.db.weatherbit.dao
 
 import android.content.Context
 import androidx.room.Database

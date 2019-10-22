@@ -1,9 +1,8 @@
 package com.example.kotlinbaseboilerplate.data.repository.weatherbit
 
-import android.util.Log
 import androidx.lifecycle.LiveData
-import com.example.kotlinbaseboilerplate.data.db.weatherbit.CurrentWeatherDataDao
-import com.example.kotlinbaseboilerplate.data.db.weatherbit.WeatherDescriptionDao
+import com.example.kotlinbaseboilerplate.data.db.weatherbit.dao.CurrentWeatherDataDao
+import com.example.kotlinbaseboilerplate.data.db.weatherbit.dao.WeatherDescriptionDao
 import com.example.kotlinbaseboilerplate.data.db.weatherbit.entity.current.CurrentWeatherData
 import com.example.kotlinbaseboilerplate.data.db.weatherbit.entity.current.WeatherDescription
 import com.example.kotlinbaseboilerplate.data.network.weatherbit.WeatherNetworkDataSource
