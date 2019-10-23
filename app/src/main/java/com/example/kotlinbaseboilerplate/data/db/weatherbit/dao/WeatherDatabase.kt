@@ -4,13 +4,17 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
 import com.example.kotlinbaseboilerplate.data.db.weatherbit.entity.current.CurrentWeatherData
 import com.example.kotlinbaseboilerplate.data.db.weatherbit.entity.current.WeatherDescription
+import com.example.kotlinbaseboilerplate.data.db.weatherbit.entity.forecast.ForecastWeatherData
+import com.example.kotlinbaseboilerplate.utils.LocalDateConverter
 
 @Database(
-    entities = [CurrentWeatherData::class, WeatherDescription::class],
+    entities = [CurrentWeatherData::class, WeatherDescription::class, ForecastWeatherData::class],
     version = 1
 )
+@TypeConverters(LocalDateConverter::class)
 abstract class WeatherDatabase : RoomDatabase() {
 
     abstract fun getCurrentWeatherDataDao() : CurrentWeatherDataDao
