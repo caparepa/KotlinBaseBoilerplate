@@ -1,4 +1,4 @@
-package com.example.kotlinbaseboilerplate.data.repository.weatherbit
+package com.example.kotlinbaseboilerplate.data.repository
 
 import androidx.lifecycle.LiveData
 import com.example.kotlinbaseboilerplate.data.db.weatherbit.dao.CurrentWeatherDataDao
@@ -70,6 +70,7 @@ class BitForecastRepositoryImpl(
      */
     private suspend fun initWeatherData() {
 
+        //FIXME: if something return LiveData is not really synchronous, so getting the value will always be null
         val lastWeatherLocation = currentBitCurrentWeatherDataDao.getCurrentWeatherData()
             .value //We get the LiveData value
 

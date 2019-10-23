@@ -1,4 +1,4 @@
-package com.example.kotlinbaseboilerplate.data.repository.weatherbit
+package com.example.kotlinbaseboilerplate.data.repository
 
 import androidx.lifecycle.LiveData
 import com.example.kotlinbaseboilerplate.data.db.weatherbit.entity.current.CurrentWeatherData
