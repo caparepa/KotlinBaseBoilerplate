@@ -43,7 +43,7 @@ class ForecastRepositoryImpl(
         }
     }
 
-    override suspend fun getBitCurrentWeatherData(): LiveData<CurrentWeatherData> {
+    override suspend fun getCurrentWeatherData(): LiveData<CurrentWeatherData> {
         //Here we call the Coroutine with context because here we return a value, unlike the persist
         //method below, where there is no return value. Also, we prevent the use of generics present
         //with specific objects of the same type (e.g. ImperialUnitWeather vs MetricUnitWeather)
@@ -61,7 +61,7 @@ class ForecastRepositoryImpl(
         }
     }
 
-    override suspend fun getBitWeatherDescription(): LiveData<WeatherDescription> {
+    override suspend fun getWeatherDescription(): LiveData<WeatherDescription> {
         return withContext(Dispatchers.IO) {
             return@withContext weatherDescriptionDao.getWeatherDescription()
         }

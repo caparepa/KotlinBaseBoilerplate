@@ -8,10 +8,10 @@ import org.threeten.bp.LocalDate
 
 interface ForecastRepository {
 
-    suspend fun getBitCurrentWeatherData() : LiveData<CurrentWeatherData>
+    suspend fun getCurrentWeatherData() : LiveData<CurrentWeatherData>
 
     suspend fun getFutureWeatherList(startDate: LocalDate): LiveData<out List<ForecastWeatherData>>
 
-    suspend fun getBitWeatherDescription() : LiveData<WeatherDescription>
+    suspend fun getWeatherDescription() : LiveData<WeatherDescription>
 
 }

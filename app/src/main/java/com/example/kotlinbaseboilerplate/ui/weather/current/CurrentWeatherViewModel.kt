@@ -22,12 +22,12 @@ class CurrentWeatherViewModel(
     //This needs to be called from a coroutine context, but can't do that here!
     //We need to make "weather" lazy so it can be used
     val weather by lazyDeferred {
-        forecastRepository.getBitCurrentWeatherData()
+        forecastRepository.getCurrentWeatherData()
     }
 
     //We also get the weather location via lazyDeferred in the viewmodel
     val weatherDescription by lazyDeferred{
-        forecastRepository.getBitWeatherDescription()
+        forecastRepository.getWeatherDescription()
     }
 
     //Preservation of ViewModels if a job for a ViewModelProvider. We pass the ViewModel factory
