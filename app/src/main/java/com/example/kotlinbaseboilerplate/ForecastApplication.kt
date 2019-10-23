@@ -11,8 +11,8 @@ import com.example.kotlinbaseboilerplate.data.network.weatherbit.WeatherNetworkD
 import com.example.kotlinbaseboilerplate.data.network.weatherbit.WeatherNetworkDataSourceImpl
 import com.example.kotlinbaseboilerplate.data.provider.UnitProvider
 import com.example.kotlinbaseboilerplate.data.provider.UnitProviderImpl
-import com.example.kotlinbaseboilerplate.data.provider.weatherbit.LocationProvider
-import com.example.kotlinbaseboilerplate.data.provider.weatherbit.LocationProviderImpl
+import com.example.kotlinbaseboilerplate.data.provider.LocationProvider
+import com.example.kotlinbaseboilerplate.data.provider.LocationProviderImpl
 import com.example.kotlinbaseboilerplate.data.repository.weatherbit.BitForecastRepository
 import com.example.kotlinbaseboilerplate.data.repository.weatherbit.BitForecastRepositoryImpl
 import com.example.kotlinbaseboilerplate.ui.weather.current.CurrentWeatherViewModelFactory

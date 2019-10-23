@@ -7,7 +7,7 @@ import com.example.kotlinbaseboilerplate.data.db.weatherbit.entity.current.Curre
 import com.example.kotlinbaseboilerplate.data.db.weatherbit.entity.current.WeatherDescription
 import com.example.kotlinbaseboilerplate.data.network.weatherbit.WeatherNetworkDataSource
 import com.example.kotlinbaseboilerplate.data.network.weatherbit.response.current.CurrentWeatherResponse
-import com.example.kotlinbaseboilerplate.data.provider.weatherbit.LocationProvider
+import com.example.kotlinbaseboilerplate.data.provider.LocationProvider
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch

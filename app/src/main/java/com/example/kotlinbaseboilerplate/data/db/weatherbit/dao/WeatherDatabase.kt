@@ -6,9 +6,10 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.example.kotlinbaseboilerplate.data.db.weatherbit.entity.current.CurrentWeatherData
 import com.example.kotlinbaseboilerplate.data.db.weatherbit.entity.current.WeatherDescription
+import com.example.kotlinbaseboilerplate.data.db.weatherbit.entity.forecast.ForecastWeatherData
 
 @Database(
-    entities = [CurrentWeatherData::class, WeatherDescription::class],
+    entities = [CurrentWeatherData::class, WeatherDescription::class, ForecastWeatherData::class],
     version = 1
 )
 abstract class WeatherDatabase : RoomDatabase() {
