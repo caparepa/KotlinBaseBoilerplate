@@ -6,7 +6,7 @@ import com.example.kotlinbaseboilerplate.data.db.weatherbit.entity.current.Weath
 import com.example.kotlinbaseboilerplate.data.db.weatherbit.entity.forecast.ForecastWeatherData
 import org.threeten.bp.LocalDate
 
-interface BitForecastRepository {
+interface ForecastRepository {
 
     suspend fun getBitCurrentWeatherData() : LiveData<CurrentWeatherData>
 

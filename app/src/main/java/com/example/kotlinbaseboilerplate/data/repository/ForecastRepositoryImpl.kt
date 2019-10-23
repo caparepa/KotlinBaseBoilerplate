@@ -19,13 +19,13 @@ import org.threeten.bp.LocalDate
 import org.threeten.bp.ZonedDateTime
 import java.util.*
 
-class BitForecastRepositoryImpl(
+class ForecastRepositoryImpl(
     private val currentBitCurrentWeatherDataDao: CurrentWeatherDataDao,
     private val futureWeatherDao: FutureWeatherDao,
     private val weatherDescriptionDao: WeatherDescriptionDao,
     private val weatherbitNetworkDataSource: WeatherNetworkDataSource,
     private val bitLocationProvider: LocationProvider
-) : BitForecastRepository {
+) : ForecastRepository {
 
     /**
      * We'll implement the synchrony between the dao and the livedata, so we'll initialize the

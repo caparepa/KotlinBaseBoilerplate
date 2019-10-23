@@ -13,8 +13,8 @@ import com.example.kotlinbaseboilerplate.data.provider.UnitProvider
 import com.example.kotlinbaseboilerplate.data.provider.UnitProviderImpl
 import com.example.kotlinbaseboilerplate.data.provider.LocationProvider
 import com.example.kotlinbaseboilerplate.data.provider.LocationProviderImpl
-import com.example.kotlinbaseboilerplate.data.repository.BitForecastRepository
-import com.example.kotlinbaseboilerplate.data.repository.BitForecastRepositoryImpl
+import com.example.kotlinbaseboilerplate.data.repository.ForecastRepository
+import com.example.kotlinbaseboilerplate.data.repository.ForecastRepositoryImpl
 import com.example.kotlinbaseboilerplate.ui.weather.current.CurrentWeatherViewModelFactory
 import com.google.android.gms.location.LocationServices
 import com.jakewharton.threetenabp.AndroidThreeTen
@@ -73,8 +73,8 @@ class ForecastApplication : Application(), KodeinAware {
         }
 
         //We bind the repository, and the instances are from a DAO, provider and the datasource
-        bind<BitForecastRepository>() with singleton {
-            BitForecastRepositoryImpl(
+        bind<ForecastRepository>() with singleton {
+            ForecastRepositoryImpl(
                 instance(),
                 instance(),
                 instance(),
