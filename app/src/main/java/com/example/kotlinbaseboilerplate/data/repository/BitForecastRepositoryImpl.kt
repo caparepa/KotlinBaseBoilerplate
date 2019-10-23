@@ -23,7 +23,7 @@ class BitForecastRepositoryImpl(
     private val currentBitCurrentWeatherDataDao: CurrentWeatherDataDao,
     private val futureWeatherDao: FutureWeatherDao,
     private val weatherDescriptionDao: WeatherDescriptionDao,
-    private val weatherBitWeatherNetworkDataSource: WeatherNetworkDataSource,
+    private val weatherbitNetworkDataSource: WeatherNetworkDataSource,
     private val bitLocationProvider: LocationProvider
 ) : BitForecastRepository {
 
@@ -33,7 +33,7 @@ class BitForecastRepositoryImpl(
      */
     init {
         //We get the current weather to be observed forever because repositories DON'T have lifecycles}
-        weatherBitWeatherNetworkDataSource.apply {
+        weatherbitNetworkDataSource.apply {
             downloadedCurrentWeather.observeForever { newCurrentWeather ->
                 persistFetchedCurrentWeather(newCurrentWeather)
             }
@@ -139,14 +139,14 @@ class BitForecastRepositoryImpl(
      * init block of this class, and pass dummy location and units
      */
     private suspend fun fetchCurrentWeather() {
-        weatherBitWeatherNetworkDataSource.fetchCurrentWeather(
+        weatherbitNetworkDataSource.fetchCurrentWeather(
             bitLocationProvider.getPreferredLocationString(), Locale.getDefault().language, "M"
         )
     }
 
 
     private suspend fun fetchFutureWeather() {
-        weatherBitWeatherNetworkDataSource.fetchFutureWeather(
+        weatherbitNetworkDataSource.fetchFutureWeather(
             bitLocationProvider.getPreferredLocationString(), Locale.getDefault().language, "M"
         )
     }
