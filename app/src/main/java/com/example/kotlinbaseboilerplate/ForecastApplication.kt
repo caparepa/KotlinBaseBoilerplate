@@ -16,6 +16,7 @@ import com.example.kotlinbaseboilerplate.data.provider.LocationProviderImpl
 import com.example.kotlinbaseboilerplate.data.repository.ForecastRepository
 import com.example.kotlinbaseboilerplate.data.repository.ForecastRepositoryImpl
 import com.example.kotlinbaseboilerplate.ui.weather.current.CurrentWeatherViewModelFactory
+import com.example.kotlinbaseboilerplate.ui.weather.future.list.FutureListWeatherViewModelFactory
 import com.google.android.gms.location.LocationServices
 import com.jakewharton.threetenabp.AndroidThreeTen
 import org.kodein.di.Kodein
@@ -46,6 +47,7 @@ class ForecastApplication : Application(), KodeinAware {
         //Now we bind the DAOs using the instance of the previous database binding
         bind() from singleton { instance<WeatherDatabase>().getCurrentWeatherDataDao() }
         bind() from singleton { instance<WeatherDatabase>().getWeatherDescriptionDao() }
+        bind() from singleton { instance<WeatherDatabase>().getFutureWeatherDao() }
 
         //We now bind the interceptor interfaces with a singleton that returns its implementation
         //and the instance passed is the applicationContext
@@ -92,6 +94,7 @@ class ForecastApplication : Application(), KodeinAware {
 
         //We bind the viewmodel factory, and the instance is the ForecastRepository and UnitProvider
         bind() from provider { CurrentWeatherViewModelFactory(instance(), instance()) }
+        bind() from provider { FutureListWeatherViewModelFactory(instance(), instance()) }
     }
 
     override fun onCreate() {
