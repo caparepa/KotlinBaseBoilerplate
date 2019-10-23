@@ -20,4 +20,7 @@ interface CurrentWeatherDataDao {
     //the original Entity
     @Query("select * from bit_weather_data where id = $WEATHER_DATA_ID")
     fun getCurrentWeatherData() : LiveData<CurrentWeatherData>
+
+    @Query("select * from bit_weather_data where id = $WEATHER_DATA_ID")
+    fun getCurrentWeatherDataNonLive() : CurrentWeatherData?
 }
