@@ -48,7 +48,12 @@ class FutureListWeatherFragment : ScopedFragment(), KodeinAware {
      */
     private fun bindUI() = launch(Dispatchers.Main) {
         val futureWeatherEntries = viewModel.weatherEntries.await()
-        val weatherDescription = viewModel.weatherDescription.await()
+        val weatherLocation = viewModel.weatherLocation.await()
+
+        weatherLocation.observe(this@FutureListWeatherFragment, Observer {location ->
+            if(location == null) return@Observer
+            updateLocation(location.bitCityName)
+        })
 
         futureWeatherEntries.observe(this@FutureListWeatherFragment, Observer { weatherEntries ->
             if(weatherEntries == null) return@Observer
@@ -58,9 +63,7 @@ class FutureListWeatherFragment : ScopedFragment(), KodeinAware {
             //TODO: figure out how to update the location with the current data structure!
 
             updateDateToNextDays()
-
         })
-
 
     }
 
