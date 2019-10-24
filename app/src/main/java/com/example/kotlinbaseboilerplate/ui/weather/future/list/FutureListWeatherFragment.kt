@@ -6,15 +6,24 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
 
 import com.example.kotlinbaseboilerplate.R
+import com.example.kotlinbaseboilerplate.ui.base.ScopedFragment
+import com.example.kotlinbaseboilerplate.utils.makeGone
+import kotlinx.android.synthetic.main.future_list_weather_fragment.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import org.kodein.di.Kodein
+import org.kodein.di.KodeinAware
+import org.kodein.di.android.x.closestKodein
+import org.kodein.di.generic.instance
 
-class FutureListWeatherFragment : Fragment() {
+class FutureListWeatherFragment : ScopedFragment(), KodeinAware {
 
-    companion object {
-        fun newInstance() =
-            FutureListWeatherFragment()
-    }
+    override val kodein: Kodein by closestKodein()
+    private val viewModelFactory: FutureListWeatherViewModelFactory by instance()
 
     private lateinit var viewModel: FutureListWeatherViewModel
 
@@ -27,8 +36,40 @@ class FutureListWeatherFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(this).get(FutureListWeatherViewModel::class.java)
+        viewModel = ViewModelProviders.of(this, viewModelFactory)
+            .get(FutureListWeatherViewModel::class.java)
         // TODO: Use the ViewModel
+    }
+
+    /**
+     * Bind the UI with coroutines (what's why this fragment extends from ScopedFragment(),
+     * and since this function will update the UI, the coroutine will be dispatched on the main
+     * thread (hence the Dispatchers.Main)
+     */
+    private fun bindUI() = launch(Dispatchers.Main) {
+        val futureWeatherEntries = viewModel.weatherEntries.await()
+        val weatherDescription = viewModel.weatherDescription.await()
+
+        futureWeatherEntries.observe(this@FutureListWeatherFragment, Observer { weatherEntries ->
+            if(weatherEntries == null) return@Observer
+
+            group_loading.makeGone()
+
+            //TODO: figure out how to update the location with the current data structure!
+
+            updateDateToNextDays()
+
+        })
+
+
+    }
+
+    private fun updateLocation(location : String) {
+        (activity as? AppCompatActivity)?.supportActionBar?.title = location
+    }
+
+    private fun updateDateToNextDays() {
+        (activity as? AppCompatActivity)?.supportActionBar?.subtitle = "Next 16 days"
     }
 
 }
