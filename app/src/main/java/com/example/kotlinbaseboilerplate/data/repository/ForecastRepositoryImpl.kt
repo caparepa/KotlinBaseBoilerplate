@@ -101,7 +101,7 @@ class ForecastRepositoryImpl(
 
         GlobalScope.launch(Dispatchers.IO) {
             deleteOldForecastData()
-            val futureWeatherList = fetchedWeather.bitEntries.forecastWeatherList
+            val futureWeatherList = fetchedWeather.bitEntries
 
             //create a new object fot the location
             val futureWeatherLocationData = ForecastWeatherLocationData(

@@ -1,6 +1,7 @@
 package com.example.kotlinbaseboilerplate.data.network.weatherbit.response.forecast
 
 
+import com.example.kotlinbaseboilerplate.data.db.weatherbit.entity.forecast.ForecastWeatherData
 import com.google.gson.annotations.SerializedName
 
 data class ForecastWeatherResponse(
@@ -9,7 +10,7 @@ data class ForecastWeatherResponse(
     @SerializedName("country_code")
     val bitCountryCode: String,
     @SerializedName("data")
-    val bitEntries: ForecastDaysContainer,
+    val bitEntries: List<ForecastWeatherData>,
     @SerializedName("lat")
     val bitLat: String,
     @SerializedName("lon")
