@@ -7,6 +7,7 @@ import com.example.kotlinbaseboilerplate.data.db.weatherbit.dao.WeatherDescripti
 import com.example.kotlinbaseboilerplate.data.db.weatherbit.entity.current.CurrentWeatherData
 import com.example.kotlinbaseboilerplate.data.db.weatherbit.entity.current.WeatherDescription
 import com.example.kotlinbaseboilerplate.data.db.weatherbit.entity.forecast.ForecastWeatherData
+import com.example.kotlinbaseboilerplate.data.db.weatherbit.entity.forecast.ForecastWeatherLocationData
 import com.example.kotlinbaseboilerplate.data.network.weatherbit.WeatherNetworkDataSource
 import com.example.kotlinbaseboilerplate.data.network.weatherbit.response.current.CurrentWeatherResponse
 import com.example.kotlinbaseboilerplate.data.network.weatherbit.response.forecast.ForecastWeatherResponse
@@ -67,6 +68,13 @@ class ForecastRepositoryImpl(
         }
     }
 
+    override suspend fun getForecastLocation(): LiveData<ForecastWeatherLocationData> {
+        return withContext(Dispatchers.IO) {
+            initWeatherData()
+            return@withContext futureWeatherDao.getFutureWeatherLocationData()
+        }
+    }
+
     /**
      * Method for persisting the response in the livedata using Coroutines
      */
@@ -94,7 +102,21 @@ class ForecastRepositoryImpl(
         GlobalScope.launch(Dispatchers.IO) {
             deleteOldForecastData()
             val futureWeatherList = fetchedWeather.bitEntries.forecastWeatherList
+
+            //create a new object fot the location
+            val futureWeatherLocationData = ForecastWeatherLocationData(
+                fetchedWeather.bitCityName,
+                fetchedWeather.bitCountryCode,
+                fetchedWeather.bitStateCode,
+                fetchedWeather.bitTimezone
+            )
+
+            //upsert the future weather location
+            futureWeatherDao.upsertLocationData(futureWeatherLocationData)
+
+            //insert the forecast list
             futureWeatherDao.insert(futureWeatherList)
+
             //NOTE: since the response doesn't have weather description outside the list,
             //we use the first element of said list to get the description for the location,
             //which kinda sucks for this API response structure
