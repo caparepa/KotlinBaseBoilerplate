@@ -8,10 +8,16 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 
 import com.example.kotlinbaseboilerplate.R
+import com.example.kotlinbaseboilerplate.data.db.weatherbit.entity.forecast.ForecastWeatherData
 import com.example.kotlinbaseboilerplate.ui.base.ScopedFragment
 import com.example.kotlinbaseboilerplate.utils.makeGone
+import com.example.kotlinbaseboilerplate.utils.toastLong
+import com.xwray.groupie.GroupAdapter
+import com.xwray.groupie.ViewHolder
 import kotlinx.android.synthetic.main.future_list_weather_fragment.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -63,6 +69,7 @@ class FutureListWeatherFragment : ScopedFragment(), KodeinAware {
             //TODO: figure out how to update the location with the current data structure!
 
             updateDateToNextDays()
+            initRecyclerView(weatherEntries.toFutureWeatherItems()) //we apply the mapping here
         })
 
     }
@@ -75,4 +82,25 @@ class FutureListWeatherFragment : ScopedFragment(), KodeinAware {
         (activity as? AppCompatActivity)?.supportActionBar?.subtitle = "Next 16 days"
     }
 
+    //We map the list of weather data to future weather item
+    private fun List<ForecastWeatherData>.toFutureWeatherItems() : List<FutureWeatherItem> {
+        return this.map{
+            FutureWeatherItem(it)
+        }
+    }
+
+    private fun initRecyclerView(items: List<FutureWeatherItem>) {
+        val groupAdapter = GroupAdapter<ViewHolder>().apply {
+            addAll(items)
+        }
+
+        recyclerView.apply {
+            layoutManager = LinearLayoutManager(this@FutureListWeatherFragment.context)
+            adapter = groupAdapter
+        }
+
+        groupAdapter.setOnItemClickListener { item, view ->
+            this@FutureListWeatherFragment.context?.toastLong("CLICK!")
+        }
+    }
 }

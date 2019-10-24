@@ -4,7 +4,7 @@ import android.app.Application
 import android.content.Context
 import androidx.preference.PreferenceManager
 import com.example.kotlinbaseboilerplate.data.WeatherBitApiService
-import com.example.kotlinbaseboilerplate.data.db.weatherbit.dao.WeatherDatabase
+import com.example.kotlinbaseboilerplate.data.db.weatherbit.WeatherDatabase
 import com.example.kotlinbaseboilerplate.data.network.ConnectivityInterceptor
 import com.example.kotlinbaseboilerplate.data.network.ConnectivityInterceptorImpl
 import com.example.kotlinbaseboilerplate.data.network.weatherbit.WeatherNetworkDataSource
