@@ -2,19 +2,39 @@ package com.example.kotlinbaseboilerplate.ui.weather.future.detail
 
 import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
 
 import com.example.kotlinbaseboilerplate.R
+import com.example.kotlinbaseboilerplate.internal.DateNotFoundException
+import com.example.kotlinbaseboilerplate.internal.glide.GlideApp
+import com.example.kotlinbaseboilerplate.ui.base.ScopedFragment
+import com.example.kotlinbaseboilerplate.utils.LocalDateConverter
+import kotlinx.android.synthetic.main.future_detail_weather_fragment.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import org.kodein.di.KodeinAware
+import org.kodein.di.android.x.closestKodein
+import org.kodein.di.generic.factory
+import org.threeten.bp.LocalDate
+import org.threeten.bp.format.DateTimeFormatter
+import org.threeten.bp.format.FormatStyle
 
-class FutureDetailWeatherFragment : Fragment() {
+class FutureDetailWeatherFragment : ScopedFragment(), KodeinAware {
 
-    companion object {
-        fun newInstance() =
-            FutureDetailWeatherFragment()
-    }
+    //Lazy load DI for this fragment
+    override val kodein by closestKodein()
+
+    //TODO: IMPORTANT!!! READ!!!
+    //We need to pass the String "date" attribute for getting the weather detail data, so we create
+    //a high-order factory, which in turn will create the viewmodel factory and pass the data to it
+    //tl;dr we create a higher-order function to get the parametrized data and pass it to the
+    //ViewModel factory so we can get the viewmodel instance
+    private val viewModelFactoryInstanceFactory
+            : ((LocalDate) -> FutureDetailWeatherViewModelFactory) by factory()
 
     private lateinit var viewModel: FutureDetailWeatherViewModel
 
@@ -27,8 +47,95 @@ class FutureDetailWeatherFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(this).get(FutureDetailWeatherViewModel::class.java)
-        // TODO: Use the ViewModel
+
+        //In order to get the data passed to the fragment, we get the arguments passed to the
+        //fragment bundle using let{}
+        //translation: if the the fragment arguments are not null, get them from the bundle
+        val safeArgs = arguments?.let {
+            FutureDetailWeatherFragmentArgs.fromBundle(it)
+        }
+
+        //We get the date from the safeArgs. This "dateString" argument is the same that we set
+        //on the mobile_navigation.xml, and will contain the data passed from the FutureListWeatherFragment
+        //If there is no date, or if it's null, throw exception
+        //BTW, there's some weird shenanigans going on with the date type (LocalDate or String)
+        //Just be sure to read all the flow to get a hang of the data type handling
+        val date = LocalDateConverter.stringToDate(safeArgs?.dateString) ?: throw DateNotFoundException()
+
+        viewModel = ViewModelProviders.of(this, viewModelFactoryInstanceFactory(date))
+            .get(FutureDetailWeatherViewModel::class.java)
+
+        //TODO: REMEMBER TO BIND THE UI!!!
+        bindUI()
     }
 
+    private fun bindUI() = launch(Dispatchers.Main) {
+        val futureWeather = viewModel.weather.await()
+        val weatherLocation = viewModel.weatherLocation.await()
+
+        weatherLocation.observe(this@FutureDetailWeatherFragment, Observer { location ->
+            if (location == null) return@Observer
+            updateLocation(location.bitCityName)
+        })
+
+        futureWeather.observe(this@FutureDetailWeatherFragment, Observer { weatherEntry ->
+            if (weatherEntry == null) return@Observer
+
+            updateDate(weatherEntry.bitDatetime)
+            updateTemperatures(weatherEntry.bitTemp,
+                weatherEntry.bitMinTemp, weatherEntry.bitMaxTemp)
+            updateCondition(weatherEntry.bitWeather.bitDescription)
+            updatePrecipitation(weatherEntry.bitPrecip)
+            updateWindSpeed(weatherEntry.bitWindSpd)
+            updateVisibility(weatherEntry.bitVis)
+            updateUv(weatherEntry.bitUv)
+
+            //TODO: gotta make this a bit more reusable...
+            val weatherIcon = weatherEntry.bitWeather.bitIcon+".png"
+            val weatherIconUrl = "https://www.weatherbit.io/static/img/icons/$weatherIcon"
+            GlideApp.with(this@FutureDetailWeatherFragment)
+                .load(weatherIconUrl)
+                .into(imageView_condition_icon)
+        })
+    }
+
+    //TODO: This won't be used for a while, until the unit system mumbo-jumbo is implemented
+    private fun chooseLocalizedUnitAbbreviation(metric: String, imperial: String): String {
+        return if (viewModel.isMetricUnit) metric else imperial
+    }
+
+    private fun updateLocation(location: String) {
+        (activity as? AppCompatActivity)?.supportActionBar?.title = location
+    }
+
+    private fun updateDate(date: String) {
+        val dateObj = LocalDateConverter.stringToDate(date)
+        (activity as? AppCompatActivity)?.supportActionBar?.subtitle =
+            dateObj?.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM))
+    }
+
+    private fun updateTemperatures(temperature: Double, min: Double, max: Double) {
+        textView_temperature.text = "$temperature"
+        textView_min_max_temperature.text = "Min: $min, Max: $max"
+    }
+
+    private fun updateCondition(condition: String) {
+        textView_condition.text = condition
+    }
+
+    private fun updatePrecipitation(precipitationVolume: Double) {
+        textView_precipitation.text = "Precipitation: $precipitationVolume"
+    }
+
+    private fun updateWindSpeed(windSpeed: Double) {
+        textView_wind.text = "Wind speed: $windSpeed"
+    }
+
+    private fun updateVisibility(visibilityDistance: Double) {
+        textView_visibility.text = "Visibility: $visibilityDistance"
+    }
+
+    private fun updateUv(uv: Double) {
+        textView_uv.text = "UV: $uv"
+    }
 }

@@ -16,16 +16,15 @@ import com.example.kotlinbaseboilerplate.data.provider.LocationProviderImpl
 import com.example.kotlinbaseboilerplate.data.repository.ForecastRepository
 import com.example.kotlinbaseboilerplate.data.repository.ForecastRepositoryImpl
 import com.example.kotlinbaseboilerplate.ui.weather.current.CurrentWeatherViewModelFactory
+import com.example.kotlinbaseboilerplate.ui.weather.future.detail.FutureDetailWeatherViewModelFactory
 import com.example.kotlinbaseboilerplate.ui.weather.future.list.FutureListWeatherViewModelFactory
 import com.google.android.gms.location.LocationServices
 import com.jakewharton.threetenabp.AndroidThreeTen
 import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.x.androidXModule
-import org.kodein.di.generic.bind
-import org.kodein.di.generic.instance
-import org.kodein.di.generic.provider
-import org.kodein.di.generic.singleton
+import org.kodein.di.generic.*
+import org.threeten.bp.LocalDate
 
 class ForecastApplication : Application(), KodeinAware {
     override val kodein: Kodein = Kodein.lazy {
@@ -95,6 +94,11 @@ class ForecastApplication : Application(), KodeinAware {
         //We bind the viewmodel factory, and the instance is the ForecastRepository and UnitProvider
         bind() from provider { CurrentWeatherViewModelFactory(instance(), instance()) }
         bind() from provider { FutureListWeatherViewModelFactory(instance(), instance()) }
+
+        //We bind the viewmodel factory for the future weather detail from a factory instead of a provider
+        //for this binding, we pass the parameter "detailDate" of type LocalDate and return the corresponding
+        //viewmodel factory that takes in said parameter
+        bind() from factory { detailDate: LocalDate -> FutureDetailWeatherViewModelFactory(detailDate, instance(), instance())}
     }
 
     override fun onCreate() {

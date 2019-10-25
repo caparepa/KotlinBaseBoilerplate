@@ -62,6 +62,13 @@ class ForecastRepositoryImpl(
         }
     }
 
+    override suspend fun getFutureWeatherByDate(date: LocalDate): LiveData<out ForecastWeatherData> {
+        return withContext(Dispatchers.IO) {
+            initWeatherData()
+            return@withContext futureWeatherDao.getDetailWeatherByDate(date)
+        }
+    }
+
     override suspend fun getWeatherDescription(): LiveData<WeatherDescription> {
         return withContext(Dispatchers.IO) {
             return@withContext weatherDescriptionDao.getWeatherDescription()

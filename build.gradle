@@ -24,6 +24,9 @@ buildscript {
 
         //Google services for firebase
         classpath 'com.google.gms:google-services:4.3.2'
+
+        //safeargs for navigation
+        classpath "android.arch.navigation:navigation-safe-args-gradle-plugin:$navigation_version"
     }
 }
 
