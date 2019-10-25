@@ -25,6 +25,10 @@ interface FutureWeatherDao {
     @Query("delete from future_weather where date(bitDatetime) < date(:firstDateToKeep)")
     fun deleteOldEntries(firstDateToKeep: LocalDate)
 
+    //Get future weather detail by date
+    @Query("select * from future_weather where date(bitDateTime) = date(:date)")
+    fun getDetailWeatherByDate(date: LocalDate) : LiveData<ForecastWeatherData>
+
     //For the location
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun upsertLocationData(forecastLocation: ForecastWeatherLocationData)
