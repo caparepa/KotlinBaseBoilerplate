@@ -112,6 +112,9 @@ class FutureListWeatherFragment : ScopedFragment(), KodeinAware {
      * Android Navigation components
      */
     private fun showWeatherDetail(date: String, view: View) {
+        //The action functions/classes used to determine the action details for navigation are
+        //generated as a byproduct of the safeargs plugin, and will be instrumental to implement the
+        //navigation between fragments
         val actionDetail = FutureListWeatherFragmentDirections
             .actionFutureListWeatherFragmentToFutureDetailWeatherFragment(date)
         Navigation.findNavController(view).navigate(actionDetail)

@@ -19,4 +19,8 @@ class FutureDetailWeatherViewModel(
         forecastRepository.getFutureWeatherByDate(detailDate)
     }
 
+    val weatherLocation by lazyDeferred {
+        forecastRepository.getForecastLocation()
+    }
+
 }
