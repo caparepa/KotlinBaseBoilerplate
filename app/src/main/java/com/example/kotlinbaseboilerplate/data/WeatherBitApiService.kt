@@ -3,6 +3,7 @@ package com.example.kotlinbaseboilerplate.data
 import com.example.kotlinbaseboilerplate.BuildConfig
 import com.example.kotlinbaseboilerplate.data.network.ConnectivityInterceptor
 import com.example.kotlinbaseboilerplate.data.network.weatherbit.response.current.CurrentWeatherResponse
+import com.example.kotlinbaseboilerplate.data.network.weatherbit.response.forecast.ForecastWeatherResponse
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import kotlinx.coroutines.Deferred
 import okhttp3.Interceptor
@@ -31,6 +32,21 @@ interface WeatherBitApiService {
         @Query("lang") language: String = "en",
         @Query("units") units: String = "M"
     ): Deferred<CurrentWeatherResponse>
+
+    @GET("forecast/daily")
+    fun getForecastWeather(
+        @Query("city") city: String,
+        @Query("lang") language: String = "en",
+        @Query("units") units: String = "M"
+    ): Deferred<ForecastWeatherResponse>
+
+    @GET("forecast/daily")
+    fun getForecastWeatherByLatLong(
+        @Query("lat") latitude: String,
+        @Query("lon") longitude: String,
+        @Query("lang") language: String = "en",
+        @Query("units") units: String = "M"
+    ): Deferred<ForecastWeatherResponse>
 
     companion object {
         //It's not necessary an operator function, but since it's a syntactic nicety, let's leave it
