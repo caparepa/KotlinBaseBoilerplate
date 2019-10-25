@@ -2,18 +2,18 @@ package com.example.kotlinbaseboilerplate.ui.weather.future.list
 
 import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 
 import com.example.kotlinbaseboilerplate.R
 import com.example.kotlinbaseboilerplate.data.db.weatherbit.entity.forecast.ForecastWeatherData
 import com.example.kotlinbaseboilerplate.ui.base.ScopedFragment
+import com.example.kotlinbaseboilerplate.utils.LocalDateConverter
 import com.example.kotlinbaseboilerplate.utils.makeGone
 import com.example.kotlinbaseboilerplate.utils.toastLong
 import com.xwray.groupie.GroupAdapter
@@ -25,6 +25,7 @@ import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.x.closestKodein
 import org.kodein.di.generic.instance
+import org.threeten.bp.LocalDate
 
 class FutureListWeatherFragment : ScopedFragment(), KodeinAware {
 
@@ -100,7 +101,19 @@ class FutureListWeatherFragment : ScopedFragment(), KodeinAware {
         }
 
         groupAdapter.setOnItemClickListener { item, view ->
-            this@FutureListWeatherFragment.context?.toastLong("CLICK!")
+            (item as? FutureWeatherItem)?.let {
+                showWeatherDetail(it.weatherEntry.bitDatetime, view)
+            }
         }
+    }
+
+    /**
+     * We create a function to navigate from the list fragment to the detail fragment using the
+     * Android Navigation components
+     */
+    private fun showWeatherDetail(date: String, view: View) {
+        val actionDetail = FutureListWeatherFragmentDirections
+            .actionFutureListWeatherFragmentToFutureDetailWeatherFragment(date)
+        Navigation.findNavController(view).navigate(actionDetail)
     }
 }
