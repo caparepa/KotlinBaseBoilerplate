@@ -33,14 +33,14 @@ interface WeatherBitApiService {
         @Query("units") units: String = "M"
     ): Deferred<CurrentWeatherResponse>
 
-    @GET("forecast")
+    @GET("forecast/daily")
     fun getForecastWeather(
         @Query("city") city: String,
         @Query("lang") language: String = "en",
         @Query("units") units: String = "M"
     ): Deferred<ForecastWeatherResponse>
 
-    @GET("forecast")
+    @GET("forecast/daily")
     fun getForecastWeatherByLatLong(
         @Query("lat") latitude: String,
         @Query("lon") longitude: String,

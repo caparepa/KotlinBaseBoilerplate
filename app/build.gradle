@@ -123,6 +123,13 @@ android {
 }
 
 /**
+ * Experimental
+ */
+androidExtensions {
+    experimental = true
+}
+
+/**
  * Code dependencies
  */
 dependencies {

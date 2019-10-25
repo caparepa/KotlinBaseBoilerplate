@@ -8,7 +8,7 @@ import androidx.room.PrimaryKey
 import com.example.kotlinbaseboilerplate.data.db.weatherbit.entity.current.WeatherDescription
 import com.google.gson.annotations.SerializedName
 
-@Entity(tableName = "future_weather", indices = [Index(value = ["datetime"], unique = true)])
+@Entity(tableName = "future_weather", indices = [Index(value = ["bitDatetime"], unique = true)])
 data class ForecastWeatherData(
     @PrimaryKey(autoGenerate = true)
     val id: Int? = null,
@@ -32,8 +32,6 @@ data class ForecastWeatherData(
     val bitHighTemp: Double,
     @SerializedName("low_temp")
     val bitLowTemp: Double,
-    @SerializedName("max_dhi")
-    val bitMaxDhi: Any,
     @SerializedName("max_temp")
     val bitMaxTemp: Double,
     @SerializedName("min_temp")
