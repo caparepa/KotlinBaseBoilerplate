@@ -10,10 +10,10 @@
         android:title="Today"/>
 
     <!-- Commenting until API migration-->
-    <!--<item
+    <item
         android:id="@+id/futureListWeatherFragment"
         android:icon="@drawable/ic_calendar_week"
-        android:title="7 Days"/>-->
+        android:title="16 Days"/>
 
     <item
         android:id="@+id/settingsFragment"
