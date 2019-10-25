@@ -19,6 +19,7 @@ import kotlinx.coroutines.launch
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.x.closestKodein
 import org.kodein.di.generic.factory
+import org.threeten.bp.LocalDate
 import org.threeten.bp.format.DateTimeFormatter
 import org.threeten.bp.format.FormatStyle
 
@@ -33,7 +34,7 @@ class FutureDetailWeatherFragment : ScopedFragment(), KodeinAware {
     //tl;dr we create a higher-order function to get the parametrized data and pass it to the
     //ViewModel factory so we can get the viewmodel instance
     private val viewModelFactoryInstanceFactory
-            : ((String) -> FutureDetailWeatherViewModelFactory) by factory()
+            : ((LocalDate) -> FutureDetailWeatherViewModelFactory) by factory()
 
     private lateinit var viewModel: FutureDetailWeatherViewModel
 
@@ -57,10 +58,15 @@ class FutureDetailWeatherFragment : ScopedFragment(), KodeinAware {
         //We get the date from the safeArgs. This "dateString" argument is the same that we set
         //on the mobile_navigation.xml, and will contain the data passed from the FutureListWeatherFragment
         //If there is no date, or if it's null, throw exception
-        val date = safeArgs?.dateString ?: throw DateNotFoundException()
+        //BTW, there's some weird shenanigans going on with the date type (LocalDate or String)
+        //Just be sure to read all the flow to get a hang of the data type handling
+        val date = LocalDateConverter.stringToDate(safeArgs?.dateString) ?: throw DateNotFoundException()
 
         viewModel = ViewModelProviders.of(this, viewModelFactoryInstanceFactory(date))
             .get(FutureDetailWeatherViewModel::class.java)
+
+        //TODO: REMEMBER TO BIND THE UI!!!
+        bindUI()
     }
 
     private fun bindUI() = launch(Dispatchers.Main) {
@@ -84,6 +90,7 @@ class FutureDetailWeatherFragment : ScopedFragment(), KodeinAware {
             updateVisibility(weatherEntry.bitVis)
             updateUv(weatherEntry.bitUv)
 
+            //TODO: gotta make this a bit more reusable...
             val weatherIcon = weatherEntry.bitWeather.bitIcon+".png"
             val weatherIconUrl = "https://www.weatherbit.io/static/img/icons/$weatherIcon"
             GlideApp.with(this@FutureDetailWeatherFragment)
@@ -92,6 +99,7 @@ class FutureDetailWeatherFragment : ScopedFragment(), KodeinAware {
         })
     }
 
+    //TODO: This won't be used for a while, until the unit system mumbo-jumbo is implemented
     private fun chooseLocalizedUnitAbbreviation(metric: String, imperial: String): String {
         return if (viewModel.isMetricUnit) metric else imperial
     }
