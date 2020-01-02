@@ -8,13 +8,15 @@ import com.example.kotlinbaseboilerplate.data.db.weatherbit.entity.current.Weath
 import com.example.kotlinbaseboilerplate.data.db.weatherbit.entity.forecast.ForecastWeatherData
 import com.example.kotlinbaseboilerplate.data.db.weatherbit.entity.forecast.ForecastWeatherLocationData
 import com.example.kotlinbaseboilerplate.data.network.SafeApiRequest
-import com.example.kotlinbaseboilerplate.data.provider.PreferenceProvider
+import com.example.kotlinbaseboilerplate.data.provider.WeatherProvider
+import org.threeten.bp.LocalDateTime
 import org.threeten.bp.ZonedDateTime
+import java.lang.Exception
 
 class WeatherRepository(
     private val weatherApi: WeatherBitApiService,
     private val weatherDb: WeatherDatabase,
-    private val weatherPreference: PreferenceProvider
+    private val weatherPreference: WeatherProvider
 ) : SafeApiRequest() {
 
     private val currentWeather = MutableLiveData<CurrentWeatherData>()
@@ -49,7 +51,7 @@ class WeatherRepository(
     }
 
     private suspend fun fetchCurrentWeather() {
-
+        val lastSavedAt = weatherPreference.getLastSavedAt()
     }
 
     private suspend fun fetchFutureWeather() {
