@@ -7,3 +7,7 @@ class NoConnectivityException : IOException()
 class LocationPermissionNotGrantedException : Exception()
 
 class DateNotFoundException : Exception()
+
+class ApiException(message: String) : IOException(message)
+
+class NoInternetException(message: String) : IOException(message)
