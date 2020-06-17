@@ -110,8 +110,6 @@ class WeatherRepository(
     }
 
     suspend fun fetchCurrentWeather() {
-        val lastSavedAt = preferences.getLastSavedAt()
-
         weatherbitNetworkDataSource.fetchCurrentWeather(
             bitLocationProvider.getPreferredLocationString(), Locale.getDefault().language, "M"
         )
@@ -123,7 +121,7 @@ class WeatherRepository(
         )
     }
 
-    suspend fun persistCurrentWeather(fetchedWeather: CurrentWeatherResponse) {
+    fun persistCurrentWeather(fetchedWeather: CurrentWeatherResponse) {
         GlobalScope.launch(Dispatchers.IO) {
             val data = fetchedWeather.bitData[0]
             currentBitCurrentWeatherDataDao.upsert(data)
@@ -133,7 +131,7 @@ class WeatherRepository(
         }
     }
 
-    suspend fun persistFutureWeather(fetchedWeather: ForecastWeatherResponse) {
+    fun persistFutureWeather(fetchedWeather: ForecastWeatherResponse) {
         //We create a local function to delete the old data
         fun deleteOldForecastData() {
             val today = LocalDate.now()
