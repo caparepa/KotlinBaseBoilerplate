@@ -64,10 +64,10 @@ class CurrentWeatherFragment : ScopedFragment(), KodeinAware {
 
             //update toolbar
             updateDateToToday()
-            updateTemperature(it.bitTemp, it.bitAppTemp)
+            updateTemperature(it.bitTemp!!, it.bitAppTemp)
             updatePrecipitation(it.bitPrecip.toDouble()) //FIXME: change this! don't use toDouble()!!
             updateWind(it.bitWindDir.toString(), it.bitWindSpd) //FIXME: change this!
-            updateVisibility(it.bitVis)
+            updateVisibility(it.bitVis!!)
             updateLocation(it.bitCityName)
             //Set up Glide module inside the observer, so it can load the weather image
             //into the imageView
