@@ -1,4 +1,4 @@
-package com.example.kotlinbaseboilerplate.data.provider.weatherbit
+package com.example.kotlinbaseboilerplate.data.provider
 
 import android.Manifest
 import android.content.Context
@@ -6,7 +6,6 @@ import android.content.pm.PackageManager
 import android.location.Location
 import androidx.core.content.ContextCompat
 import com.example.kotlinbaseboilerplate.data.db.weatherbit.entity.current.CurrentWeatherData
-import com.example.kotlinbaseboilerplate.data.provider.PreferenceProvider
 import com.example.kotlinbaseboilerplate.internal.LocationPermissionNotGrantedException
 import com.example.kotlinbaseboilerplate.internal.asDeferred
 import com.google.android.gms.location.FusedLocationProviderClient
@@ -73,8 +72,11 @@ class LocationProviderImpl(
     }
 
     private fun hasCustomLocationChanged(lastWeatherLocationData: CurrentWeatherData): Boolean {
-        val customLocationName = getCustomLocationName()
-        return customLocationName != lastWeatherLocationData.bitCityName
+        if(!isUsingDeviceLocation()){
+            val customLocationName = getCustomLocationName()
+            return customLocationName != lastWeatherLocationData.bitCityName
+        }
+        return false
     }
 
     private fun isUsingDeviceLocation(): Boolean {

@@ -1,4 +1,4 @@
-package com.example.kotlinbaseboilerplate.data.provider.weatherbit
+package com.example.kotlinbaseboilerplate.data.provider
 
 import com.example.kotlinbaseboilerplate.data.db.weatherbit.entity.current.CurrentWeatherData
 
