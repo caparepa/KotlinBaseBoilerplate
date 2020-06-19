@@ -11,6 +11,7 @@ import com.example.kotlinbaseboilerplate.internal.LocationPermissionNotGrantedEx
 import com.example.kotlinbaseboilerplate.internal.asDeferred
 import com.google.android.gms.location.FusedLocationProviderClient
 import kotlinx.coroutines.Deferred
+import kotlin.math.abs
 
 const val USE_DEVICE_LOCATION = "USE_DEVICE_LOCATION"
 const val CUSTOM_LOCATION = "CUSTOM_LOCATION"
@@ -67,8 +68,8 @@ class LocationProviderImpl(
 
         //Comparing doubles cannot be done with "=="
         val comparisonThreshold = 0.03
-        return Math.abs(deviceLocation.latitude - lastWeatherData.bitLat) > comparisonThreshold &&
-                Math.abs(deviceLocation.longitude - lastWeatherData.bitLon) > comparisonThreshold
+        return abs(deviceLocation.latitude - lastWeatherData.bitLat!!) > comparisonThreshold &&
+                abs(deviceLocation.longitude - lastWeatherData.bitLon!!) > comparisonThreshold
     }
 
     private fun hasCustomLocationChanged(lastWeatherLocationData: CurrentWeatherData): Boolean {

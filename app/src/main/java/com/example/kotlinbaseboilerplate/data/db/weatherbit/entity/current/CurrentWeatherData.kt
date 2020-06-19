@@ -34,15 +34,15 @@ data class CurrentWeatherData(
     @SerializedName("elev_angle")
     val bitElevAngle: Double,
     @SerializedName("ghi")
-    val bitGhi: Double,
+    val bitGhi: Double?,
     @SerializedName("h_angle")
-    val bitHAngle: Int,
+    val bitHAngle: Double?,
     @SerializedName("last_ob_time")
     val bitLastObTime: String,
     @SerializedName("lat")
-    val bitLat: Double,
+    val bitLat: Double?,
     @SerializedName("lon")
-    val bitLon: Double,
+    val bitLon: Double?,
     @SerializedName("ob_time")
     val bitObTime: String,
     @SerializedName("pod")
@@ -50,15 +50,15 @@ data class CurrentWeatherData(
     @SerializedName("precip")
     val bitPrecip: Int,
     @SerializedName("pres")
-    val bitPres: Double,
+    val bitPres: Double?,
     @SerializedName("rh")
     val bitRh: Int,
     @SerializedName("slp")
-    val bitSlp: Double,
+    val bitSlp: Double?,
     @SerializedName("snow")
     val bitSnow: Int,
     @SerializedName("solar_rad")
-    val bitSolarRad: Double,
+    val bitSolarRad: Double?,
     @SerializedName("state_code")
     val bitStateCode: String,
     @SerializedName("station")
@@ -68,15 +68,15 @@ data class CurrentWeatherData(
     @SerializedName("sunset")
     val bitSunset: String,
     @SerializedName("temp")
-    val bitTemp: Double,
+    val bitTemp: Double?,
     @SerializedName("timezone")
     val bitTimezone: String,
     @SerializedName("ts")
     val bitTs: Int,
     @SerializedName("uv")
-    val bitUv: Double,
+    val bitUv: Double?,
     @SerializedName("vis")
-    val bitVis: Double,
+    val bitVis: Double?,
     @SerializedName("weather")
     @Embedded(prefix = "description_")
     val bitWeather: WeatherDescription,
