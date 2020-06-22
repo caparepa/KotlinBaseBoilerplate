@@ -4,17 +4,20 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.kotlinbaseboilerplate.data.WeatherBitApiService
 import com.example.kotlinbaseboilerplate.data.db.weatherbit.WeatherDatabase
+import com.example.kotlinbaseboilerplate.data.db.weatherbit.dao.FutureWeatherDao
 import com.example.kotlinbaseboilerplate.data.db.weatherbit.entity.current.WeatherDescription
 import com.example.kotlinbaseboilerplate.data.db.weatherbit.entity.forecast.ForecastWeatherData
 import com.example.kotlinbaseboilerplate.data.db.weatherbit.entity.forecast.ForecastWeatherLocationData
 import com.example.kotlinbaseboilerplate.data.network.refactor.SafeApiRequest
 import com.example.kotlinbaseboilerplate.data.provider.PreferenceProvider
+import com.example.kotlinbaseboilerplate.utils.FUTURE_DAYS_FETCH
 import org.threeten.bp.LocalDate
 
 class ForecastRepository(
     private val wbApi: WeatherBitApiService,
     private val wbDb: WeatherDatabase,
-    private val wbPrefs: PreferenceProvider
+    private val wbPrefs: PreferenceProvider,
+    private val futureWeatherDao: FutureWeatherDao
 ) : SafeApiRequest() {
 
     private val forecastData = MutableLiveData<ForecastWeatherData>()
@@ -58,7 +61,9 @@ class ForecastRepository(
      */
 
     private fun isFetchNeeded(): Boolean {
-        return false
+        val today = LocalDate.now()
+        val futureWeatherCount = futureWeatherDao.countFutureWeather(today)
+        return futureWeatherCount < FUTURE_DAYS_FETCH
     }
 
 }

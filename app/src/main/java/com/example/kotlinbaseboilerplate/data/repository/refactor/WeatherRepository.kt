@@ -6,11 +6,8 @@ import com.example.kotlinbaseboilerplate.data.WeatherBitApiService
 import com.example.kotlinbaseboilerplate.data.db.weatherbit.WeatherDatabase
 import com.example.kotlinbaseboilerplate.data.db.weatherbit.entity.current.CurrentWeatherData
 import com.example.kotlinbaseboilerplate.data.db.weatherbit.entity.current.WeatherDescription
-import com.example.kotlinbaseboilerplate.data.db.weatherbit.entity.forecast.ForecastWeatherData
-import com.example.kotlinbaseboilerplate.data.db.weatherbit.entity.forecast.ForecastWeatherLocationData
 import com.example.kotlinbaseboilerplate.data.network.refactor.SafeApiRequest
 import com.example.kotlinbaseboilerplate.data.provider.PreferenceProvider
-import org.threeten.bp.LocalDate
 import org.threeten.bp.ZonedDateTime
 
 class WeatherRepository(
