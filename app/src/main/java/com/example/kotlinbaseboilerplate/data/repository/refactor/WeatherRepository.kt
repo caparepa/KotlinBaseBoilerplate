@@ -49,8 +49,9 @@ class WeatherRepository(
      * Validation
      */
 
-    private fun isFetchNeeded(lastFetchedTime: ZonedDateTime): Boolean {
-        return false
+    private fun isFetchNeeded(lastFetchTime: ZonedDateTime): Boolean {
+        val thirtyMinutesAgo = ZonedDateTime.now().minusMinutes(30)
+        return lastFetchTime.isBefore(thirtyMinutesAgo)
     }
 
 
