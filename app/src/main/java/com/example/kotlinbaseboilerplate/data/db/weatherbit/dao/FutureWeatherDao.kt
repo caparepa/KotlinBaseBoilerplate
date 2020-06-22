@@ -5,9 +5,9 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.example.kotlinbaseboilerplate.data.db.weatherbit.entity.forecast.FUTURE_WEATHER_LOCATION_DATA_ID
 import com.example.kotlinbaseboilerplate.data.db.weatherbit.entity.forecast.ForecastWeatherData
 import com.example.kotlinbaseboilerplate.data.db.weatherbit.entity.forecast.ForecastWeatherLocationData
+import com.example.kotlinbaseboilerplate.utils.FUTURE_WEATHER_LOCATION_DATA_ID
 import org.threeten.bp.LocalDate
 
 @Dao

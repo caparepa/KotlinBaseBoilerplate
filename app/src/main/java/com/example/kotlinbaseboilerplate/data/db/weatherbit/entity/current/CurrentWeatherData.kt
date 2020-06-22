@@ -4,12 +4,12 @@ package com.example.kotlinbaseboilerplate.data.db.weatherbit.entity.current
 import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.example.kotlinbaseboilerplate.utils.WEATHER_DATA_ID
 import com.google.gson.annotations.SerializedName
 import org.threeten.bp.Instant
 import org.threeten.bp.ZoneId
 import org.threeten.bp.ZonedDateTime
 
-const val WEATHER_DATA_ID = 0
 
 @Entity(tableName = "bit_weather_data")
 data class CurrentWeatherData(

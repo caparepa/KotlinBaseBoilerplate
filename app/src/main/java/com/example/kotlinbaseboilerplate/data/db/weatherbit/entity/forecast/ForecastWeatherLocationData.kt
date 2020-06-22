@@ -2,9 +2,8 @@ package com.example.kotlinbaseboilerplate.data.db.weatherbit.entity.forecast
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.example.kotlinbaseboilerplate.utils.FUTURE_WEATHER_LOCATION_DATA_ID
 import com.google.gson.annotations.SerializedName
-
-const val FUTURE_WEATHER_LOCATION_DATA_ID = 0
 
 @Entity(tableName = "future_weather_location_data")
 data class ForecastWeatherLocationData(

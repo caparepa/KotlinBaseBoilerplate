@@ -3,9 +3,8 @@ package com.example.kotlinbaseboilerplate.data.db.weatherbit.entity.current
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.example.kotlinbaseboilerplate.utils.WEATHER_DESCRIPTION_ID
 import com.google.gson.annotations.SerializedName
-
-const val WEATHER_DESCRIPTION_ID = 0
 
 @Entity(tableName = "bit_weather_description")
 data class WeatherDescription(
