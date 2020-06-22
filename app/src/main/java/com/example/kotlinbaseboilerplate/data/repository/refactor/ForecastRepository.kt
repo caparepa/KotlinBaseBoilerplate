@@ -2,6 +2,7 @@ package com.example.kotlinbaseboilerplate.data.repository.refactor
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.example.kotlinbaseboilerplate.data.ApiService
 import com.example.kotlinbaseboilerplate.data.WeatherBitApiService
 import com.example.kotlinbaseboilerplate.data.db.weatherbit.WeatherDatabase
 import com.example.kotlinbaseboilerplate.data.db.weatherbit.dao.CurrentWeatherDataDao
@@ -12,18 +13,23 @@ import com.example.kotlinbaseboilerplate.data.db.weatherbit.entity.forecast.Fore
 import com.example.kotlinbaseboilerplate.data.db.weatherbit.entity.forecast.ForecastWeatherLocationData
 import com.example.kotlinbaseboilerplate.data.network.refactor.SafeApiRequest
 import com.example.kotlinbaseboilerplate.data.network.weatherbit.response.forecast.ForecastWeatherResponse
+import com.example.kotlinbaseboilerplate.data.provider.LocationProvider
 import com.example.kotlinbaseboilerplate.data.provider.PreferenceProvider
 import com.example.kotlinbaseboilerplate.utils.Coroutines
 import com.example.kotlinbaseboilerplate.utils.FUTURE_DAYS_FETCH
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.threeten.bp.LocalDate
+import java.util.*
 
 class ForecastRepository(
-    private val wbApi: WeatherBitApiService,
+    private val wbApi: ApiService,
     private val wbDb: WeatherDatabase,
     private val wbPrefs: PreferenceProvider,
+    private val locationProvider: LocationProvider,
+    private val weatherDataDao: CurrentWeatherDataDao,
     private val futureWeatherDao: FutureWeatherDao,
     private val weatherDescriptionDao: WeatherDescriptionDao
 ) : SafeApiRequest() {
@@ -41,7 +47,10 @@ class ForecastRepository(
      */
 
     suspend fun getForecastList(startDate: LocalDate): LiveData<out List<ForecastWeatherData>>? {
-        return null
+        return withContext(Dispatchers.IO) {
+            //initWeatherData()
+            return@withContext futureWeatherDao.getFutureWeatherDetail(startDate)
+        }
     }
 
     suspend fun getForecastByDate(date: LocalDate): LiveData<out ForecastWeatherData>? {
@@ -60,15 +69,35 @@ class ForecastRepository(
      * Private functions to be used in the repository
      */
 
-    private suspend fun fetchFutureWeather() {
+    private suspend fun initForecastDate() {
+        //FIXME: if something return LiveData is not really synchronous, so getting the value will always be null
+        //val lastWeatherLocation = currentBitCurrentWeatherDataDao.getCurrentWeatherData().value //We get the LiveData value
 
+        //FIXME: to fix it, we change it to get the object per se
+        val lastWeatherLocation = weatherDataDao.getCurrentWeatherDataNonLive()
+
+        //In case the app is opened for the first time, fetch the current weather and return
+        if (lastWeatherLocation == null || locationProvider.hasLocationChanged(lastWeatherLocation)
+        ) {
+            fetchForecast() //we add the function to fetch the future weather
+            return
+        }
+
+        //If we want to get the weather in a new location if the user moves or changes,
+        //a location provider is made (since repositories don't know nor care about business logic)
+
+        //In case there is already a fetched weather, get the current one (updated)
+        val x = lastWeatherLocation.zonedDateTime
+
+        if(isFetchNeeded())
+            fetchForecast()
     }
 
     private fun saveForecastList(forecast: List<ForecastWeatherData>) {
 
     }
 
-    private fun persistFetchedFutureWeather(fetchedWeather: ForecastWeatherResponse) {
+    private fun fetchForecast() {
 
         //We create a local function to delete the old data
         fun deleteOldForecastData() {
@@ -77,7 +106,16 @@ class ForecastRepository(
         }
 
         Coroutines.io {
+
             deleteOldForecastData()
+
+            val fetchedWeather = apiRequest {
+                wbApi.getForecastWeather(
+                    locationProvider.getPreferredLocationString(),
+                    Locale.getDefault().language, "M"
+                )
+            }
+
             val futureWeatherList = fetchedWeather.bitEntries
 
             //create a new object fot the location
