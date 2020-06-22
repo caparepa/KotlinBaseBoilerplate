@@ -1,8 +1,7 @@
 package com.example.kotlinbaseboilerplate.ui.weather.future.detail
 
-import androidx.lifecycle.ViewModel
 import com.example.kotlinbaseboilerplate.data.provider.UnitProvider
-import com.example.kotlinbaseboilerplate.data.repository.ForecastRepository
+import com.example.kotlinbaseboilerplate.data.repository.original.ForecastRepository
 import com.example.kotlinbaseboilerplate.internal.lazyDeferred
 import com.example.kotlinbaseboilerplate.ui.base.WeatherViewModel
 import org.threeten.bp.LocalDate

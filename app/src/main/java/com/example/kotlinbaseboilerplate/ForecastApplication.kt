@@ -13,8 +13,8 @@ import com.example.kotlinbaseboilerplate.data.provider.UnitProvider
 import com.example.kotlinbaseboilerplate.data.provider.UnitProviderImpl
 import com.example.kotlinbaseboilerplate.data.provider.LocationProvider
 import com.example.kotlinbaseboilerplate.data.provider.LocationProviderImpl
-import com.example.kotlinbaseboilerplate.data.repository.ForecastRepository
-import com.example.kotlinbaseboilerplate.data.repository.ForecastRepositoryImpl
+import com.example.kotlinbaseboilerplate.data.repository.original.ForecastRepository
+import com.example.kotlinbaseboilerplate.data.repository.original.ForecastRepositoryImpl
 import com.example.kotlinbaseboilerplate.ui.weather.current.CurrentWeatherViewModelFactory
 import com.example.kotlinbaseboilerplate.ui.weather.future.detail.FutureDetailWeatherViewModelFactory
 import com.example.kotlinbaseboilerplate.ui.weather.future.list.FutureListWeatherViewModelFactory

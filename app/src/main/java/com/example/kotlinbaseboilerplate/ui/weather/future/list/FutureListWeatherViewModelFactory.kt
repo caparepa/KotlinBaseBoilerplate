@@ -3,7 +3,7 @@ package com.example.kotlinbaseboilerplate.ui.weather.future.list
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.kotlinbaseboilerplate.data.provider.UnitProvider
-import com.example.kotlinbaseboilerplate.data.repository.ForecastRepository
+import com.example.kotlinbaseboilerplate.data.repository.original.ForecastRepository
 
 class FutureListWeatherViewModelFactory(
     private val forecastRepository: ForecastRepository,
