@@ -4,20 +4,28 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.kotlinbaseboilerplate.data.WeatherBitApiService
 import com.example.kotlinbaseboilerplate.data.db.weatherbit.WeatherDatabase
+import com.example.kotlinbaseboilerplate.data.db.weatherbit.dao.CurrentWeatherDataDao
 import com.example.kotlinbaseboilerplate.data.db.weatherbit.dao.FutureWeatherDao
+import com.example.kotlinbaseboilerplate.data.db.weatherbit.dao.WeatherDescriptionDao
 import com.example.kotlinbaseboilerplate.data.db.weatherbit.entity.current.WeatherDescription
 import com.example.kotlinbaseboilerplate.data.db.weatherbit.entity.forecast.ForecastWeatherData
 import com.example.kotlinbaseboilerplate.data.db.weatherbit.entity.forecast.ForecastWeatherLocationData
 import com.example.kotlinbaseboilerplate.data.network.refactor.SafeApiRequest
+import com.example.kotlinbaseboilerplate.data.network.weatherbit.response.forecast.ForecastWeatherResponse
 import com.example.kotlinbaseboilerplate.data.provider.PreferenceProvider
+import com.example.kotlinbaseboilerplate.utils.Coroutines
 import com.example.kotlinbaseboilerplate.utils.FUTURE_DAYS_FETCH
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import org.threeten.bp.LocalDate
 
 class ForecastRepository(
     private val wbApi: WeatherBitApiService,
     private val wbDb: WeatherDatabase,
     private val wbPrefs: PreferenceProvider,
-    private val futureWeatherDao: FutureWeatherDao
+    private val futureWeatherDao: FutureWeatherDao,
+    private val weatherDescriptionDao: WeatherDescriptionDao
 ) : SafeApiRequest() {
 
     private val forecastData = MutableLiveData<ForecastWeatherData>()
@@ -54,6 +62,43 @@ class ForecastRepository(
 
     private suspend fun fetchFutureWeather() {
 
+    }
+
+    private fun saveForecastList(forecast: List<ForecastWeatherData>) {
+
+    }
+
+    private fun persistFetchedFutureWeather(fetchedWeather: ForecastWeatherResponse) {
+
+        //We create a local function to delete the old data
+        fun deleteOldForecastData() {
+            val today = LocalDate.now()
+            futureWeatherDao.deleteOldEntries(today)
+        }
+
+        Coroutines.io {
+            deleteOldForecastData()
+            val futureWeatherList = fetchedWeather.bitEntries
+
+            //create a new object fot the location
+            val futureWeatherLocationData = ForecastWeatherLocationData(
+                fetchedWeather.bitCityName,
+                fetchedWeather.bitCountryCode,
+                fetchedWeather.bitStateCode,
+                fetchedWeather.bitTimezone
+            )
+
+            //upsert the future weather location
+            futureWeatherDao.upsertLocationData(futureWeatherLocationData)
+
+            //insert the forecast list
+            futureWeatherDao.insert(futureWeatherList)
+
+            //NOTE: since the response doesn't have weather description outside the list,
+            //we use the first element of said list to get the description for the location,
+            //which kinda sucks for this API response structure
+            weatherDescriptionDao.upsert(futureWeatherList[0].bitWeather)
+        }
     }
 
     /**
