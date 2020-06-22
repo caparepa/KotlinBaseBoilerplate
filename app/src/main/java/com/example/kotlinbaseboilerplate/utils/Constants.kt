@@ -1,3 +1,3 @@
 package com.example.kotlinbaseboilerplate.utils
 
-const val TEST_CONSTANT = "test"
+const val MINIMUM_INTERVAL = 6

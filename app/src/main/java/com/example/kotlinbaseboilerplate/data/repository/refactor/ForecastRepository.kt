@@ -1,4 +1,6 @@
 package com.example.kotlinbaseboilerplate.data.repository.refactor
 
-class ForecastRepository {
+import com.example.kotlinbaseboilerplate.data.repository.BaseRepository
+
+class ForecastRepository: BaseRepository() {
 }
