@@ -17,10 +17,10 @@ class ForecastRepository(
     private val wbPrefs: PreferenceProvider
 ) : SafeApiRequest() {
 
-    private val forecast = MutableLiveData<ForecastWeatherData>()
+    private val forecastData = MutableLiveData<ForecastWeatherData>()
 
     init {
-        forecast.observeForever {
+        forecastData.observeForever {
             //here goes the suspend function
         }
     }
