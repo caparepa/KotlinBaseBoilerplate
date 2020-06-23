@@ -3,7 +3,6 @@ package com.example.kotlinbaseboilerplate.data.repository.refactor
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.kotlinbaseboilerplate.data.ApiService
-import com.example.kotlinbaseboilerplate.data.WeatherBitApiService
 import com.example.kotlinbaseboilerplate.data.db.weatherbit.WeatherDatabase
 import com.example.kotlinbaseboilerplate.data.db.weatherbit.dao.CurrentWeatherDataDao
 import com.example.kotlinbaseboilerplate.data.db.weatherbit.dao.FutureWeatherDao
@@ -12,14 +11,11 @@ import com.example.kotlinbaseboilerplate.data.db.weatherbit.entity.current.Weath
 import com.example.kotlinbaseboilerplate.data.db.weatherbit.entity.forecast.ForecastWeatherData
 import com.example.kotlinbaseboilerplate.data.db.weatherbit.entity.forecast.ForecastWeatherLocationData
 import com.example.kotlinbaseboilerplate.data.network.refactor.SafeApiRequest
-import com.example.kotlinbaseboilerplate.data.network.weatherbit.response.forecast.ForecastWeatherResponse
 import com.example.kotlinbaseboilerplate.data.provider.LocationProvider
 import com.example.kotlinbaseboilerplate.data.provider.PreferenceProvider
 import com.example.kotlinbaseboilerplate.utils.Coroutines
 import com.example.kotlinbaseboilerplate.utils.FUTURE_DAYS_FETCH
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.threeten.bp.LocalDate
 import java.util.*
@@ -48,28 +44,40 @@ class ForecastRepository(
 
     suspend fun getForecastList(startDate: LocalDate): LiveData<out List<ForecastWeatherData>>? {
         return withContext(Dispatchers.IO) {
-            //initWeatherData()
-            return@withContext futureWeatherDao.getFutureWeatherDetail(startDate)
+            initForecastData()
+            //return@withContext futureWeatherDao.getFutureWeatherDetail(startDate)
+            wbDb.getFutureWeatherDao().getFutureWeatherDetail(startDate)
         }
     }
 
     suspend fun getForecastByDate(date: LocalDate): LiveData<out ForecastWeatherData>? {
-        return null
+        return withContext(Dispatchers.IO) {
+            initForecastData()
+            //return@withContext futureWeatherDao.getDetailWeatherByDate(date)
+            wbDb.getFutureWeatherDao().getDetailWeatherByDate(date)
+        }
     }
 
     suspend fun getForecastDescription(): LiveData<WeatherDescription>? {
-        return null
+        return withContext(Dispatchers.IO) {
+            //return@withContext weatherDescriptionDao.getWeatherDescription()
+            wbDb.getWeatherDescriptionDao().getWeatherDescription()
+        }
     }
 
     suspend fun getForecastLocation(): LiveData<ForecastWeatherLocationData>? {
-        return null
+        return withContext(Dispatchers.IO) {
+            initForecastData()
+            //return@withContext futureWeatherDao.getFutureWeatherLocationData()
+            wbDb.getFutureWeatherDao().getFutureWeatherLocationData()
+        }
     }
 
     /**
      * Private functions to be used in the repository
      */
 
-    private suspend fun initForecastDate() {
+    private suspend fun initForecastData() {
         //FIXME: if something return LiveData is not really synchronous, so getting the value will always be null
         //val lastWeatherLocation = currentBitCurrentWeatherDataDao.getCurrentWeatherData().value //We get the LiveData value
 
