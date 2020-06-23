@@ -18,6 +18,7 @@ import com.example.kotlinbaseboilerplate.utils.FUTURE_DAYS_FETCH
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.threeten.bp.LocalDate
+import org.threeten.bp.LocalDateTime
 import java.util.*
 
 class ForecastRepository(
@@ -30,11 +31,12 @@ class ForecastRepository(
     private val weatherDescriptionDao: WeatherDescriptionDao
 ) : SafeApiRequest() {
 
-    private val forecastData = MutableLiveData<ForecastWeatherData>()
+    private val forecastData = MutableLiveData<List<ForecastWeatherData>>() //array with the forecast data
 
     init {
         forecastData.observeForever {
             //here goes the suspend function
+            saveForecastList(it)
         }
     }
 
@@ -102,7 +104,10 @@ class ForecastRepository(
     }
 
     private fun saveForecastList(forecast: List<ForecastWeatherData>) {
-
+        Coroutines.io {
+            wbPrefs.saveLastSavedAt(LocalDateTime.now().toString())
+            wbDb.getFutureWeatherDao().insert(forecast)
+        }
     }
 
     private fun fetchForecast() {
