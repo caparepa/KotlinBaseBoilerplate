@@ -8,12 +8,11 @@ import androidx.core.content.ContextCompat
 import com.example.kotlinbaseboilerplate.data.db.weatherbit.entity.current.CurrentWeatherData
 import com.example.kotlinbaseboilerplate.internal.LocationPermissionNotGrantedException
 import com.example.kotlinbaseboilerplate.internal.asDeferred
+import com.example.kotlinbaseboilerplate.utils.CUSTOM_LOCATION
+import com.example.kotlinbaseboilerplate.utils.USE_DEVICE_LOCATION
 import com.google.android.gms.location.FusedLocationProviderClient
 import kotlinx.coroutines.Deferred
 import kotlin.math.abs
-
-const val USE_DEVICE_LOCATION = "USE_DEVICE_LOCATION"
-const val CUSTOM_LOCATION = "CUSTOM_LOCATION"
 
 class LocationProviderImpl(
     private val fusedLocationProviderClient: FusedLocationProviderClient,

@@ -13,6 +13,8 @@ import com.example.kotlinbaseboilerplate.data.db.weatherbit.entity.current.Weath
 import com.example.kotlinbaseboilerplate.data.network.refactor.SafeApiRequest
 import com.example.kotlinbaseboilerplate.data.provider.LocationProvider
 import com.example.kotlinbaseboilerplate.data.provider.PreferenceProvider
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import org.threeten.bp.ZonedDateTime
 
 class WeatherRepository(
@@ -36,7 +38,14 @@ class WeatherRepository(
      */
 
     suspend fun getCurrentWeather(): LiveData<out CurrentWeatherData>? {
-        return null
+        //Here we call the Coroutine with context because here we return a value, unlike the persist
+        //method below, where there is no return value. Also, we prevent the use of generics present
+        //with specific objects of the same type (e.g. ImperialUnitWeather vs MetricUnitWeather)
+        return withContext(Dispatchers.IO) {
+            //since we only have one method for getting the weather, let's use it
+            //initWeatherData() //TODO: DON'T FORGET THIS!!! D'UH!
+            return@withContext weatherDataDao.getCurrentWeatherData()
+        }
     }
 
     suspend fun getWeatherDescription(): LiveData<WeatherDescription>? {
